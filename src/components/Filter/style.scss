@@ -1,0 +1,11 @@
+.button-search .ant-space-item {
+  flex: 1;
+}
+.button-search .ant-space-item button {
+  width: 100%;
+  min-width: inherit;
+}
+
+.search-with-icon > .ant-input-wrapper > .ant-input-group-addon > .ant-btn {
+  min-width: 50px !important;
+}

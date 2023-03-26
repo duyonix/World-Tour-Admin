@@ -1,0 +1,84 @@
+/* Select component */
+.ant-select > .ant-select-selector {
+  min-height: 42px !important;
+}
+.ant-select
+  > .ant-select-selector
+  > .ant-select-selection-search
+  > .ant-select-selection-search-input {
+  height: 100% !important;
+}
+
+.ant-select > .ant-select-selector > .ant-select-selection-placeholder,
+.ant-select > .ant-select-selector > .ant-select-selection-item {
+  line-height: 42px !important;
+}
+/* */
+
+.ant-input,
+.ant-input-affix-wrapper {
+  padding-left: var(--form-input-padding-x);
+  padding-right: var(--form-input-padding-x);
+  padding-top: var(--form-input-padding-y);
+  padding-bottom: var(--form-input-padding-y);
+}
+
+.ant-btn:not(.ant-btn-icon-only) {
+  height: 42px;
+  min-width: 120px;
+}
+
+.ant-btn {
+  border-radius: var(--radius-md);
+}
+
+.ant-form-item-label {
+  padding: 0 !important;
+}
+
+/* change label */
+.ant-form-item-required {
+  flex-direction: row-reverse;
+}
+.ant-form-item-required::before {
+  margin: 0;
+  margin-left: 4px;
+}
+
+.ant-menu-item-icon {
+  min-width: 20px !important;
+}
+
+.title-submenu {
+  padding-left: 56px !important;
+}
+
+.ant-menu-sub .ant-menu-submenu-title {
+  padding-left: 56px !important;
+}
+
+.ant-menu-submenu {
+  user-select: none;
+}
+
+.ant-form-item-label {
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.ant-menu-submenu-selected i,
+.ant-menu-submenu-selected .ant-menu-title-content,
+.ant-menu-submenu-active i {
+  color: #f15a22 !important;
+}
+
+.level-1-menu-title {
+  padding-left: 8px !important;
+}
+
+@media screen and (max-width: 1300px) {
+  .ant-table-tbody > tr > td {
+    padding: 8px 8px;
+  }
+}
