@@ -4,7 +4,7 @@ import { Layout, Row, Col } from "antd";
 import { Menu, Dropdown } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
-import avatarDefault from "@/assets/images/avatarDefault.jpg";
+import avatarDefault from "@/assets/images/avatarDefault.png";
 import IconFont from "@/components/IconFont";
 import { authActions } from "@/pages/auth/auth.slice";
 import { toast } from "react-toastify";
@@ -87,20 +87,20 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
         <Layout className="site-layout" style={{ marginLeft: 230 }}>
           <Header className="bg-white p-0">
             <Row className="px-1">
-              <Col className="d-flex flex-col line-height" span={12}>
-                <strong className="size-medium">myVNG Dashboard</strong>
+              <Col className="d-flex flex-col line-height" span={18}>
+                <strong className="size-medium">HCMUS Tour Dashboard</strong>
                 <div>
                   {breadcrumb.map((item, index) =>
                     index === maxLength ? (
                       <span key={index} className="text-grey">
-                        <div
+                        <span
                           className={title ? "text-grey" : "text-primary"}
                           onClick={() => {
                             history.push(routeConfig.path);
                           }}
                         >
                           {item}
-                        </div>
+                        </span>
                         {title ? " / " : ""}
                       </span>
                     ) : (
@@ -112,7 +112,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
                   {title ? <span className={"text-primary"}>{title}</span> : ""}
                 </div>
               </Col>
-              <Col span={12} style={{ textAlign: "right" }}>
+              <Col span={6} style={{ textAlign: "right" }}>
                 <Dropdown overlay={menu}>
                   <div
                     className="ant-dropdown-link color-contrast-high"

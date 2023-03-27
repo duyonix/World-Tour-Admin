@@ -1,4 +1,6 @@
 const messages = {
+  LOGIN_SUCCESS: "Login success",
+  LOGIN_ERROR: "Login failed, please try again !",
   SESSION_EXPIRE: "Your session has expired. Please login again.",
   PERMISSION_DENIED: "You don't have permission to do this action",
   TITLE_PERMISSION_DENIED: "Sorry, you are not authorized to access this page.",
@@ -23,7 +25,12 @@ const messages = {
   GET_DETAIL_FAILED: (text: string) => `Get ${text} detail failed`,
   HAS_BEEN_USED: (text: string) => `${text} has already been used`,
   INACTIVE: (text: string) => `${text} is inactive`,
-  WRONG_FORMAT: (text: string) => `Wrong format of ${text}`
+  WRONG_FORMAT: (text: string) => `Wrong format of ${text}`,
+  NOT_FOUND: (text: string) => `${text} is not found`,
+  DUPLICATE_ENTITY: (text: string) => `${text} already exists`,
+  ALREADY_USED_ELSEWHERE: (text: string) => `${text} is already used elsewhere`,
+  ARGUMENT_NOT_VALID: "There is something wrong with your input.",
+  EXCEPTION: `Something went wrong. Please try again later`
 };
 
 export default messages;

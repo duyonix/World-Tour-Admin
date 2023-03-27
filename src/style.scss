@@ -56,10 +56,6 @@
   font-size: 22px;
 }
 
-.text-primary {
-  color: #f15a22;
-}
-
 .text-grey {
   color: #909090;
 }
@@ -165,10 +161,6 @@
   display: none;
 }
 
-.phone-input > input:hover {
-  /* border: 1px solid #f15a22; */
-  border-color: #f15a22 !important;
-}
 .phone-input ul {
   max-height: 200px !important;
 }
@@ -315,4 +307,17 @@
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+.text-muted {
+  color: #8c8c8c;
+}
+.text-dark {
+  color: #141414;
+}
+.font-bold {
+  font-weight: 700;
 }

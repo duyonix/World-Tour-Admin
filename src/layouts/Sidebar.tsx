@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/images/logo-v2.png";
+import logo from "@/assets/images/icon.png";
 import { Menu } from "antd";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
@@ -55,7 +55,7 @@ const Sidebar = ({ routeConfig }: Props) => {
   return (
     <div className="bg-white h-100% mh-100vh">
       <div className="style-logo-admin sticky bg-white">
-        <img src={logo} alt="logo"></img>
+        <img src={logo} alt="logo" width={50} height={50}></img>
       </div>
       <Menu
         mode="inline"

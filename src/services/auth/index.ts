@@ -1,11 +1,11 @@
 import BaseService from "../BaseService";
-const PREFIX = process.env.SERVER;
+const PREFIX = process.env.SERVER + "/api/v1/auth";
 
 export default class AuthService extends BaseService {
   async register(data: any) {
     try {
       const res = await super.send("POST", `${PREFIX}/register`, null, data);
-      return res?.data || res;
+      return res.data;
     } catch (err: any) {
       return err?.response.data;
     }
@@ -19,7 +19,7 @@ export default class AuthService extends BaseService {
         null,
         data
       );
-      return res?.data || res;
+      return res.data;
     } catch (err: any) {
       return err?.response.data;
     }

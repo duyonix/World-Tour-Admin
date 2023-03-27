@@ -1,5 +1,4 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { toast } from "react-toastify";
 
 const initialState: AuthState = {
   isLogin: Boolean(localStorage.getItem("access_token")),
@@ -20,7 +19,6 @@ export const authSlice = createSlice({
       state.role = action.payload.user.role;
     },
     loginError: (state, action: PayloadAction<any>) => {
-      // toast.error(action.payload.message);
       state.isLogin = false;
       state.message = action.payload.message;
     },
