@@ -1,7 +1,108 @@
-import React from "react";
+import React, { useState } from "react";
+import { Button, Card, Col, Row, Spin, Table } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import qs from "query-string";
+import UserService from "@/services/user";
+import useFetch from "@/hooks/useFetch";
+import { useHistory, useLocation } from "react-router-dom";
+import { changePage, cleanObject } from "@/utils";
+import Filter from "@/components/Filter";
 
 const UsersManagement = () => {
-  return <div>UsersManagement</div>;
+  const userService = new UserService();
+  const history = useHistory();
+  const location = useLocation();
+  const queryString = qs.parse(location.search);
+  const size = 10;
+  const page = queryString.page ? Number(queryString.page) - 1 : 0;
+  const { loading, list, total } = useFetch({
+    params: JSON.stringify(cleanObject({ ...queryString, page, size })),
+    func: userService.getUsers,
+    valueProp: "payload.content",
+    totalProp: "payload.totalElements"
+  });
+
+  const onAdd = () => {
+    history.push(`${location.pathname}/add`);
+  };
+  const onEdit = (id: number) => {
+    history.push(`${location.pathname}/${id}`);
+  };
+
+  const columns = [
+    {
+      title: "No.",
+      render: (_: any, __: any, index: number) => page * size + index + 1,
+      width: 100
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      width: 250
+    },
+    {
+      title: "Full Name",
+      dataIndex: "fullName",
+      width: 250
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      align: "center",
+      width: 150
+    },
+    {
+      title: "",
+      dataIndex: "id",
+      align: "right",
+      render: (id: number) => (
+        <Button
+          onClick={() => onEdit(id)}
+          type="primary"
+          icon={<EyeOutlined />}
+        ></Button>
+      )
+    }
+  ];
+  return (
+    <>
+      <Filter
+        isReset
+        placeholder="Search by Name"
+        isSearch
+        nameSearch="search"
+      />
+      <Card className="m-2 radius-lg">
+        <Row className="mb-2" justify="space-between">
+          <Col className="d-flex al-center">Total: {total}</Col>
+          <Button type="primary" onClick={onAdd}>
+            Add
+          </Button>
+        </Row>
+        <Spin size="large" spinning={loading}>
+          {list.length > 0 ? (
+            <Table
+              columns={columns as any}
+              dataSource={list}
+              rowKey="id"
+              pagination={{
+                position: ["bottomCenter"],
+                total,
+                showSizeChanger: false,
+                pageSize: size,
+                current: page + 1,
+                onChange(current) {
+                  changePage(history, current);
+                }
+              }}
+            ></Table>
+          ) : (
+            !loading && <div className="text-center m-4">No users found</div>
+          )}
+        </Spin>
+      </Card>
+    </>
+  );
 };
 
 export default UsersManagement;

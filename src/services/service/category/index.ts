@@ -11,6 +11,15 @@ export default class ServiceCategoryService extends BaseService {
     }
   }
 
+  async getCategoryOptions() {
+    try {
+      const res = await super.send("GET", `${PREFIX}/options`, super.header());
+      return res.data;
+    } catch (err: any) {
+      return super.errorResponse(err);
+    }
+  }
+
   async getCategory(id: string) {
     try {
       const res = await super.send("GET", `${PREFIX}/${id}`, super.header());

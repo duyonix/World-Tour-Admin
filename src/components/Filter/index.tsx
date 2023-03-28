@@ -19,7 +19,7 @@ const StyledSpace = styled(Space)`
 `;
 
 type Props = {
-  filterSelects?: Array<{ name: string; options: Array<any> }>;
+  filterSelects?: any[];
   isSearch?: boolean;
   isReset?: boolean;
   isExport?: boolean;

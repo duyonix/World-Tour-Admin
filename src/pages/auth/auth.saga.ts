@@ -33,7 +33,7 @@ function* getInfo(action: any) {
   }
 }
 
-export function* authSaga() {
-  yield all([takeLatest(authActions.login.type, login)]);
-  yield all([takeLatest(authActions.getInfo.type, getInfo)]);
+export default function* authSaga() {
+  yield takeLatest(authActions.login.type, login);
+  yield takeLatest(authActions.getInfo.type, getInfo);
 }

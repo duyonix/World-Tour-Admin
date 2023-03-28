@@ -19,10 +19,7 @@ const ServiceCategories = () => {
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
   const queryString = qs.parse(location.search);
   const size = 10;
-  const page =
-    queryString.page && typeof queryString.page === "number"
-      ? queryString.page - 1
-      : 0;
+  const page = queryString.page ? Number(queryString.page) - 1 : 0;
   const { loading, list, total, onReFetch } = useFetch({
     params: JSON.stringify(cleanObject({ ...queryString, page, size })),
     func: serviceService.category.getCategories,
