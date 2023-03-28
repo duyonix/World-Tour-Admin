@@ -27,6 +27,13 @@ export const authSlice = createSlice({
       state.token = "";
       state.user = {};
       state.role = "";
+    },
+    getInfoSuccess: (state, action) => {
+      state.user = action.payload;
+    },
+    getInfoError: (state, action) => {
+      state.user = {};
+      state.message = action.payload.message;
     }
   }
 });
@@ -34,6 +41,9 @@ export const authSlice = createSlice({
 export const authActions = {
   ...authSlice.actions,
   login: createAction(`${authSlice.name}/login`, (data: any) => ({
+    payload: data
+  })),
+  getInfo: createAction(`${authSlice.name}/getInfo`, (data: any) => ({
     payload: data
   }))
 };

@@ -60,10 +60,6 @@ const Login = () => {
                 {
                   required: true,
                   message: "Please input your email!"
-                },
-                {
-                  type: "email",
-                  message: "Please input a valid email!"
                 }
               ]}
             >

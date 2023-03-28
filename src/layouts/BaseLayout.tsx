@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import AuthService from "@/services/auth";
 import { useHistory, useParams } from "react-router-dom";
-import Confirm from "@/components/Confirm";
+import ConfirmModal from "@/components/ConfirmModal";
 import { RootState } from "@/app/store";
 const { Header, Sider, Content } = Layout;
 
@@ -70,7 +70,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
   );
 
   function showConfirm() {
-    Confirm({
+    ConfirmModal({
       title: "Do you want to logout the page ?",
       onOk() {
         onLogout();

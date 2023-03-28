@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import RouteWithLayout from "@/layouts/RouteWithLayout";
 import BaseLayout from "@/layouts/BaseLayout";
 import { publicRoutes, privateRoutes } from "@/routes/config";
 import NotFound from "@/components/NotFound";
 import UnAuthorized from "@/components/UnAuthorized";
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
+import { authActions } from "@/pages/auth/auth.slice";
 
 const MyRoutes = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (auth.isLogin) {
+      const userId = localStorage.getItem("user_id");
+      dispatch(authActions.getInfo(userId));
+    }
+  }, [auth.isLogin, dispatch]);
 
   const getDefaultRoute = (sidebar: any) => {
     if (sidebar.subMenu && sidebar.subMenu.length > 0) {

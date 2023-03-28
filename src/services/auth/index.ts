@@ -1,4 +1,4 @@
-import BaseService from "../BaseService";
+import BaseService from "@/services/BaseService";
 const PREFIX = process.env.SERVER + "/api/v1/auth";
 
 export default class AuthService extends BaseService {

@@ -54,12 +54,12 @@ export const privateRoutes: MultiRoute[] = [
         path: "/service/categories",
         route: [
           {
-            path: "/service/categories",
-            component: () => <ServiceCategories />
-          },
-          {
             path: "/service/categories/:id",
             component: () => <ServiceCategoryDetail />
+          },
+          {
+            path: "/service/categories",
+            component: () => <ServiceCategories />
           }
         ]
       },
@@ -68,12 +68,12 @@ export const privateRoutes: MultiRoute[] = [
         path: "/service/scopes",
         route: [
           {
-            path: "/service/scopes",
-            component: () => <ServiceScopes />
-          },
-          {
             path: "/service/scopes/:id",
             component: () => <ServiceScopeDetail />
+          },
+          {
+            path: "/service/scopes",
+            component: () => <ServiceScopes />
           }
         ]
       },
@@ -82,12 +82,12 @@ export const privateRoutes: MultiRoute[] = [
         path: "/service/costumes",
         route: [
           {
-            path: "/service/costumes",
-            component: () => <ServiceCostumes />
-          },
-          {
             path: "/service/costumes/:id",
             component: () => <ServiceScopeDetail />
+          },
+          {
+            path: "/service/costumes",
+            component: () => <ServiceCostumes />
           }
         ]
       }
@@ -104,12 +104,12 @@ export const privateRoutes: MultiRoute[] = [
         path: "/user/users",
         route: [
           {
-            path: "/user/users",
-            component: () => <UsersManagement />
-          },
-          {
             path: "/user/users/:id",
             component: () => <UserDetailManagement />
+          },
+          {
+            path: "/user/users",
+            component: () => <UsersManagement />
           }
         ]
       }

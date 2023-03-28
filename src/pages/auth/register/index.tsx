@@ -39,7 +39,7 @@ const Register = () => {
       return;
     }
     const res = await authService.register(formatData(values));
-    if (res.status === "OK") {
+    if (res.status === variables.OK) {
       toast.success("Register successfully");
       setTimeout(() => {
         history.push("/login");

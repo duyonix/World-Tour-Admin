@@ -12,7 +12,7 @@ type Props = {
   onCancel?: () => void;
 };
 
-const Confirm = ({
+const ConfirmModal = ({
   title,
   icon = <QuestionCircleOutlined />,
   okText = "Yes",
@@ -30,4 +30,4 @@ const Confirm = ({
   });
 };
 
-export default Confirm;
+export default ConfirmModal;

@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import _ from "lodash";
 
 type Props = {
   params: string;
@@ -24,9 +25,9 @@ const useFetch = ({
       setLoading(true);
       setError(false);
       const result = await func.call(this, JSON.parse(params));
-      setList(result[valueProp] || []);
+      setList(_.get(result, valueProp, []));
       setLoading(false);
-      setTotal(result[totalProp] || 0);
+      setTotal(_.get(result, totalProp, 0));
     } catch (error) {
       setLoading(false);
       setError(false);
