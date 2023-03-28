@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Col, Row, Spin, Table, Space } from "antd";
+import { Button, Card, Col, Row, Spin, Table, Space, Typography } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
@@ -19,6 +19,8 @@ import variables from "@/constants/variables";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
 import { serviceActions } from "../service.slice";
+
+const { Text } = Typography;
 
 const ServiceScopes = () => {
   const serviceService = new ServiceService();
@@ -100,7 +102,8 @@ const ServiceScopes = () => {
     {
       title: "Description",
       dataIndex: "description",
-      width: 400
+      width: 400,
+      render: (text: string) => <Text className="text-limit">{text}</Text>
     },
     {
       title: "Category",

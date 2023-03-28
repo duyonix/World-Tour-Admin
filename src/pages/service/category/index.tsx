@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Row, Spin, Table, Space } from "antd";
+import { Button, Card, Col, Row, Spin, Table, Space, Typography } from "antd";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
@@ -11,6 +11,8 @@ import { toast } from "react-toastify";
 import ConfirmModal from "@/components/ConfirmModal";
 import messages from "@/constants/messages";
 import variables from "@/constants/variables";
+
+const { Text } = Typography;
 
 const ServiceCategories = () => {
   const serviceService = new ServiceService();
@@ -83,7 +85,8 @@ const ServiceCategories = () => {
     {
       title: "Description",
       dataIndex: "description",
-      width: 400
+      width: 400,
+      render: (text: string) => <Text className="text-limit">{text}</Text>
     },
     {
       title: "",
