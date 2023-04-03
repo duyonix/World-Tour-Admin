@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Col, Row, Spin, Table, Space, Typography } from "antd";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
 import useFetch from "@/hooks/useFetch";
@@ -24,6 +24,7 @@ const { Text } = Typography;
 
 const ServiceCostumes = () => {
   const serviceService = new ServiceService();
+  const auth = useAppSelector((state: RootState) => state.auth);
   const scopeOptions = useAppSelector(
     (state: RootState) => state.service.scopeOptions
   );
@@ -119,12 +120,14 @@ const ServiceCostumes = () => {
           <Button
             onClick={() => onEdit(id)}
             type="primary"
-            icon={<EditOutlined />}
+            icon={auth.role === "ADMIN" ? <EditOutlined /> : <EyeOutlined />}
           ></Button>
-          <Button
-            onClick={() => onConfirmRemove(id, page * size + index + 1)}
-            icon={<DeleteOutlined />}
-          ></Button>
+          {auth.role === "ADMIN" && (
+            <Button
+              onClick={() => onConfirmRemove(id, page * size + index + 1)}
+              icon={<DeleteOutlined />}
+            ></Button>
+          )}
         </Space>
       )
     }
@@ -147,9 +150,11 @@ const ServiceCostumes = () => {
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
           <Col className="d-flex al-center">Total: {total}</Col>
-          <Button type="primary" onClick={onAdd}>
-            Add
-          </Button>
+          {auth.role === "ADMIN" && (
+            <Button type="primary" onClick={onAdd}>
+              Add
+            </Button>
+          )}
         </Row>
         <Spin size="large" spinning={loading || isDeleteLoading}>
           {list.length > 0 ? (

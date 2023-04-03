@@ -34,6 +34,7 @@ const { TextArea } = Input;
 
 const ServiceCostumeDetail = () => {
   const serviceService = new ServiceService();
+  const auth = useAppSelector((state: RootState) => state.auth);
   const scopeOptions = useAppSelector(
     (state: RootState) => state.service.scopeOptions
   );
@@ -51,7 +52,6 @@ const ServiceCostumeDetail = () => {
 
   useEffect(() => {
     if (id === "add") {
-      form.setFieldsValue({ isActive: true });
       breadcrumb.addBreadcrumb("Add");
     } else {
       fetchDetail();
@@ -287,6 +287,7 @@ const ServiceCostumeDetail = () => {
           className="d-flex fl-wrap fl-column fl-between"
           name="app"
           onFinish={onSave}
+          disabled={auth.role !== "ADMIN"}
         >
           <Tabs defaultActiveKey="1" className="tab-detail" items={itemsTab} />
         </Form>
@@ -294,15 +295,17 @@ const ServiceCostumeDetail = () => {
           <Button className="button" onClick={onCancel} htmlType="button">
             Back
           </Button>
-          <Button
-            disabled={!isChange}
-            className="button"
-            type="primary"
-            htmlType="submit"
-            onClick={() => form.submit()}
-          >
-            Save
-          </Button>
+          {auth.role === "ADMIN" && (
+            <Button
+              disabled={!isChange}
+              className="button"
+              type="primary"
+              htmlType="submit"
+              onClick={() => form.submit()}
+            >
+              Save
+            </Button>
+          )}
         </Space>
       </Card>
     </Spin>

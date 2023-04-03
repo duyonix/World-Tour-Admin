@@ -38,6 +38,7 @@ const { Text } = Typography;
 
 const ServiceScopeDetail = () => {
   const serviceService = new ServiceService();
+  const auth = useAppSelector((state: RootState) => state.auth);
   const categoryOptions = useAppSelector(
     (state: RootState) => state.service.categoryOptions
   );
@@ -55,7 +56,6 @@ const ServiceScopeDetail = () => {
 
   useEffect(() => {
     if (id === "add") {
-      form.setFieldsValue({ isActive: true });
       breadcrumb.addBreadcrumb("Add");
     } else {
       fetchDetail();
@@ -338,6 +338,7 @@ const ServiceScopeDetail = () => {
         <ScopeBackgroundTab
           backgrounds={backgrounds}
           setBackgrounds={handleBackgrounds}
+          auth={auth}
         />
       )
     }
@@ -355,6 +356,7 @@ const ServiceScopeDetail = () => {
           className="d-flex fl-wrap fl-column fl-between"
           name="app"
           onFinish={onSave}
+          disabled={auth.role !== "ADMIN"}
         >
           <Tabs defaultActiveKey="1" className="tab-detail" items={itemsTab} />
         </Form>
@@ -362,15 +364,17 @@ const ServiceScopeDetail = () => {
           <Button className="button" onClick={onCancel} htmlType="button">
             Back
           </Button>
-          <Button
-            disabled={!isChange}
-            className="button"
-            type="primary"
-            htmlType="submit"
-            onClick={() => form.submit()}
-          >
-            Save
-          </Button>
+          {auth.role === "ADMIN" && (
+            <Button
+              disabled={!isChange}
+              className="button"
+              type="primary"
+              htmlType="submit"
+              onClick={() => form.submit()}
+            >
+              Save
+            </Button>
+          )}
         </Space>
       </Card>
     </Spin>

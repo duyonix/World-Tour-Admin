@@ -30,6 +30,7 @@ export const authSlice = createSlice({
     },
     getInfoSuccess: (state, action) => {
       state.user = action.payload;
+      state.role = action.payload.role;
     },
     getInfoError: (state, action) => {
       state.user = {};

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Card, Col, Row, Spin, Table } from "antd";
+import React from "react";
+import { Button, Card, Col, Row, Spin, Table, Tag } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import UserService from "@/services/user";
@@ -22,9 +22,6 @@ const UsersManagement = () => {
     totalProp: "payload.totalElements"
   });
 
-  const onAdd = () => {
-    history.push(`${location.pathname}/add`);
-  };
   const onEdit = (id: number) => {
     history.push(`${location.pathname}/${id}`);
   };
@@ -49,6 +46,9 @@ const UsersManagement = () => {
       title: "Role",
       dataIndex: "role",
       align: "center",
+      render: data => (
+        <Tag color={data === "ADMIN" ? "gold" : "green"}>{data}</Tag>
+      ),
       width: 150
     },
     {
@@ -75,9 +75,6 @@ const UsersManagement = () => {
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
           <Col className="d-flex al-center">Total: {total}</Col>
-          <Button type="primary" onClick={onAdd}>
-            Add
-          </Button>
         </Row>
         <Spin size="large" spinning={loading}>
           {list.length > 0 ? (
