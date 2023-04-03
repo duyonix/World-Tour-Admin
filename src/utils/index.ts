@@ -88,20 +88,20 @@ export const goBackInDetailPage = (history: any): void => {
 };
 
 export const mappingOptions = (
-  originArr: Option[],
+  originArr: any[],
   value: string | number,
   label: string,
-  defaultOptions: Option[] = []
-): Option[] => {
-  let options = originArr.map((item: Option) => ({
+  defaultOptions: any[] = []
+): any[] => {
+  let options = originArr.map((item: any) => ({
     key: _.uniqueId(),
     value: item[value].toString(),
     label: _.get(item, label, "")
   }));
 
-  defaultOptions.forEach((item: Option) => {
+  defaultOptions.forEach((item: any) => {
     if (item?.value) {
-      let exist = options.find((option: Option) => option.value === item.value);
+      let exist = options.find((option: any) => option.value === item.value);
       if (!exist) {
         options.push({
           ...item,

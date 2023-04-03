@@ -7,6 +7,7 @@ import ServiceCategoryDetail from "@/pages/service/category/detail";
 import ServiceScopes from "@/pages/service/scope";
 import ServiceScopeDetail from "@/pages/service/scope/detail";
 import ServiceCostumes from "@/pages/service/costume";
+import ServiceCostumeDetail from "@/pages/service/costume/detail";
 import UsersManagement from "@/pages/user/user";
 import UserDetailManagement from "@/pages/user/user/detail";
 
@@ -83,7 +84,7 @@ export const privateRoutes: MultiRoute[] = [
         route: [
           {
             path: "/service/costumes/:id",
-            component: () => <ServiceScopeDetail />
+            component: () => <ServiceCostumeDetail />
           },
           {
             path: "/service/costumes",
