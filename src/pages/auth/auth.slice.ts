@@ -1,6 +1,7 @@
 import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: AuthState = {
+  loading: false,
   isLogin: Boolean(localStorage.getItem("access_token")),
   token: "",
   user: {},
@@ -12,13 +13,18 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    loginRequest: state => {
+      state.loading = true;
+    },
     loginSuccess: (state, action: PayloadAction<AuthState>) => {
+      state.loading = false;
       state.isLogin = true;
       state.token = action.payload.token;
       state.user = action.payload.user;
       state.role = action.payload.user.role;
     },
     loginError: (state, action: PayloadAction<any>) => {
+      state.loading = false;
       state.isLogin = false;
       state.message = action.payload.message;
     },

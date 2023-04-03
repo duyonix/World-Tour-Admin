@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 function* login(action: any) {
   const authService = new AuthService();
+  yield put(authActions.loginRequest());
   const res = yield call(authService.login, action.payload);
   if (res?.status === variables.OK) {
     localStorage.setItem("access_token", res.payload.token);

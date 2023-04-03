@@ -5,6 +5,7 @@ interface State {
 }
 
 interface AuthState {
+  loading: boolean;
   isLogin: boolean;
   token: string;
   user: any;
