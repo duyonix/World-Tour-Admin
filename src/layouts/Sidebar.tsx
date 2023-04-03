@@ -55,7 +55,9 @@ const Sidebar = ({ routeConfig }: Props) => {
   return (
     <div className="bg-white h-100% mh-100vh">
       <div className="style-logo-admin sticky bg-white">
-        <img src={logo} alt="logo" height={50}></img>
+        <Link to="/">
+          <img src={logo} alt="logo" height={50}></img>
+        </Link>
       </div>
       <Menu
         mode="inline"

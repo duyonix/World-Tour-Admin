@@ -10,9 +10,10 @@ import "./style.scss";
 type Props = {
   backgrounds: string[];
   setBackgrounds: (data: string[]) => void;
+  auth: any;
 };
 
-const ScopeBackgroundTab = ({ backgrounds, setBackgrounds }: Props) => {
+const ScopeBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalChange, setIsModalChange] = useState(false);
   const [images, setImages] = useState<any[]>([]);
@@ -97,10 +98,14 @@ const ScopeBackgroundTab = ({ backgrounds, setBackgrounds }: Props) => {
       title: "",
       align: "right",
       render: (_, __, index) => (
-        <Button
-          onClick={() => onConfirmRemove(page * size + index)}
-          icon={<DeleteOutlined />}
-        ></Button>
+        <>
+          {auth.role === "ADMIN" && (
+            <Button
+              onClick={() => onConfirmRemove(page * size + index)}
+              icon={<DeleteOutlined />}
+            ></Button>
+          )}
+        </>
       )
     }
   ];
@@ -110,9 +115,11 @@ const ScopeBackgroundTab = ({ backgrounds, setBackgrounds }: Props) => {
       <Row className="mb-2" justify="space-between">
         <Col className="d-flex al-center">Total: {backgrounds.length}</Col>
         <Col>
-          <Button type="primary" onClick={onAdd}>
-            Add
-          </Button>
+          {auth.role === "ADMIN" && (
+            <Button type="primary" onClick={onAdd}>
+              Add
+            </Button>
+          )}
         </Col>
       </Row>
       {backgrounds.length > 0 ? (
@@ -154,6 +161,7 @@ const ScopeBackgroundTab = ({ backgrounds, setBackgrounds }: Props) => {
           style={{ minHeight: 300 }}
           name="app"
           onFinish={onSave}
+          disabled={auth.role !== "ADMIN"}
         >
           <Row gutter={[40, 16]}>
             <Col span={24}>
@@ -172,15 +180,17 @@ const ScopeBackgroundTab = ({ backgrounds, setBackgrounds }: Props) => {
           <Button onClick={onCancel} htmlType="button">
             Back
           </Button>
-          <Button
-            disabled={!isModalChange}
-            type="primary"
-            onClick={() => {
-              form.submit();
-            }}
-          >
-            Save
-          </Button>
+          {auth.role === "ADMIN" && (
+            <Button
+              disabled={!isModalChange}
+              type="primary"
+              onClick={() => {
+                form.submit();
+              }}
+            >
+              Save
+            </Button>
+          )}
         </Space>
       </Modal>
     </div>
