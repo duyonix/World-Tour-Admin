@@ -1,9 +1,10 @@
-import React, { memo, useState } from "react";
+import React, { useState } from "react";
 import { Upload, Modal, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import CommonService from "@/services/common";
 import { toast } from "react-toastify";
 import _ from "lodash";
+import ModelViewer from "../ModelViewer";
 const { Text } = Typography;
 
 type Props = {
@@ -11,9 +12,15 @@ type Props = {
   setFileList: (fileList: any) => void;
   accept?: string;
   textInfo?: string;
+  type?: "image" | "model";
 };
 
-const CustomUpload = ({ fileList, setFileList, ...restProps }: Props) => {
+const CustomUpload = ({
+  fileList,
+  setFileList,
+  type = "image",
+  ...restProps
+}: Props) => {
   const commonService = new CommonService();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -36,7 +43,7 @@ const CustomUpload = ({ fileList, setFileList, ...restProps }: Props) => {
     setFileList([
       {
         uid: "-1",
-        name: "image.jpg",
+        name: "file",
         status: "uploading"
       }
     ]);
@@ -105,11 +112,28 @@ const CustomUpload = ({ fileList, setFileList, ...restProps }: Props) => {
         title={previewTitle}
         footer={null}
         onCancel={handleCancel}
+        width={700}
       >
-        <img alt="example" className="w-100" src={previewImage} />
+        {type === "image" && (
+          <img alt="example" className="w-100" src={previewImage} />
+        )}
+
+        {type === "model" && (
+          <ModelViewer
+            scale={8}
+            modelPath={previewImage}
+            position={[0, -9, 0]}
+            style={{
+              height: "400px",
+              width: "600px",
+              margin: "0 auto"
+            }}
+            key={previewImage}
+          />
+        )}
       </Modal>
     </>
   );
 };
 
-export default memo(CustomUpload);
+export default CustomUpload;

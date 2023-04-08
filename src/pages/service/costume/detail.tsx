@@ -267,6 +267,7 @@ const ServiceCostumeDetail = () => {
                 setFileList={handleModels}
                 accept=".glb"
                 textInfo="(Model must be in .glb format)"
+                type="model"
               />
             </Form.Item>
           </Col>
