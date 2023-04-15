@@ -13,7 +13,7 @@ import {
   Divider,
   Checkbox
 } from "antd";
-import loginIllustrator from "@/assets/images/login-illustrator.jpg";
+import HCMUS from "@/assets/images/HCMUS.png";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 import AuthService from "@/services/auth";
 
@@ -67,9 +67,9 @@ const Register = () => {
       >
         <>
           <img
-            className="login-illustrator"
+            className="login-illustrator mt-3"
             style={{ width: "500px" }}
-            src={loginIllustrator}
+            src={HCMUS}
             alt="login-illustrator"
           />
           <Title level={3} style={{ margin: "5vh 0px 3vh 0" }}>
@@ -164,7 +164,7 @@ const Register = () => {
             <Form.Item name="remember" valuePropName="checked" className="mt-2">
               <Checkbox>
                 I agree the{" "}
-                <a href="#pablo" className="font-bold text-dark">
+                <a href="#register" className="font-bold text-dark">
                   Terms and Conditions
                 </a>
               </Checkbox>

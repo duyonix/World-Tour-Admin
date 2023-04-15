@@ -19,4 +19,32 @@ export default class UserService extends BaseService {
       return super.errorResponse(err);
     }
   }
+
+  async updateProfile(data: any) {
+    try {
+      const res = await super.send(
+        "POST",
+        `${PREFIX}/update-profile`,
+        super.header(),
+        data
+      );
+      return res.data;
+    } catch (err: any) {
+      return super.errorResponse(err);
+    }
+  }
+
+  async updatePassword(data: any) {
+    try {
+      const res = await super.send(
+        "POST",
+        `${PREFIX}/update-password`,
+        super.header(),
+        data
+      );
+      return res.data;
+    } catch (err: any) {
+      return super.errorResponse(err);
+    }
+  }
 }

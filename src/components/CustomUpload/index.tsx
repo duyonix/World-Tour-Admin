@@ -13,18 +13,27 @@ type Props = {
   accept?: string;
   textInfo?: string;
   type?: "image" | "model";
+  modelWidth?: number;
+  modelHeight?: number;
+  modelScale?: number;
+  modelPosition?: [number, number, number];
 };
 
 const CustomUpload = ({
   fileList,
   setFileList,
   type = "image",
+  modelWidth = 600,
+  modelHeight = 400,
+  modelScale = 8,
+  modelPosition = [0, -9, 0],
   ...restProps
 }: Props) => {
   const commonService = new CommonService();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
+  const [countModel, setCountModel] = useState(0);
   const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
   const getBase64 = file =>
@@ -69,6 +78,7 @@ const CustomUpload = ({
 
   const handleCancel = () => {
     setPreviewOpen(false);
+    setCountModel(countModel + 1);
   };
 
   const handlePreview = async file => {
@@ -120,15 +130,17 @@ const CustomUpload = ({
 
         {type === "model" && (
           <ModelViewer
-            scale={8}
+            scale={modelScale}
             modelPath={previewImage}
-            position={[0, -9, 0]}
+            position={modelPosition}
             style={{
-              height: "400px",
-              width: "600px",
+              height: modelHeight,
+              width: modelWidth,
               margin: "0 auto"
             }}
-            key={previewImage}
+            width={modelWidth}
+            height={modelHeight}
+            key={countModel.toString()}
           />
         )}
       </Modal>
