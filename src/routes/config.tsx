@@ -10,6 +10,7 @@ import ServiceCostumes from "@/pages/service/costume";
 import ServiceCostumeDetail from "@/pages/service/costume/detail";
 import UsersManagement from "@/pages/user/user";
 import UserDetailManagement from "@/pages/user/user/detail";
+import UserProfile from "@/pages/user/info";
 
 type Route = {
   path: string;
@@ -111,6 +112,16 @@ export const privateRoutes: MultiRoute[] = [
           {
             path: "/user/users",
             component: () => <UsersManagement />
+          }
+        ]
+      },
+      {
+        title: "Profile",
+        path: "/user/profile",
+        route: [
+          {
+            path: "/user/profile",
+            component: () => <UserProfile />
           }
         ]
       }

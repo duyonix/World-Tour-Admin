@@ -16,7 +16,7 @@ import {
   Switch,
   Spin
 } from "antd";
-import loginIllustrator from "@/assets/images/login-illustrator.jpg";
+import HCMUS from "@/assets/images/HCMUS.png";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
@@ -50,9 +50,9 @@ const Login = () => {
         >
           <>
             <img
-              className="login-illustrator"
+              className="login-illustrator mt-3"
               style={{ width: "500px" }}
-              src={loginIllustrator}
+              src={HCMUS}
               alt="login-illustrator"
             />
             <Title level={3} style={{ margin: "5vh 0px 3vh 0" }}>

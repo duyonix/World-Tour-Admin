@@ -14,6 +14,7 @@ const UserDetailManagement = () => {
   const userService = new UserService();
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [avatars, setAvatars] = useState<any[]>([]);
   const [models, setModels] = useState<any[]>([]);
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
@@ -36,6 +37,16 @@ const UserDetailManagement = () => {
 
     if (res.status === variables.OK) {
       form.setFieldsValue(res.payload);
+      if (res.payload.avatar) {
+        setAvatars([
+          {
+            uid: -1,
+            name: "image.jpg",
+            status: "done",
+            url: res.payload.avatar
+          }
+        ]);
+      }
       if (res.payload.model) {
         setModels([
           {
@@ -69,6 +80,11 @@ const UserDetailManagement = () => {
     });
   };
 
+  const handleAvatars = useCallback(newAvatars => {
+    setAvatars(newAvatars);
+    setIsChange(true);
+  }, []);
+
   const handleModels = useCallback(newModels => {
     setModels(newModels);
     setIsChange(true);
@@ -94,17 +110,25 @@ const UserDetailManagement = () => {
             >
               <Input />
             </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item name="role" label="Role">
+            <Form.Item name="role" label="Role" className="mt-2">
               <Input />
             </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item name="avatar" label="Avatar" className="mt-2">
+              <CustomUpload fileList={avatars} setFileList={handleAvatars} />
+            </Form.Item>
+
             <Form.Item name="model" label="Model" className="mt-2">
               <CustomUpload
                 fileList={models}
                 setFileList={handleModels}
                 accept=".glb"
                 textInfo="(Model must be in .glb format)"
+                type="model"
+                modelScale={4}
+                modelPosition={[0, -4, 0]}
+                modelHeight={450}
               />
             </Form.Item>
           </Col>
