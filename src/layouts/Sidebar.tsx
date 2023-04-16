@@ -31,8 +31,18 @@ const Sidebar = ({ routeConfig }: Props) => {
     breadcrumb.filter((key: string, index: number) => index !== maxLength)
   );
 
-  const mapSidebar = (sidebar: any, level: number = 0, prevKey: string = "") =>
-    sidebar.map((item: any) => {
+  const mapSidebar = (
+    sidebar: any,
+    level: number = 0,
+    prevKey: string = ""
+  ) => {
+    const role = localStorage.getItem("user_role");
+    const menu =
+      role !== "ADMIN"
+        ? sidebar.filter((item: any) => item.role !== "ADMIN")
+        : sidebar;
+
+    return menu.map((item: any) => {
       if (item.subMenu) {
         const keyItem = prevKey ? `${prevKey}/${item.title}` : item.title;
         return {
@@ -51,6 +61,7 @@ const Sidebar = ({ routeConfig }: Props) => {
         key: prevKey ? `${prevKey}/${item.title}` : item.title
       };
     });
+  };
 
   return (
     <div className="bg-white h-100% mh-100vh">

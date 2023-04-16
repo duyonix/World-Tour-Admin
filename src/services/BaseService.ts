@@ -35,6 +35,7 @@ export default class BaseService {
       if (checkExpire(err.response.status)) {
         const authService = new AuthService();
         authService.logout().then(() => {
+          localStorage.setItem("redirect_url", window.location.pathname);
           window.location.href = "/login?expired=true";
         });
       }
