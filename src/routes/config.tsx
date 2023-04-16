@@ -15,6 +15,7 @@ import UserProfile from "@/pages/user/info";
 type Route = {
   path: string;
   component: any;
+  role?: string;
 };
 
 type SubRoute = {
@@ -22,6 +23,7 @@ type SubRoute = {
   path: string;
   route?: Route[];
   subMenu?: SubRoute[];
+  role?: string;
 };
 
 type MultiRoute = {
@@ -99,19 +101,22 @@ export const privateRoutes: MultiRoute[] = [
     path: "/user",
     title: "User",
     icon: <IconFont type="staff-card" />,
-    redirect: "/user/users",
+    redirect: "/user/profile",
     subMenu: [
       {
         title: "Users",
         path: "/user/users",
+        role: "ADMIN",
         route: [
           {
             path: "/user/users/:id",
-            component: () => <UserDetailManagement />
+            component: () => <UserDetailManagement />,
+            role: "ADMIN"
           },
           {
             path: "/user/users",
-            component: () => <UsersManagement />
+            component: () => <UsersManagement />,
+            role: "ADMIN"
           }
         ]
       },

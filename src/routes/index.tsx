@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import RouteWithLayout from "@/layouts/RouteWithLayout";
 import BaseLayout from "@/layouts/BaseLayout";
@@ -8,10 +8,12 @@ import UnAuthorized from "@/components/UnAuthorized";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
 import { authActions } from "@/pages/auth/auth.slice";
+import _ from "lodash";
 
 const MyRoutes = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
+  const [priRoutes, setPriRoutes] = useState<any>(_.cloneDeep(privateRoutes));
 
   useEffect(() => {
     if (auth.isLogin) {
@@ -19,6 +21,28 @@ const MyRoutes = () => {
       dispatch(authActions.getInfo(userId));
     }
   }, [auth.isLogin, dispatch]);
+
+  useEffect(() => {
+    const role = localStorage.getItem("user_role");
+    if (auth.isLogin && role !== "ADMIN") {
+      const newRoutes = filterUserRoutes(_.cloneDeep(privateRoutes));
+      setPriRoutes(newRoutes);
+    }
+  }, [auth.isLogin]);
+
+  const filterUserRoutes = (routes: any) => {
+    for (let i = 0; i < routes.length; i++) {
+      if (routes[i].subMenu) {
+        routes[i].subMenu = filterUserRoutes(routes[i].subMenu);
+      } else if (routes[i].route) {
+        routes[i] = {
+          ...routes[i],
+          route: routes[i].route.filter(r => r.role !== "ADMIN")
+        };
+      }
+    }
+    return routes;
+  };
 
   const getDefaultRoute = (sidebar: any) => {
     if (sidebar.subMenu && sidebar.subMenu.length > 0) {
@@ -56,13 +80,13 @@ const MyRoutes = () => {
     <div>
       <Switch>
         {auth.isLogin &&
-          privateRoutes.map(({ redirect, path: pathRoot }, index) => (
+          priRoutes.map(({ redirect, path: pathRoot }, index) => (
             <Route key={index} exact path={pathRoot}>
               <Redirect to={`${redirect}`} />
             </Route>
           ))}
         {auth.isLogin
-          ? mapPrivateRoute([...privateRoutes], [])
+          ? mapPrivateRoute([...priRoutes], [])
           : publicRoutes.map(({ path, component }, index) => (
               <Route key={index} path={path} component={component} />
             ))}
@@ -77,15 +101,13 @@ const MyRoutes = () => {
           <>
             <Route exact path="/">
               <Redirect
-                to={
-                  privateRoutes.length ? getDefaultRoute(privateRoutes[0]) : "/"
-                }
+                to={priRoutes.length ? getDefaultRoute(priRoutes[0]) : "/"}
               />
             </Route>
             <Route exact path="/login">
               <Redirect to="/" />
             </Route>
-            {privateRoutes.length > 0 && (
+            {priRoutes.length > 0 && (
               <Route path="*">
                 <NotFound />
               </Route>
