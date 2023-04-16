@@ -44,11 +44,20 @@ const MyRoutes = () => {
     return routes;
   };
 
-  const getDefaultRoute = (sidebar: any) => {
-    if (sidebar.subMenu && sidebar.subMenu.length > 0) {
-      return getDefaultRoute(sidebar?.subMenu[0]);
+  const getDefaultRouteInPrivate = (routes: any) => {
+    if (routes.subMenu && routes.subMenu.length > 0) {
+      return getDefaultRoute(routes?.subMenu[0]);
     }
-    return sidebar?.path;
+    return routes?.path;
+  };
+
+  const getDefaultRoute = (sidebar: any) => {
+    if (localStorage.getItem("redirect_url")) {
+      const redirectUrl = localStorage.getItem("redirect_url");
+      localStorage.removeItem("redirect_url");
+      return redirectUrl;
+    }
+    return getDefaultRouteInPrivate(sidebar);
   };
 
   const mapPrivateRoute = (menu: any, prevName: any) =>
