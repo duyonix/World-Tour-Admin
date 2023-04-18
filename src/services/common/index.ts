@@ -13,4 +13,14 @@ export default class CommonService extends BaseService {
       return super.errorResponse(err);
     }
   }
+
+  async uploadAttachmentFromUrl(url: string) {
+    try {
+      const uri = `${PREFIX}/api/v1/files/upload-from-url`;
+      const res = await super.send("POST", uri, super.header(), { url });
+      return res.data;
+    } catch (err: any) {
+      return super.errorResponse(err);
+    }
+  }
 }

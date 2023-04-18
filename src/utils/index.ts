@@ -146,3 +146,11 @@ export const getJSONFromBlob = async (data: Blob) => {
   let newData = await data.text();
   return JSON.parse(newData);
 };
+
+export const parse = (data: any) => {
+  try {
+    return JSON.parse(data);
+  } catch (err) {
+    return null;
+  }
+};

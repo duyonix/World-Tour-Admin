@@ -64,10 +64,15 @@ const Sidebar = ({ routeConfig }: Props) => {
   };
 
   return (
-    <div className="bg-white h-100% mh-100vh">
+    <div
+      className="bg-white h-100% mh-100vh"
+      style={{
+        overflowX: "hidden"
+      }}
+    >
       <div className="style-logo-admin sticky bg-white">
         <Link to="/">
-          <img src={logo} alt="logo" height={50}></img>
+          <img src={logo} alt="logo" height={50} className="w-100"></img>
         </Link>
       </div>
       <Menu
