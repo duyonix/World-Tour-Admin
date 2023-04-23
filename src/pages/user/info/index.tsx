@@ -197,6 +197,9 @@ const UserProfile = () => {
                       width={540}
                       height={496}
                       key={model}
+                      style={{
+                        margin: "0 auto"
+                      }}
                     />
                   </div>
                 )}
@@ -219,7 +222,6 @@ const UserProfile = () => {
                   showIFrame={showIFrame}
                   setShowIFrame={setShowIFrame}
                   setModel={handleModel}
-                  setLoading={setLoading}
                 />
               </Col>
             </Row>

@@ -1,23 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import { parse } from "@/utils";
 import { Modal } from "antd";
-import CommonService from "@/services/common";
-import variables from "@/constants/variables";
 
 type Props = {
   showIFrame: boolean;
   setShowIFrame: (showIFrame: boolean) => void;
   setModel: (model: any) => void;
-  setLoading: (loading: boolean) => void;
 };
 
-const ReadyPlayerMe = ({
-  showIFrame,
-  setShowIFrame,
-  setModel,
-  setLoading
-}: Props) => {
-  const commonService = new CommonService();
+const ReadyPlayerMe = ({ showIFrame, setShowIFrame, setModel }: Props) => {
   const subdomain = "thesis";
   const iFrameRef = useRef(null);
 
@@ -63,13 +54,7 @@ const ReadyPlayerMe = ({
     // Get avatar GLB URL
     if (json.eventName === "v1.avatar.exported") {
       setShowIFrame(false);
-      setLoading(true);
-      commonService.uploadAttachmentFromUrl(json.data.url).then(res => {
-        if (res.status === variables.OK) {
-          setModel(res.payload.url);
-        }
-        setLoading(false);
-      });
+      setModel(json.data.url);
     }
 
     // Get user id
