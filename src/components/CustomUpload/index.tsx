@@ -26,7 +26,7 @@ const CustomUpload = ({
   modelWidth = 600,
   modelHeight = 400,
   modelScale = 8,
-  modelPosition = [0, -9, 0],
+  modelPosition = [0, 0, 0],
   ...restProps
 }: Props) => {
   const commonService = new CommonService();

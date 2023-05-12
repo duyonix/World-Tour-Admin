@@ -268,6 +268,7 @@ const ServiceCostumeDetail = () => {
                 accept=".glb"
                 textInfo="(Model must be in .glb format)"
                 type="model"
+                modelPosition={[0, -10, 0]}
               />
             </Form.Item>
           </Col>
