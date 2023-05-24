@@ -6,7 +6,7 @@ const initialState = {
     data: [],
     error: null
   },
-  scopeOptions: {
+  regionOptions: {
     loading: false,
     data: [],
     error: null
@@ -32,20 +32,20 @@ export const serviceSlice = createSlice({
       state.categoryOptions.data = [];
       state.categoryOptions.error = action.payload;
     },
-    getScopeOptions: state => {
-      state.scopeOptions.loading = true;
-      state.scopeOptions.data = [];
-      state.scopeOptions.error = null;
+    getRegionOptions: state => {
+      state.regionOptions.loading = true;
+      state.regionOptions.data = [];
+      state.regionOptions.error = null;
     },
-    getScopeOptionsSuccess: (state, action: PayloadAction<any>) => {
-      state.scopeOptions.loading = false;
-      state.scopeOptions.data = action.payload;
-      state.scopeOptions.error = null;
+    getRegionOptionsSuccess: (state, action: PayloadAction<any>) => {
+      state.regionOptions.loading = false;
+      state.regionOptions.data = action.payload;
+      state.regionOptions.error = null;
     },
-    getScopeOptionsError: (state, action: PayloadAction<any>) => {
-      state.scopeOptions.loading = false;
-      state.scopeOptions.data = [];
-      state.scopeOptions.error = action.payload;
+    getRegionOptionsError: (state, action: PayloadAction<any>) => {
+      state.regionOptions.loading = false;
+      state.regionOptions.data = [];
+      state.regionOptions.error = action.payload;
     }
   }
 });

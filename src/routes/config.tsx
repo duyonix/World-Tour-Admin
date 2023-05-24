@@ -4,8 +4,8 @@ import Register from "@/pages/auth/register";
 import Login from "@/pages/auth/login";
 import ServiceCategories from "@/pages/service/category";
 import ServiceCategoryDetail from "@/pages/service/category/detail";
-import ServiceScopes from "@/pages/service/scope";
-import ServiceScopeDetail from "@/pages/service/scope/detail";
+import ServiceRegions from "@/pages/service/region";
+import ServiceRegionDetail from "@/pages/service/region/detail";
 import ServiceCostumes from "@/pages/service/costume";
 import ServiceCostumeDetail from "@/pages/service/costume/detail";
 import UsersManagement from "@/pages/user/user";
@@ -68,16 +68,16 @@ export const privateRoutes: MultiRoute[] = [
         ]
       },
       {
-        title: "Scopes",
-        path: "/service/scopes",
+        title: "Regions",
+        path: "/service/regions",
         route: [
           {
-            path: "/service/scopes/:id",
-            component: () => <ServiceScopeDetail />
+            path: "/service/regions/:id",
+            component: () => <ServiceRegionDetail />
           },
           {
-            path: "/service/scopes",
-            component: () => <ServiceScopes />
+            path: "/service/regions",
+            component: () => <ServiceRegions />
           }
         ]
       },

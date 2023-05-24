@@ -88,7 +88,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
           <Header className="bg-white p-0">
             <Row className="px-1">
               <Col className="d-flex flex-col line-height" span={18}>
-                <strong className="size-medium">HCMUS Tour Dashboard</strong>
+                <strong className="size-medium">World Tour Dashboard</strong>
                 <div>
                   {breadcrumb.map((item, index) =>
                     index === maxLength ? (

@@ -31,12 +31,12 @@ import CustomUpload from "@/components/CustomUpload";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
 import { serviceActions } from "../service.slice";
-import ScopeBackgroundTab from "./ScopeBackgroundTab";
+import RegionBackgroundTab from "./RegionBackgroundTab";
 
 const { TextArea } = Input;
 const { Text } = Typography;
 
-const ServiceScopeDetail = () => {
+const ServiceRegionDetail = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
   const categoryOptions = useAppSelector(
@@ -70,7 +70,7 @@ const ServiceScopeDetail = () => {
 
   const fetchDetail = async () => {
     setLoading(true);
-    const res = await serviceService.scope.getScope(id);
+    const res = await serviceService.region.getRegion(id);
     setLoading(false);
 
     if (res.status === variables.OK) {
@@ -99,44 +99,44 @@ const ServiceScopeDetail = () => {
     } else {
       switch (res?.status) {
         case variables.NOT_FOUND:
-          return toast.error(messages.NOT_FOUND("scope"));
+          return toast.error(messages.NOT_FOUND("region"));
         default:
-          return toast.error(messages.GET_DETAIL_FAILED("scope"));
+          return toast.error(messages.GET_DETAIL_FAILED("region"));
       }
     }
   };
 
   const create = async data => {
     setLoading(true);
-    const res = await serviceService.scope.addScope(data);
+    const res = await serviceService.region.addRegion(data);
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.CREATE_SUCCESS("scope"));
-      history.push("/service/scopes");
+      toast.success(messages.CREATE_SUCCESS("region"));
+      history.push("/service/regions");
     } else {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
-          return toast.error(messages.EXISTED("Scope name"));
+          return toast.error(messages.EXISTED("Region name"));
         default:
-          return toast.error(messages.CREATE_FAILED("scope"));
+          return toast.error(messages.CREATE_FAILED("region"));
       }
     }
   };
 
   const update = async data => {
     setLoading(true);
-    const res = await serviceService.scope.updateScope(id, data);
+    const res = await serviceService.region.updateRegion(id, data);
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.EDIT_SUCCESS("scope"));
+      toast.success(messages.EDIT_SUCCESS("region"));
       breadcrumb.addBreadcrumb(data.name);
       setIsChange(false);
     } else {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
-          return toast.error(messages.EXISTED("Scope name"));
+          return toast.error(messages.EXISTED("Region name"));
         default:
-          return toast.error(messages.EDIT_FAILED("scope"));
+          return toast.error(messages.EDIT_FAILED("region"));
       }
     }
   };
@@ -198,11 +198,11 @@ const ServiceScopeDetail = () => {
           <Col span={12}>
             <Form.Item
               name="name"
-              label="Scope Name"
+              label="Region Name"
               rules={[
                 {
                   required: true,
-                  message: "Scope Name is required"
+                  message: "Region Name is required"
                 }
               ]}
             >
@@ -335,7 +335,7 @@ const ServiceScopeDetail = () => {
       label: "Backgrounds",
       key: "2",
       children: (
-        <ScopeBackgroundTab
+        <RegionBackgroundTab
           backgrounds={backgrounds}
           setBackgrounds={handleBackgrounds}
           auth={auth}
@@ -381,4 +381,4 @@ const ServiceScopeDetail = () => {
   );
 };
 
-export default ServiceScopeDetail;
+export default ServiceRegionDetail;

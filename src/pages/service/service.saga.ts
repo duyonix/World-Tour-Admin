@@ -15,17 +15,17 @@ function* getCategoryOptions() {
   }
 }
 
-function* getScopeOptions() {
+function* getRegionOptions() {
   const serviceService = new ServiceService();
-  const res = yield call(serviceService.scope.getScopeOptions);
+  const res = yield call(serviceService.region.getRegionOptions);
   if (res?.status === variables.OK) {
-    yield put(serviceActions.getScopeOptionsSuccess(res.payload));
+    yield put(serviceActions.getRegionOptionsSuccess(res.payload));
   } else {
-    yield put(serviceActions.getScopeOptionsError("Get scope options error"));
+    yield put(serviceActions.getRegionOptionsError("Get region options error"));
   }
 }
 
 export default function* serviceSaga() {
   yield takeLatest(serviceActions.getCategoryOptions.type, getCategoryOptions);
-  yield takeLatest(serviceActions.getScopeOptions.type, getScopeOptions);
+  yield takeLatest(serviceActions.getRegionOptions.type, getRegionOptions);
 }

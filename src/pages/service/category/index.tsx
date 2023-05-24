@@ -86,6 +86,12 @@ const ServiceCategories = () => {
       width: 250
     },
     {
+      title: "Level",
+      dataIndex: "level",
+      align: "center",
+      width: 150
+    },
+    {
       title: "Description",
       dataIndex: "description",
       width: 400,

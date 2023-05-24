@@ -1,4 +1,15 @@
-import { Col, Form, Row, Space, Button, Input, Card, Spin, Tabs } from "antd";
+import {
+  Col,
+  Form,
+  Row,
+  Space,
+  Button,
+  Input,
+  Card,
+  Spin,
+  Tabs,
+  Select
+} from "antd";
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { BreadcrumbContext } from "@/layouts/BaseLayout";
@@ -13,13 +24,14 @@ import { useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
 
 const { TextArea } = Input;
+const CATEGORY_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 const ServiceCategoryDetail = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [backgrounds, setBackgrounds] = useState<any[]>([]);
+  const [pictures, setPictures] = useState<any[]>([]);
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
 
@@ -41,13 +53,13 @@ const ServiceCategoryDetail = () => {
 
     if (res.status === variables.OK) {
       form.setFieldsValue(res.payload);
-      if (res.payload.background) {
-        setBackgrounds([
+      if (res.payload.picture) {
+        setPictures([
           {
             uid: -1,
             name: "image.jpg",
             status: "done",
-            url: res.payload.background
+            url: res.payload.picture
           }
         ]);
       }
@@ -73,6 +85,8 @@ const ServiceCategoryDetail = () => {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
           return toast.error(messages.EXISTED("Category name"));
+        case variables.DUPLICATE_LEVEL:
+          return toast.error(messages.EXISTED("Category level"));
         default:
           return toast.error(messages.CREATE_FAILED("category"));
       }
@@ -91,6 +105,8 @@ const ServiceCategoryDetail = () => {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
           return toast.error(messages.EXISTED("Category name"));
+        case variables.DUPLICATE_LEVEL:
+          return toast.error(messages.EXISTED("Category level"));
         default:
           return toast.error(messages.EDIT_FAILED("category"));
       }
@@ -99,15 +115,15 @@ const ServiceCategoryDetail = () => {
 
   const convertData = data => {
     const newData = { ...data };
-    const iconUrl = backgrounds.length > 0 ? backgrounds[0].url : "";
-    newData.background = iconUrl;
+    const iconUrl = pictures.length > 0 ? pictures[0].url : "";
+    newData.picture = iconUrl;
 
     return cleanObject(newData);
   };
 
   const onSave = data => {
-    if (backgrounds.length === 0) {
-      return toast.error("Background is required");
+    if (pictures.length === 0) {
+      return toast.error("Picture is required");
     }
     const newData = convertData(data);
     if (id === "add") {
@@ -129,8 +145,8 @@ const ServiceCategoryDetail = () => {
     });
   };
 
-  const handleBackgrounds = useCallback(newBackgrounds => {
-    setBackgrounds(newBackgrounds);
+  const handlePictures = useCallback(newPictures => {
+    setPictures(newPictures);
     setIsChange(true);
   }, []);
 
@@ -158,20 +174,28 @@ const ServiceCategoryDetail = () => {
             </Form.Item>
           </Col>
           <Col span={12}>
+            <Form.Item name="level" label="Level">
+              <Select
+                placeholder="Choose level"
+                className="w-100"
+                options={CATEGORY_LEVELS.map(level => ({
+                  label: level,
+                  value: level
+                }))}
+              />
+            </Form.Item>
             <Form.Item
-              name="background"
-              label="Background"
+              name="picture"
+              label="Picture"
               rules={[
                 {
                   required: true,
-                  message: "Background is required"
+                  message: "Picture is required"
                 }
               ]}
+              className="mt-2"
             >
-              <CustomUpload
-                fileList={backgrounds}
-                setFileList={handleBackgrounds}
-              />
+              <CustomUpload fileList={pictures} setFileList={handlePictures} />
             </Form.Item>
           </Col>
         </Row>

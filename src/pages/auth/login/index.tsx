@@ -56,7 +56,7 @@ const Login = () => {
               alt="login-illustrator"
             />
             <Title level={3} style={{ margin: "5vh 0px 3vh 0" }}>
-              Login to HCMUS Tour Dashboard
+              Login to World Tour Dashboard
             </Title>
             <Form
               style={{ maxWidth: "400px", width: "100%" }}

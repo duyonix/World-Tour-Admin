@@ -1,9 +1,9 @@
 import ServiceCategoryService from "./category";
-import ServiceScopeService from "./scope";
+import ServiceRegionService from "./region";
 import ServiceCostumeService from "./costume";
 
 export default class ServiceService {
   category = new ServiceCategoryService();
-  scope = new ServiceScopeService();
+  region = new ServiceRegionService();
   costume = new ServiceCostumeService();
 }

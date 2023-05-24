@@ -35,8 +35,8 @@ const { TextArea } = Input;
 const ServiceCostumeDetail = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
-  const scopeOptions = useAppSelector(
-    (state: RootState) => state.service.scopeOptions
+  const regionOptions = useAppSelector(
+    (state: RootState) => state.service.regionOptions
   );
   const dispatch = useAppDispatch();
   const [isChange, setIsChange] = useState(false);
@@ -45,7 +45,7 @@ const ServiceCostumeDetail = () => {
   const [models, setModels] = useState<any[]>([]);
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
-  const [defaultScope, setDefaultScope] = useState<any>(null);
+  const [defaultRegion, setDefaultRegion] = useState<any>(null);
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -56,12 +56,12 @@ const ServiceCostumeDetail = () => {
     } else {
       fetchDetail();
     }
-    dispatch(serviceActions.getScopeOptions());
+    dispatch(serviceActions.getRegionOptions());
   }, [dispatch, id]);
 
-  const allScopeOptions = useMemo(
-    () => mappingOptions(scopeOptions.data, "id", "name", [scopeOptions]),
-    [scopeOptions.data, defaultScope]
+  const allRegionOptions = useMemo(
+    () => mappingOptions(regionOptions.data, "id", "name", [regionOptions]),
+    [regionOptions.data, defaultRegion]
   );
 
   const fetchDetail = async () => {
@@ -72,7 +72,7 @@ const ServiceCostumeDetail = () => {
     if (res.status === variables.OK) {
       form.setFieldsValue({
         ...res.payload,
-        scopeId: res.payload.scopeId.toString()
+        regionId: res.payload.regionId.toString()
       });
       if (res.payload.picture) {
         setPictures([
@@ -94,9 +94,9 @@ const ServiceCostumeDetail = () => {
           }
         ]);
       }
-      setDefaultScope({
-        value: res.payload.scope.id.toString(),
-        label: res.payload.scope.name
+      setDefaultRegion({
+        value: res.payload.region.id.toString(),
+        label: res.payload.region.name
       });
 
       breadcrumb.addBreadcrumb(res.payload.name);
@@ -150,7 +150,7 @@ const ServiceCostumeDetail = () => {
     const pictureUrl = pictures.length > 0 ? pictures[0].url : "";
     const modelUrl = models.length > 0 ? models[0].url : "";
 
-    newData.scopeId = parseInt(data.scopeId);
+    newData.regionId = parseInt(data.regionId);
     newData.picture = pictureUrl;
     newData.model = modelUrl;
 
@@ -216,20 +216,20 @@ const ServiceCostumeDetail = () => {
             </Form.Item>
             <Form.Item
               className="mt-2"
-              name="scopeId"
-              label="Scope"
+              name="regionId"
+              label="Region"
               rules={[
                 {
                   required: true,
-                  message: "Scope is required"
+                  message: "Region is required"
                 }
               ]}
             >
               <Select
-                placeholder="Select scope"
+                placeholder="Select region"
                 optionFilterProp="label"
                 className="w-100"
-                options={allScopeOptions}
+                options={allRegionOptions}
                 showSearch
               />
             </Form.Item>
