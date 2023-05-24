@@ -13,7 +13,7 @@ type Props = {
   auth: any;
 };
 
-const ScopeBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
+const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isModalChange, setIsModalChange] = useState(false);
   const [images, setImages] = useState<any[]>([]);
@@ -197,4 +197,4 @@ const ScopeBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
   );
 };
 
-export default memo(ScopeBackgroundTab);
+export default memo(RegionBackgroundTab);

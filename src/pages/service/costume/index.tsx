@@ -25,8 +25,8 @@ const { Text } = Typography;
 const ServiceCostumes = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
-  const scopeOptions = useAppSelector(
-    (state: RootState) => state.service.scopeOptions
+  const regionOptions = useAppSelector(
+    (state: RootState) => state.service.regionOptions
   );
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -43,7 +43,7 @@ const ServiceCostumes = () => {
   });
 
   useEffect(() => {
-    dispatch(serviceActions.getScopeOptions());
+    dispatch(serviceActions.getRegionOptions());
   }, [dispatch]);
 
   const onAdd = () => {
@@ -107,8 +107,8 @@ const ServiceCostumes = () => {
       render: (text: string) => <Text className="text-limit">{text}</Text>
     },
     {
-      title: "Scope",
-      dataIndex: ["scope", "name"],
+      title: "Region",
+      dataIndex: ["region", "name"],
       width: 200
     },
     {
@@ -137,9 +137,9 @@ const ServiceCostumes = () => {
       <Filter
         filterSelects={[
           {
-            label: "Scope",
-            name: "scopeId",
-            options: mappingOptions(scopeOptions.data, "id", "name")
+            label: "Region",
+            name: "regionId",
+            options: mappingOptions(regionOptions.data, "id", "name")
           }
         ]}
         isReset

@@ -22,7 +22,7 @@ import { serviceActions } from "../service.slice";
 
 const { Text } = Typography;
 
-const ServiceScopes = () => {
+const ServiceRegions = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
   const categoryOptions = useAppSelector(
@@ -37,7 +37,7 @@ const ServiceScopes = () => {
   const page = queryString.page ? Number(queryString.page) - 1 : 0;
   const { loading, list, total, onReFetch } = useFetch({
     params: JSON.stringify(cleanObject({ ...queryString, page, size })),
-    func: serviceService.scope.getScopes,
+    func: serviceService.region.getRegions,
     valueProp: "payload.content",
     totalProp: "payload.totalElements"
   });
@@ -54,11 +54,11 @@ const ServiceScopes = () => {
   };
   const onDelete = async (id: number, index: number) => {
     setIsDeleteLoading(true);
-    const res = await serviceService.scope.deleteScope(id.toString());
+    const res = await serviceService.region.deleteRegion(id.toString());
     setIsDeleteLoading(false);
 
     if (res.status === variables.OK) {
-      toast.success(messages.DELETE_SUCCESS("scope"));
+      toast.success(messages.DELETE_SUCCESS("region"));
       if (index === total && index !== 1 && index % size === 1) {
         history.push(
           "?" +
@@ -73,16 +73,16 @@ const ServiceScopes = () => {
     } else {
       switch (res?.status) {
         case variables.ALREADY_USED_ELSEWHERE:
-          return toast.error(messages.ALREADY_USED_ELSEWHERE("scope"));
+          return toast.error(messages.ALREADY_USED_ELSEWHERE("region"));
         default:
-          return toast.error(messages.DELETE_FAILED("scope"));
+          return toast.error(messages.DELETE_FAILED("region"));
       }
     }
   };
 
   const onConfirmRemove = (id: number, index: number) => {
     ConfirmModal({
-      title: messages.CONFIRM_DELETE("scope"),
+      title: messages.CONFIRM_DELETE("region"),
       onOk() {
         onDelete(id, index);
       }
@@ -96,7 +96,7 @@ const ServiceScopes = () => {
       width: 100
     },
     {
-      title: "Scope Name",
+      title: "Region Name",
       dataIndex: "name",
       width: 250
     },
@@ -181,7 +181,7 @@ const ServiceScopes = () => {
               }}
             ></Table>
           ) : (
-            !loading && <div className="text-center m-4">No scopes found</div>
+            !loading && <div className="text-center m-4">No regions found</div>
           )}
         </Spin>
       </Card>
@@ -189,4 +189,4 @@ const ServiceScopes = () => {
   );
 };
 
-export default ServiceScopes;
+export default ServiceRegions;
