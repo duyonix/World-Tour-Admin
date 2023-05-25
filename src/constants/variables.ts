@@ -9,4 +9,9 @@ const variables = {
   EXCEPTION: "EXCEPTION"
 };
 
+export const COSTUME_TYPE = {
+  COMMON: "COMMON",
+  SPECIFIC: "SPECIFIC"
+};
+
 export default variables;

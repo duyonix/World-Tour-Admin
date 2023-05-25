@@ -1,34 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Col, Row, Spin, Table, Space, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Row,
+  Spin,
+  Table,
+  Space,
+  Typography,
+  Tag
+} from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
 import useFetch from "@/hooks/useFetch";
 import { useHistory, useLocation } from "react-router-dom";
-import {
-  changePage,
-  objectToQueryString,
-  cleanObject,
-  mappingOptions
-} from "@/utils";
+import { changePage, objectToQueryString, cleanObject } from "@/utils";
 import Filter from "@/components/Filter";
 import { toast } from "react-toastify";
 import ConfirmModal from "@/components/ConfirmModal";
 import messages from "@/constants/messages";
-import variables from "@/constants/variables";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import variables, { COSTUME_TYPE } from "@/constants/variables";
+import { useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
-import { serviceActions } from "../service.slice";
 
 const { Text } = Typography;
 
 const ServiceCostumes = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
-  const regionOptions = useAppSelector(
-    (state: RootState) => state.service.regionOptions
-  );
-  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
@@ -41,10 +41,6 @@ const ServiceCostumes = () => {
     valueProp: "payload.content",
     totalProp: "payload.totalElements"
   });
-
-  useEffect(() => {
-    dispatch(serviceActions.getRegionOptions());
-  }, [dispatch]);
 
   const onAdd = () => {
     history.push(`${location.pathname}/add`);
@@ -101,15 +97,26 @@ const ServiceCostumes = () => {
       width: 250
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      width: 400,
-      render: (text: string) => <Text className="text-limit">{text}</Text>
+      title: "Type",
+      dataIndex: "type",
+      width: 200,
+      align: "center",
+      render: (text: string) => (
+        <Tag color={text === COSTUME_TYPE.COMMON ? "cyan" : "gold"}>
+          {COSTUME_TYPE[text]}
+        </Tag>
+      )
     },
     {
       title: "Region",
       dataIndex: ["region", "name"],
       width: 200
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      width: 400,
+      render: (text: string) => <Text className="text-limit">{text}</Text>
     },
     {
       title: "",
@@ -137,9 +144,18 @@ const ServiceCostumes = () => {
       <Filter
         filterSelects={[
           {
+            label: "Type",
+            name: "type",
+            options: Object.keys(COSTUME_TYPE).map(key => ({
+              value: key,
+              label: COSTUME_TYPE[key]
+            }))
+          },
+          {
             label: "Region",
             name: "regionId",
-            options: mappingOptions(regionOptions.data, "id", "name")
+            isRegionSelect: true,
+            size: 6
           }
         ]}
         isReset

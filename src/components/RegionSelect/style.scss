@@ -1,0 +1,25 @@
+.region-select .ant-select-item {
+  padding-bottom: 0 !important;
+}
+
+.region-select .ant-select-item-option-selected .region-label {
+  font-weight: 400 !important;
+}
+
+.region-select .ant-select-item-option-content .ant-row {
+  padding: 5px 0;
+}
+
+.region-select .ant-select-item-option-state {
+  display: flex;
+  align-items: center;
+}
+
+.region-select .region-label .ant-divider-horizontal {
+  left: 14px;
+  right: 14px;
+  width: auto;
+  min-width: auto;
+  position: absolute;
+  z-index: 1;
+}

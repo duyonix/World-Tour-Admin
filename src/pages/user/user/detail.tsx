@@ -123,12 +123,12 @@ const UserDetailManagement = () => {
               <CustomUpload
                 fileList={models}
                 setFileList={handleModels}
+                folder="model"
                 accept=".glb"
                 textInfo="(Model must be in .glb format)"
                 type="model"
                 modelScale={4}
                 modelPosition={[0, -4, 0]}
-                modelHeight={450}
               />
             </Form.Item>
           </Col>
