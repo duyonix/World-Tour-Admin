@@ -15,9 +15,9 @@ function* getCategoryOptions() {
   }
 }
 
-function* getRegionOptions() {
+function* getRegionOptions(params: any) {
   const serviceService = new ServiceService();
-  const res = yield call(serviceService.region.getRegionOptions);
+  const res = yield call(serviceService.region.getRegionOptions, params);
   if (res?.status === variables.OK) {
     yield put(serviceActions.getRegionOptionsSuccess(res.payload));
   } else {

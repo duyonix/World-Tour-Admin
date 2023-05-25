@@ -10,42 +10,33 @@ import {
   Tabs,
   Select
 } from "antd";
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo
-} from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { BreadcrumbContext } from "@/layouts/BaseLayout";
-import { cleanObject, goBackInDetailPage, mappingOptions } from "@/utils";
+import { cleanObject, goBackInDetailPage } from "@/utils";
 import { toast } from "react-toastify";
 import ServiceService from "@/services/service";
-import variables from "@/constants/variables";
+import variables, { COSTUME_TYPE } from "@/constants/variables";
 import messages from "@/constants/messages";
 import ConfirmModal from "@/components/ConfirmModal";
 import CustomUpload from "@/components/CustomUpload";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
-import { serviceActions } from "../service.slice";
+import RegionSelect from "@/components/RegionSelect";
 
 const { TextArea } = Input;
 
 const ServiceCostumeDetail = () => {
   const serviceService = new ServiceService();
   const auth = useAppSelector((state: RootState) => state.auth);
-  const regionOptions = useAppSelector(
-    (state: RootState) => state.service.regionOptions
-  );
   const dispatch = useAppDispatch();
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(false);
   const [pictures, setPictures] = useState<any[]>([]);
   const [models, setModels] = useState<any[]>([]);
+  const [type, setType] = useState(COSTUME_TYPE.COMMON);
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
-  const [defaultRegion, setDefaultRegion] = useState<any>(null);
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -53,16 +44,13 @@ const ServiceCostumeDetail = () => {
   useEffect(() => {
     if (id === "add") {
       breadcrumb.addBreadcrumb("Add");
+      form.setFieldsValue({
+        type: COSTUME_TYPE.COMMON
+      });
     } else {
       fetchDetail();
     }
-    dispatch(serviceActions.getRegionOptions());
   }, [dispatch, id]);
-
-  const allRegionOptions = useMemo(
-    () => mappingOptions(regionOptions.data, "id", "name", [regionOptions]),
-    [regionOptions.data, defaultRegion]
-  );
 
   const fetchDetail = async () => {
     setLoading(true);
@@ -72,7 +60,7 @@ const ServiceCostumeDetail = () => {
     if (res.status === variables.OK) {
       form.setFieldsValue({
         ...res.payload,
-        regionId: res.payload.regionId.toString()
+        regionId: res.payload.regionId ? res.payload.regionId.toString() : null
       });
       if (res.payload.picture) {
         setPictures([
@@ -94,10 +82,7 @@ const ServiceCostumeDetail = () => {
           }
         ]);
       }
-      setDefaultRegion({
-        value: res.payload.region.id.toString(),
-        label: res.payload.region.name
-      });
+      setType(res.payload.type);
 
       breadcrumb.addBreadcrumb(res.payload.name);
     } else {
@@ -216,23 +201,39 @@ const ServiceCostumeDetail = () => {
             </Form.Item>
             <Form.Item
               className="mt-2"
-              name="regionId"
-              label="Region"
+              name="type"
+              label="Type"
               rules={[
                 {
                   required: true,
-                  message: "Region is required"
+                  message: "Type is required"
                 }
               ]}
             >
               <Select
-                placeholder="Select region"
-                optionFilterProp="label"
-                className="w-100"
-                options={allRegionOptions}
-                showSearch
+                onChange={value => setType(value)}
+                placeholder="Select type"
+                options={Object.keys(COSTUME_TYPE).map(key => ({
+                  value: key,
+                  label: COSTUME_TYPE[key]
+                }))}
               />
             </Form.Item>
+            {type === COSTUME_TYPE.SPECIFIC && (
+              <Form.Item
+                className="mt-2"
+                name="regionId"
+                label="Region"
+                rules={[
+                  {
+                    required: type === COSTUME_TYPE.SPECIFIC,
+                    message: "Region is required"
+                  }
+                ]}
+              >
+                <RegionSelect />
+              </Form.Item>
+            )}
             <Form.Item name="description" label="Description" className="mt-2">
               <TextArea rows={5} />
             </Form.Item>
@@ -265,10 +266,11 @@ const ServiceCostumeDetail = () => {
               <CustomUpload
                 fileList={models}
                 setFileList={handleModels}
+                folder="model"
                 accept=".glb"
                 textInfo="(Model must be in .glb format)"
                 type="model"
-                modelPosition={[0, -10, 0]}
+                modelPosition={[0, -9, 0]}
               />
             </Form.Item>
           </Col>

@@ -101,10 +101,9 @@ const ServiceRegions = () => {
       width: 250
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      width: 400,
-      render: (text: string) => <Text className="text-limit">{text}</Text>
+      title: "Common Name",
+      dataIndex: "commonName",
+      width: 200
     },
     {
       title: "Category",
@@ -112,11 +111,15 @@ const ServiceRegions = () => {
       width: 200
     },
     {
-      title: "Number of Costumes",
-      dataIndex: "costumes",
-      width: 200,
-      align: "center",
-      render: (costumes: any[]) => costumes.length
+      title: "Parent Region",
+      dataIndex: ["parent", "name"],
+      width: 200
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      width: 400,
+      render: (text: string) => <Text className="text-limit">{text}</Text>
     },
     {
       title: "",

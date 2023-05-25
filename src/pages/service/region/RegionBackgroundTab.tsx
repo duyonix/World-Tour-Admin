@@ -171,7 +171,11 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
                   <label className="label-required title-header">Image</label>
                 }
               >
-                <CustomUpload fileList={images} setFileList={handleImages} />
+                <CustomUpload
+                  fileList={images}
+                  setFileList={handleImages}
+                  folder="background"
+                />
               </Form.Item>
             </Col>
           </Row>

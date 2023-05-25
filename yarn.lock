@@ -2915,7 +2915,7 @@ antd-img-crop@^4.0.2:
     react-easy-crop "^4.7.4"
     tslib "^2.5.0"
 
-antd@^4.20.6:
+antd@^4.23.5:
   version "4.24.10"
   resolved "https://registry.yarnpkg.com/antd/-/antd-4.24.10.tgz#9bf371c3b351b881c5b56049a410d5cf16f077ac"
   integrity sha512-GihdwTGFW0dUaWjcvSIfejFcT63HjEp2EbYd+ojEXayldhey230KrHDJ+C53rkrkzLvymrPBfSxlLxJzyFIZsg==

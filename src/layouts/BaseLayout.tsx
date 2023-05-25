@@ -10,7 +10,7 @@ import { authActions } from "@/pages/auth/auth.slice";
 import { toast } from "react-toastify";
 import { useAppSelector, useAppDispatch } from "@/hooks";
 import AuthService from "@/services/auth";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import ConfirmModal from "@/components/ConfirmModal";
 import { RootState } from "@/app/store";
 const { Header, Sider, Content } = Layout;
@@ -63,6 +63,18 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
               <span>Logout</span>
               <IconFont className="mr-0" type="log-out" size="1.571em" />
             </div>
+          )
+        },
+        {
+          key: "2",
+          label: (
+            <Link
+              to="/user/profile"
+              className="text-with-icon flex-between color-primary"
+            >
+              <span>Profile</span>
+              <IconFont className="mr-0" type="staff-card" size="1.571em" />
+            </Link>
           )
         }
       ]}

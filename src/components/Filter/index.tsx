@@ -8,6 +8,7 @@ import IconFont from "@/components/IconFont";
 import _ from "lodash";
 import { useHistory, useLocation } from "react-router-dom";
 import { objectToQueryString } from "@/utils";
+import RegionSelect from "../RegionSelect";
 
 const StyledButton = styled(Button)`
   border-radius: 4px;
@@ -111,9 +112,9 @@ const Filter = ({
     ].concat(list);
   };
 
-  const onChangeFilter = (name, value, node = null) => {
+  const onChangeFilter = (name, value) => {
     if (getValueOnChange) {
-      return getValueOnChange({ name, value, node }, form);
+      return getValueOnChange({ name, value }, form);
     }
     history.push(
       "?" +
@@ -163,16 +164,23 @@ const Filter = ({
                       label={item.label}
                       initialValue={item.initialValue || ""}
                     >
-                      <Select
-                        showSearch={item.showSearch}
-                        options={
-                          item.notIncludeAll
-                            ? item.options
-                            : addOptionAll(item.options)
-                        }
-                        optionFilterProp="label"
-                        onChange={value => onChangeFilter(item.name, value)}
-                      />
+                      {item.isRegionSelect ? (
+                        <RegionSelect
+                          hasOptionAll
+                          onChange={value => onChangeFilter(item.name, value)}
+                        />
+                      ) : (
+                        <Select
+                          showSearch={item.showSearch}
+                          options={
+                            item.notIncludeAll
+                              ? item.options
+                              : addOptionAll(item.options)
+                          }
+                          optionFilterProp="label"
+                          onChange={value => onChangeFilter(item.name, value)}
+                        />
+                      )}
                     </Form.Item>
                   </Col>
                 );

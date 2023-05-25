@@ -10,6 +10,7 @@ const { Text } = Typography;
 type Props = {
   fileList: any;
   setFileList: (fileList: any) => void;
+  folder?: string;
   accept?: string;
   textInfo?: string;
   type?: "image" | "model";
@@ -22,6 +23,7 @@ type Props = {
 const CustomUpload = ({
   fileList,
   setFileList,
+  folder = "picture",
   type = "image",
   modelWidth = 600,
   modelHeight = 400,
@@ -56,7 +58,7 @@ const CustomUpload = ({
         status: "uploading"
       }
     ]);
-    const res = await commonService.uploadAttachments(file);
+    const res = await commonService.uploadAttachments(file, folder);
     if (res.payload && res.payload.length > 0) {
       let newFile = res.payload[0];
       setFileList([
