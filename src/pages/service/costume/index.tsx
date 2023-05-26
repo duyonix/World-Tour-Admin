@@ -155,7 +155,7 @@ const ServiceCostumes = () => {
             label: "Region",
             name: "regionId",
             isRegionSelect: true,
-            size: 6
+            size: 8
           }
         ]}
         isReset
