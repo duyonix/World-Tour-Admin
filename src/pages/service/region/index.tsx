@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card, Col, Row, Spin, Table, Space, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Row,
+  Spin,
+  Table,
+  Space,
+  Typography,
+  Tooltip
+} from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
@@ -32,9 +42,11 @@ const ServiceRegions = () => {
   const history = useHistory();
   const location = useLocation();
   const [isDeleteLoading, setIsDeleteLoading] = useState(false);
+  const [categoryLevel, setCategoryLevel] = useState<number | null>(null);
   const queryString = qs.parse(location.search);
   const size = 10;
   const page = queryString.page ? Number(queryString.page) - 1 : 0;
+
   const { loading, list, total, onReFetch } = useFetch({
     params: JSON.stringify(cleanObject({ ...queryString, page, size })),
     func: serviceService.region.getRegions,
@@ -45,6 +57,16 @@ const ServiceRegions = () => {
   useEffect(() => {
     dispatch(serviceActions.getCategoryOptions());
   }, [dispatch]);
+
+  useEffect(() => {
+    const categoryId = queryString.categoryId
+      ? Number(queryString.categoryId)
+      : undefined;
+    const category = categoryOptions.data.find(
+      (item: any) => item.id === categoryId
+    );
+    setCategoryLevel(category?.level || null);
+  }, [queryString, categoryOptions.data]);
 
   const onAdd = () => {
     history.push(`${location.pathname}/add`);
@@ -116,10 +138,14 @@ const ServiceRegions = () => {
       width: 200
     },
     {
-      title: "Description",
-      dataIndex: "description",
+      title: "Path",
+      dataIndex: "path",
       width: 400,
-      render: (text: string) => <Text className="text-limit">{text}</Text>
+      render: (path: string) => (
+        <Tooltip title={path} placement="topLeft">
+          <Text className="text-limit">{path}</Text>
+        </Tooltip>
+      )
     },
     {
       title: "",
@@ -150,6 +176,13 @@ const ServiceRegions = () => {
             label: "Category",
             name: "categoryId",
             options: mappingOptions(categoryOptions.data, "id", "name")
+          },
+          {
+            label: "Parent Region",
+            name: "parentId",
+            isRegionSelect: true,
+            filter: categoryLevel ? { level: categoryLevel - 1 } : {},
+            size: 8
           }
         ]}
         isReset

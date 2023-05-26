@@ -15,14 +15,24 @@ const RegionLabel = ({ region }: Props) => (
         <Avatar src={region?.picture || defaultRegion} size={50} />
       </Col>
       <Col>
-        <Title level={5} className="mb-0">
-          {region?.name || ""}
-          {region.commonName && <Text>{` (${region?.commonName})` || ""}</Text>}
-        </Title>
+        {region.isAll ? (
+          <Title level={5} className="mb-0 mt-2">
+            All
+          </Title>
+        ) : (
+          <>
+            <Title level={5} className="mb-0">
+              {region?.name || ""}
+              {region.commonName && (
+                <Text>{` (${region?.commonName})` || ""}</Text>
+              )}
+            </Title>
 
-        <Text type="secondary">{region?.category?.name || ""}</Text>
-        <br />
-        <Text type="secondary">{region?.path || ""}</Text>
+            <Text type="secondary">{region?.category?.name || ""}</Text>
+            <br />
+            <Text type="secondary">{region?.path || ""}</Text>
+          </>
+        )}
       </Col>
     </Row>
     <Divider className="m-0" />

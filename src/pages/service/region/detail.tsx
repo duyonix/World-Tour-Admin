@@ -12,13 +12,7 @@ import {
   InputNumber,
   Typography
 } from "antd";
-import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo
-} from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { BreadcrumbContext } from "@/layouts/BaseLayout";
 import { cleanObject, goBackInDetailPage, mappingOptions } from "@/utils";
@@ -32,9 +26,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
 import { serviceActions } from "../service.slice";
 import RegionBackgroundTab from "./RegionBackgroundTab";
+import RegionSelect from "@/components/RegionSelect";
 
 const { TextArea } = Input;
-const { Text } = Typography;
+const { Title } = Typography;
 
 const ServiceRegionDetail = () => {
   const serviceService = new ServiceService();
@@ -46,10 +41,11 @@ const ServiceRegionDetail = () => {
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(false);
   const [backgrounds, setBackgrounds] = useState<any[]>([]);
-  const [logos, setLogos] = useState<any[]>([]);
+  const [sceneSpots, setSceneSpots] = useState<any[]>([]);
+  const [pictures, setPictures] = useState<any[]>([]);
+  const [categoryLevel, setCategoryLevel] = useState<number | null>(null);
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
-  const [defaultCategory, setDefaultCategory] = useState<any>(null);
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
@@ -63,11 +59,6 @@ const ServiceRegionDetail = () => {
     dispatch(serviceActions.getCategoryOptions());
   }, [dispatch, id]);
 
-  const allCategoryOptions = useMemo(
-    () => mappingOptions(categoryOptions.data, "id", "name", [defaultCategory]),
-    [categoryOptions.data, defaultCategory]
-  );
-
   const fetchDetail = async () => {
     setLoading(true);
     const res = await serviceService.region.getRegion(id);
@@ -76,23 +67,21 @@ const ServiceRegionDetail = () => {
     if (res.status === variables.OK) {
       form.setFieldsValue({
         ...res.payload,
-        categoryId: res.payload.categoryId.toString()
+        categoryId: res.payload.categoryId.toString(),
+        parentId: res.payload.parentId?.toString()
       });
 
-      if (res.payload.logo) {
-        setLogos([
+      if (res.payload.picture) {
+        setPictures([
           {
             uid: -1,
             name: "image.jpg",
             status: "done",
-            url: res.payload.logo
+            url: res.payload.picture
           }
         ]);
       }
-      setDefaultCategory({
-        value: res.payload.category.id.toString(),
-        label: res.payload.category.name
-      });
+      setCategoryLevel(res.payload.category?.level);
       setBackgrounds(res.payload.backgrounds);
 
       breadcrumb.addBreadcrumb(res.payload.name);
@@ -143,17 +132,20 @@ const ServiceRegionDetail = () => {
 
   const convertData = data => {
     const newData = { ...data };
-    const iconUrl = logos.length > 0 ? logos[0].url : "";
-    newData.logo = iconUrl;
+    const iconUrl = pictures.length > 0 ? pictures[0].url : "";
+    newData.picture = iconUrl;
     newData.backgrounds = backgrounds;
+    newData.sceneSpots = sceneSpots;
     newData.categoryId = parseInt(data.categoryId);
+    if (data.parentId) newData.parentId = parseInt(data.parentId);
+    if (categoryLevel !== 4) delete newData.country;
 
     return cleanObject(newData);
   };
 
   const onSave = data => {
-    if (logos.length === 0) {
-      return toast.error("Please upload a logo image");
+    if (pictures.length === 0) {
+      return toast.error("Please upload picture");
     }
     if (backgrounds.length === 0) {
       return toast.error("Please upload at least 1 background image");
@@ -184,8 +176,8 @@ const ServiceRegionDetail = () => {
     setIsChange(true);
   }, []);
 
-  const handleLogos = useCallback(newLogos => {
-    setLogos(newLogos);
+  const handlePictures = useCallback(newPictures => {
+    setPictures(newPictures);
     setIsChange(true);
   }, []);
 
@@ -210,6 +202,19 @@ const ServiceRegionDetail = () => {
             </Form.Item>
             <Form.Item
               className="mt-2"
+              name="commonName"
+              label="Common Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Common Name is required"
+                }
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              className="mt-2"
               name="categoryId"
               label="Category"
               rules={[
@@ -223,40 +228,100 @@ const ServiceRegionDetail = () => {
                 placeholder="Select Category"
                 optionFilterProp="label"
                 className="w-100"
-                options={allCategoryOptions}
+                options={mappingOptions(categoryOptions.data, "id", "name")}
                 showSearch
+                onChange={value => {
+                  const option = categoryOptions.data.find(
+                    (category: any) => category.id === parseInt(value)
+                  );
+                  setCategoryLevel(option?.level || null);
+                }}
+              />
+            </Form.Item>
+            <Form.Item className="mt-2" name="parentId" label="Parent Region">
+              <RegionSelect
+                filter={
+                  categoryLevel
+                    ? {
+                        level: categoryLevel - 1
+                      }
+                    : {}
+                }
               />
             </Form.Item>
 
-            <Form.Item name="description" label="Description" className="mt-2">
-              <TextArea rows={5} />
-            </Form.Item>
+            {categoryLevel === 4 && (
+              <div className="mt-4">
+                <Title level={3}>More Country Information</Title>
+                <Form.Item
+                  name={["country", "code"]}
+                  label="Country Code (iso2)"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Country Code is required"
+                    }
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+
+                <Form.Item
+                  className="mt-2"
+                  name={["country", "capital"]}
+                  label="Capital"
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  className="mt-2"
+                  name={["country", "language"]}
+                  label="Language"
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  className="mt-2"
+                  name={["country", "currency"]}
+                  label="Currency"
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  className="mt-2"
+                  name={["country", "timezone"]}
+                  label="Timezone"
+                >
+                  <Input />
+                </Form.Item>
+              </div>
+            )}
           </Col>
           <Col span={12}>
             <Form.Item
-              name="logo"
-              label="Logo"
+              name="picture"
+              label="Picture"
               rules={[
                 {
                   required: true,
-                  message: "Logo is required"
+                  message: "Picture is required"
                 }
               ]}
             >
-              <CustomUpload fileList={logos} setFileList={handleLogos} />
+              <CustomUpload fileList={pictures} setFileList={handlePictures} />
             </Form.Item>
 
-            <div className="mt-4">
-              <Text strong>2D Coordinate (For Minimap)</Text>
+            <div className="mt-3 mb-0">
+              <Title level={5}>Coordinate</Title>
               <Row gutter={[16, 16]}>
                 <Col span={12}>
                   <Form.Item
-                    name={["coordinate2D", "x"]}
-                    label="X"
+                    name={["coordinate", "lattitude"]}
+                    label="Latitude"
                     rules={[
                       {
                         required: true,
-                        message: "2D Coordinate X is required"
+                        message: "Latitude is required"
                       }
                     ]}
                   >
@@ -265,12 +330,12 @@ const ServiceRegionDetail = () => {
                 </Col>
                 <Col span={12}>
                   <Form.Item
-                    name={["coordinate2D", "y"]}
-                    label="Y"
+                    name={["coordinate", "longitude"]}
+                    label="Longitude"
                     rules={[
                       {
                         required: true,
-                        message: "2D Coordinate Y is required"
+                        message: "Longitude is required"
                       }
                     ]}
                   >
@@ -279,54 +344,9 @@ const ServiceRegionDetail = () => {
                 </Col>
               </Row>
             </div>
-
-            <div className="mt-4">
-              <Text strong>3D Coordinate (For Real World Map)</Text>
-              <Row gutter={[16, 16]}>
-                <Col span={8}>
-                  <Form.Item
-                    name={["coordinate3D", "x"]}
-                    label="X"
-                    rules={[
-                      {
-                        required: true,
-                        message: "3D Coordinate X is required"
-                      }
-                    ]}
-                  >
-                    <InputNumber className="w-100" />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    name={["coordinate3D", "y"]}
-                    label="Y"
-                    rules={[
-                      {
-                        required: true,
-                        message: "3D Coordinate Y is required"
-                      }
-                    ]}
-                  >
-                    <InputNumber className="w-100" />
-                  </Form.Item>
-                </Col>
-                <Col span={8}>
-                  <Form.Item
-                    name={["coordinate3D", "z"]}
-                    label="Y"
-                    rules={[
-                      {
-                        required: true,
-                        message: "3D Coordinate Z is required"
-                      }
-                    ]}
-                  >
-                    <InputNumber className="w-100" />
-                  </Form.Item>
-                </Col>
-              </Row>
-            </div>
+            <Form.Item name="description" label="Description" className="mt-2">
+              <TextArea rows={5} />
+            </Form.Item>
           </Col>
         </Row>
       )
