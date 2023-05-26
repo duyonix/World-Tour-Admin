@@ -12,13 +12,17 @@ const RegionLabel = ({ region }: Props) => (
   <div className="region-label">
     <Row gutter={20} wrap={false} justify="start">
       <Col className="d-flex al-center">
-        <Avatar src={region?.picture || defaultRegion} size={40} />
+        <Avatar src={region?.picture || defaultRegion} size={50} />
       </Col>
       <Col>
         <Title level={5} className="mb-0">
           {region?.name || ""}
+          {region.commonName && <Text>{` (${region?.commonName})` || ""}</Text>}
         </Title>
-        <Text type="secondary">{region?.commonName || ""}</Text>
+
+        <Text type="secondary">{region?.category?.name || ""}</Text>
+        <br />
+        <Text type="secondary">{region?.path || ""}</Text>
       </Col>
     </Row>
     <Divider className="m-0" />

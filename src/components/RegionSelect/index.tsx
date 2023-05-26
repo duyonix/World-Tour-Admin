@@ -1,7 +1,14 @@
-import React, { useState, useEffect, useCallback, memo } from "react";
-import _ from "lodash";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  memo,
+  useRef,
+  useMemo
+} from "react";
+import debounce from "lodash/debounce";
 import RegionLabel from "./RegionLabel";
-import { Select } from "antd";
+import { Select, Spin, Empty } from "antd";
 import ServiceService from "@/services/service";
 
 type Props = {
@@ -24,24 +31,23 @@ const RegionSelect = ({
     label: (
       <RegionLabel
         region={{
-          name: "All",
-          commonName: "All regions"
+          name: "All"
         }}
       />
     )
   };
-  const [regionOptions, setRegionOptions] = useState(
-    hasOptionAll ? [optionAll] : []
-  );
+  const [options, setOptions] = useState(hasOptionAll ? [optionAll] : []);
+  const [fetching, setFetching] = useState(false);
   const [isChange, setIsChange] = useState(false);
+  const fetchRef = useRef(0);
 
   useEffect(() => {
     if (value && !isChange) {
-      fetchDetailRegion(value);
+      fetchDetail(value);
     }
   }, [value, isChange]);
 
-  const formatRegionOptions = regions => {
+  const formatOptions = (regions: any[]) => {
     if (regions && regions.length > 0) {
       const res = regions.map((region: any) => ({
         value: region?.id.toString(),
@@ -56,28 +62,37 @@ const RegionSelect = ({
     return [];
   };
 
-  const fetchDetailRegion = async (val: string) => {
+  const fetchDetail = async (val: string) => {
     const res = await serviceService.region.getRegion(val);
-    setRegionOptions(formatRegionOptions([res.payload] || []));
+    setOptions(formatOptions([res.payload] || []));
   };
 
-  const getDataRegion = async (val: string) => {
+  const fetchOptions = async (val: string) => {
     if (val) {
       const res = await serviceService.region.getRegionOptions({ search: val });
-      setRegionOptions(formatRegionOptions(res.payload || []));
+      return formatOptions(res.payload || []);
     }
+    return [];
   };
 
-  const debounceRegion = useCallback(
-    _.debounce(val => {
-      getDataRegion(val);
-    }, 300),
-    []
-  );
+  const debounceFetcher = useMemo(() => {
+    const loadOptions = (val: string) => {
+      fetchRef.current += 1;
+      const fetchId = fetchRef.current;
+      setOptions([]);
+      setFetching(true);
 
-  const onSearchRegion = (val: string) => {
-    debounceRegion(val?.trim());
-  };
+      fetchOptions(val).then((data: any) => {
+        if (fetchId !== fetchRef.current) {
+          return;
+        }
+        setOptions(data);
+        setFetching(false);
+      });
+    };
+
+    return debounce(loadOptions, 800);
+  }, []);
 
   const onChangeRegion = (val: string) => {
     setIsChange(true);
@@ -86,14 +101,17 @@ const RegionSelect = ({
 
   return (
     <Select
-      onSearch={onSearchRegion}
+      onSearch={debounceFetcher}
       onChange={onChangeRegion}
       className={`w-100 ${restProps.className}`}
       showSearch
-      options={regionOptions}
+      options={options}
       value={value}
+      filterOption={false}
       optionLabelProp="labelSelect"
       popupClassName="region-select"
+      notFoundContent={fetching ? <Spin size="small" /> : <Empty />}
+      placeholder="Type to search region"
       {...restProps}
     />
   );

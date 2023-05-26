@@ -135,7 +135,11 @@ const ServiceCostumeDetail = () => {
     const pictureUrl = pictures.length > 0 ? pictures[0].url : "";
     const modelUrl = models.length > 0 ? models[0].url : "";
 
-    newData.regionId = parseInt(data.regionId);
+    if (data.type === COSTUME_TYPE.COMMON) {
+      delete newData.regionId;
+    } else {
+      newData.regionId = parseInt(data.regionId);
+    }
     newData.picture = pictureUrl;
     newData.model = modelUrl;
 

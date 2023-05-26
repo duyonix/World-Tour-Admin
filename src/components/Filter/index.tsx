@@ -5,10 +5,10 @@ import qs from "query-string";
 import styled from "styled-components";
 import "./style.scss";
 import IconFont from "@/components/IconFont";
+import RegionSelect from "@/components/RegionSelect";
 import _ from "lodash";
 import { useHistory, useLocation } from "react-router-dom";
 import { objectToQueryString } from "@/utils";
-import RegionSelect from "../RegionSelect";
 
 const StyledButton = styled(Button)`
   border-radius: 4px;
