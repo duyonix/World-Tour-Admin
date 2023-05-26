@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  memo,
-  useRef,
-  useMemo
-} from "react";
+import React, { useState, useEffect, useRef, useMemo, memo } from "react";
 import debounce from "lodash/debounce";
 import RegionLabel from "./RegionLabel";
 import { Select, Spin, Empty } from "antd";
@@ -15,6 +8,7 @@ type Props = {
   value?: string;
   onChange?: any;
   hasOptionAll?: boolean;
+  filter?: object;
   className?: string;
 };
 
@@ -22,6 +16,7 @@ const RegionSelect = ({
   value,
   onChange,
   hasOptionAll = false,
+  filter = {},
   ...restProps
 }: Props) => {
   const serviceService = new ServiceService();
@@ -31,7 +26,8 @@ const RegionSelect = ({
     label: (
       <RegionLabel
         region={{
-          name: "All"
+          name: "All",
+          isAll: true
         }}
       />
     )
@@ -69,10 +65,13 @@ const RegionSelect = ({
 
   const fetchOptions = async (val: string) => {
     if (val) {
-      const res = await serviceService.region.getRegionOptions({ search: val });
+      const res = await serviceService.region.getRegionOptions({
+        ...filter,
+        search: val
+      });
       return formatOptions(res.payload || []);
     }
-    return [];
+    return hasOptionAll ? [optionAll] : [];
   };
 
   const debounceFetcher = useMemo(() => {
@@ -92,7 +91,7 @@ const RegionSelect = ({
     };
 
     return debounce(loadOptions, 800);
-  }, []);
+  }, [filter]);
 
   const onChangeRegion = (val: string) => {
     setIsChange(true);

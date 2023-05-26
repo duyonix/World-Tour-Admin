@@ -168,6 +168,7 @@ const Filter = ({
                         <RegionSelect
                           hasOptionAll
                           onChange={value => onChangeFilter(item.name, value)}
+                          filter={item.filter}
                         />
                       ) : (
                         <Select

@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState = {
   categoryOptions: {
     loading: false,
-    data: [],
+    data: [] as { id: number; name: string; level: number }[],
     error: null
   },
   regionOptions: {
