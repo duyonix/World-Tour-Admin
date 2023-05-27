@@ -21,6 +21,7 @@ import _ from "lodash";
 import "./style.scss";
 
 const { Text } = Typography;
+const { TextArea } = Input;
 
 type Props = {
   sceneSpots: any[];
@@ -38,13 +39,25 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   const [page, setPage] = useState(0);
   const size = 10;
 
-  const addSceneSpot = data => {
+  const addSceneSpot = (data: any) => {
+    const exist = sceneSpots.find(sceneSpot => sceneSpot.name === data.name);
+    if (exist) {
+      return toast.error(messages.EXISTED("Scene spot name"));
+    }
+
     const newSceneSpots = sceneSpots.concat(data);
     setSceneSpots(newSceneSpots);
     setIsModalVisible(false);
   };
 
   const updateSceneSpot = data => {
+    const exist = sceneSpots.find(
+      sceneSpot => sceneSpot.name === data.name && sceneSpot.id !== data.id
+    );
+    if (exist) {
+      return toast.error(messages.EXISTED("Scene spot name"));
+    }
+
     const newSceneSpots = [...sceneSpots];
     const index = newSceneSpots.findIndex(
       sceneSpot => sceneSpot.id === data.id
@@ -110,15 +123,15 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
 
   const convertData = data => {
     const newData = { ...data };
-    const image = _.get(sceneSpotImages[data.id], "[0].url", "");
-    newData.image = image;
+    const picture = _.get(sceneSpotImages[data.id], "[0].url", "");
+    newData.picture = picture;
 
     return newData;
   };
 
   const onSave = values => {
     if (sceneSpotImages[id] && sceneSpotImages[id].length === 0) {
-      toast.error("Please upload image");
+      toast.error("Please upload picture");
       return;
     }
 
@@ -182,7 +195,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       width: 500
     },
     {
-      title: "Link review",
+      title: "Youtube review",
       dataIndex: "review",
       width: 300
     },
@@ -250,6 +263,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
         width={700}
         footer={null}
         closable={false}
+        centered
       >
         <Form
           layout="vertical"
@@ -258,7 +272,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
             setIsModalChange(true);
           }}
           className="detail-drole d-flex fl-wrap fl-column fl-between"
-          style={{ minHeight: 450 }}
+          // style={{ minHeight: 450 }}
           name="app"
           onFinish={onSave}
           disabled={auth.role !== "ADMIN"}
@@ -269,20 +283,59 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                 <Input />
               </Form.Item>
               <Form.Item
-                name="image"
+                name="name"
+                label="Name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Name is required"
+                  }
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="picture"
                 label={
                   <label className="label-required title-header">Image</label>
                 }
+                className="mt-2"
               >
                 <CustomUpload
                   fileList={sceneSpotImages[id]}
                   setFileList={images => handleSceneSpotImages(id, images)}
                 />
               </Form.Item>
+              <Form.Item
+                name="description"
+                label="Description"
+                className="mt-2"
+              >
+                <TextArea rows={4} />
+              </Form.Item>
+              <Form.Item
+                name="review"
+                label="Youtube review"
+                className="mt-2"
+                rules={[
+                  {
+                    type: "url",
+                    message: "Youtube review link must be a valid url."
+                  }
+                ]}
+              >
+                <Input className="text-link" />
+              </Form.Item>
             </Col>
           </Row>
         </Form>
-        <Space className="text-right mt-auto btn-action">
+        <Space
+          className="mt-3"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end"
+          }}
+        >
           <Button onClick={onCancel} htmlType="button">
             Back
           </Button>
