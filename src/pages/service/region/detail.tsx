@@ -311,8 +311,10 @@ const ServiceRegionDetail = () => {
               <CustomUpload fileList={pictures} setFileList={handlePictures} />
             </Form.Item>
 
-            <div className="mt-3 mb-0">
-              <Title level={5}>Coordinate</Title>
+            <div className="mt-3">
+              <Title level={5} className="mb-0">
+                Coordinate
+              </Title>
               <Row gutter={[16, 16]}>
                 <Col span={12}>
                   <Form.Item
@@ -344,6 +346,15 @@ const ServiceRegionDetail = () => {
                 </Col>
               </Row>
             </div>
+            <Form.Item name="area" label="Area (km²)" className="mt-2">
+              <Input />
+            </Form.Item>
+            <Form.Item name="population" label="Population" className="mt-2">
+              <Input />
+            </Form.Item>
+            <Form.Item name="review" label="Youtube review" className="mt-2">
+              <Input />
+            </Form.Item>
             <Form.Item name="description" label="Description" className="mt-2">
               <TextArea rows={5} />
             </Form.Item>
