@@ -56,18 +56,6 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
         {
           key: "1",
           label: (
-            <div
-              onClick={showConfirm}
-              className="text-with-icon flex-between color-primary"
-            >
-              <span>Logout</span>
-              <IconFont className="mr-0" type="log-out" size="1.571em" />
-            </div>
-          )
-        },
-        {
-          key: "2",
-          label: (
             <Link
               to="/user/profile"
               className="text-with-icon flex-between color-primary"
@@ -75,6 +63,18 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
               <span>Profile</span>
               <IconFont className="mr-0" type="staff-card" size="1.571em" />
             </Link>
+          )
+        },
+        {
+          key: "2",
+          label: (
+            <div
+              onClick={showConfirm}
+              className="text-with-icon flex-between color-primary"
+            >
+              <span>Logout</span>
+              <IconFont className="mr-0" type="log-out" size="1.571em" />
+            </div>
           )
         }
       ]}

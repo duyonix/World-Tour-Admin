@@ -13,7 +13,7 @@ import {
   Divider,
   Checkbox
 } from "antd";
-import HCMUS from "@/assets/images/HCMUS.png";
+import Earth from "@/assets/images/earth.png";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
 import AuthService from "@/services/auth";
 
@@ -67,12 +67,11 @@ const Register = () => {
       >
         <>
           <img
-            className="login-illustrator mt-3"
-            style={{ width: "500px" }}
-            src={HCMUS}
-            alt="login-illustrator"
+            style={{ width: "400px", height: "400px" }}
+            src={Earth}
+            alt="earth"
           />
-          <Title level={3} style={{ margin: "5vh 0px 3vh 0" }}>
+          <Title level={3} style={{ margin: "0 0px 3vh 0" }}>
             Register for World Tour Dashboard
           </Title>
           <Form
