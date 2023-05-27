@@ -85,6 +85,10 @@ const ServiceRegionDetail = () => {
       setCategoryLevel(res.payload.category?.level);
       setBackgrounds(res.payload.backgrounds);
 
+      if (res.payload.sceneSpots && res.payload.sceneSpots.length > 0) {
+        setSceneSpots(res.payload.sceneSpots);
+      }
+
       breadcrumb.addBreadcrumb(res.payload.name);
     } else {
       switch (res?.status) {
@@ -135,11 +139,18 @@ const ServiceRegionDetail = () => {
     const newData = { ...data };
     const iconUrl = pictures.length > 0 ? pictures[0].url : "";
     newData.picture = iconUrl;
-    newData.backgrounds = backgrounds;
-    newData.sceneSpots = sceneSpots;
+
     newData.categoryId = parseInt(data.categoryId);
     if (data.parentId) newData.parentId = parseInt(data.parentId);
     if (categoryLevel !== 4) delete newData.country;
+
+    newData.backgrounds = backgrounds;
+    newData.sceneSpots = sceneSpots.map(sceneSpot => {
+      if (typeof sceneSpot.id === "string" && sceneSpot.id.includes("temp")) {
+        delete sceneSpot.id;
+      }
+      return sceneSpot;
+    });
 
     return cleanObject(newData);
   };
@@ -365,8 +376,18 @@ const ServiceRegionDetail = () => {
                 </Form.Item>
               </Col>
             </Row>
-            <Form.Item name="review" label="Youtube review" className="mt-2">
-              <Input />
+            <Form.Item
+              name="review"
+              label="Youtube review"
+              className="mt-2"
+              rules={[
+                {
+                  type: "url",
+                  message: "Youtube review link must be a valid url."
+                }
+              ]}
+            >
+              <Input className="text-link" />
             </Form.Item>
             <Form.Item name="description" label="Description" className="mt-2">
               <TextArea rows={5} />
