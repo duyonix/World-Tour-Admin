@@ -195,8 +195,9 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       width: 500
     },
     {
-      title: "Youtube review",
+      title: "Youtube Review",
       dataIndex: "review",
+      render: (data: string) => <Text className="text-link">{data}</Text>,
       width: 300
     },
     {
@@ -315,12 +316,12 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
               </Form.Item>
               <Form.Item
                 name="review"
-                label="Youtube review"
+                label="Youtube Review"
                 className="mt-2"
                 rules={[
                   {
                     type: "url",
-                    message: "Youtube review link must be a valid url."
+                    message: "Youtube Review link must be a valid url."
                   }
                 ]}
               >

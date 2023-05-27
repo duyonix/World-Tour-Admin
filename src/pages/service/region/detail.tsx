@@ -378,12 +378,12 @@ const ServiceRegionDetail = () => {
             </Row>
             <Form.Item
               name="review"
-              label="Youtube review"
+              label="Youtube Review"
               className="mt-2"
               rules={[
                 {
                   type: "url",
-                  message: "Youtube review link must be a valid url."
+                  message: "Youtube Review link must be a valid url."
                 }
               ]}
             >
