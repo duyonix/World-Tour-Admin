@@ -99,7 +99,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
         <Layout className="site-layout" style={{ marginLeft: 230 }}>
           <Header className="bg-white p-0">
             <Row className="px-1">
-              <Col className="d-flex flex-col line-height" span={18}>
+              <Col className="d-flex flex-col line-height" span={20}>
                 <strong className="size-medium">World Tour Dashboard</strong>
                 <div>
                   {breadcrumb.map((item, index) =>
@@ -124,7 +124,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
                   {title ? <span className={"text-primary"}>{title}</span> : ""}
                 </div>
               </Col>
-              <Col span={6} style={{ textAlign: "right" }}>
+              <Col span={4} style={{ textAlign: "right" }}>
                 <Dropdown overlay={menu}>
                   <div
                     className="ant-dropdown-link color-contrast-high"

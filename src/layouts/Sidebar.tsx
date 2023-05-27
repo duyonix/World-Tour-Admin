@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "@/assets/images/FIT.jpg";
+import logo from "@/assets/images/world-tour.png";
 import { Menu } from "antd";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
@@ -72,7 +72,7 @@ const Sidebar = ({ routeConfig }: Props) => {
     >
       <div className="style-logo-admin sticky bg-white">
         <Link to="/">
-          <img src={logo} alt="logo" height={50} className="w-100"></img>
+          <img src={logo} alt="logo" height={60}></img>
         </Link>
       </div>
       <Menu

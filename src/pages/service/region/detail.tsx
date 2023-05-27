@@ -27,6 +27,7 @@ import { RootState } from "@/app/store";
 import { serviceActions } from "../service.slice";
 import RegionBackgroundTab from "./RegionBackgroundTab";
 import RegionSelect from "@/components/RegionSelect";
+import RegionSceneSpotTab from "./RegionSceneSpotTab";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -181,6 +182,11 @@ const ServiceRegionDetail = () => {
     setIsChange(true);
   }, []);
 
+  const handleSceneSpots = useCallback(newSceneSpots => {
+    setSceneSpots(newSceneSpots);
+    setIsChange(true);
+  }, []);
+
   const itemsTab = [
     {
       label: "General Information",
@@ -252,7 +258,7 @@ const ServiceRegionDetail = () => {
 
             {categoryLevel === 4 && (
               <div className="mt-4">
-                <Title level={3}>More Country Information</Title>
+                <Title level={3}>Country Information</Title>
                 <Form.Item
                   name={["country", "code"]}
                   label="Country Code (iso2)"
@@ -311,7 +317,7 @@ const ServiceRegionDetail = () => {
               <CustomUpload fileList={pictures} setFileList={handlePictures} />
             </Form.Item>
 
-            <div className="mt-3">
+            <div className="mt-2">
               <Title level={5} className="mb-0">
                 Coordinate
               </Title>
@@ -327,7 +333,7 @@ const ServiceRegionDetail = () => {
                       }
                     ]}
                   >
-                    <InputNumber className="w-100" />
+                    <InputNumber className="w-100 input-number-custom" />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -341,17 +347,24 @@ const ServiceRegionDetail = () => {
                       }
                     ]}
                   >
-                    <InputNumber className="w-100" />
+                    <InputNumber className="w-100 input-number-custom" />
                   </Form.Item>
                 </Col>
               </Row>
             </div>
-            <Form.Item name="area" label="Area (km²)" className="mt-2">
-              <Input />
-            </Form.Item>
-            <Form.Item name="population" label="Population" className="mt-2">
-              <Input />
-            </Form.Item>
+
+            <Row gutter={[16, 16]} className="mt-3">
+              <Col span={12}>
+                <Form.Item name="area" label="Area (km²)">
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="population" label="Population (people)">
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
             <Form.Item name="review" label="Youtube review" className="mt-2">
               <Input />
             </Form.Item>
@@ -369,6 +382,17 @@ const ServiceRegionDetail = () => {
         <RegionBackgroundTab
           backgrounds={backgrounds}
           setBackgrounds={handleBackgrounds}
+          auth={auth}
+        />
+      )
+    },
+    {
+      label: "Scene Spots",
+      key: "3",
+      children: (
+        <RegionSceneSpotTab
+          sceneSpots={sceneSpots}
+          setSceneSpots={handleSceneSpots}
           auth={auth}
         />
       )

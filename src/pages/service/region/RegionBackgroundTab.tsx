@@ -150,6 +150,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
         width={700}
         footer={null}
         closable={false}
+        centered
       >
         <Form
           layout="vertical"
