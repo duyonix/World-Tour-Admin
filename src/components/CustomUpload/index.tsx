@@ -125,6 +125,7 @@ const CustomUpload = ({
         footer={null}
         onCancel={handleCancel}
         width={700}
+        centered
       >
         {type === "image" && (
           <img alt="example" className="w-100" src={previewImage} />
