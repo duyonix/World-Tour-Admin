@@ -323,30 +323,32 @@ const ServiceRegionDetail = () => {
               </div>
             )}
 
-            <div className="mt-4">
-              <Title level={4} className="text-primary">
-                Neighboring Regions
-              </Title>
-              <Row gutter={[16, 16]}>
-                {data.neighbors?.map((neighbor: any) => (
-                  <Col span={8} key={neighbor.id}>
-                    <Link to={`/service/regions/${neighbor.id}`}>
-                      <Tooltip
-                        title={`${neighbor.name} (${neighbor.commonName})`}
-                      >
-                        <Card
-                          hoverable
-                          className="region-card"
-                          cover={
-                            <img alt={neighbor.name} src={neighbor.picture} />
-                          }
-                        ></Card>
-                      </Tooltip>
-                    </Link>
-                  </Col>
-                ))}
-              </Row>
-            </div>
+            {id !== "add" && data.neighbors && data.neighbors.length > 0 && (
+              <div className="mt-4">
+                <Title level={4} className="text-primary">
+                  Neighboring Regions
+                </Title>
+                <Row gutter={[16, 16]}>
+                  {data.neighbors?.map((neighbor: any) => (
+                    <Col span={8} key={neighbor.id}>
+                      <Link to={`/service/regions/${neighbor.id}`}>
+                        <Tooltip
+                          title={`${neighbor.name} (${neighbor.commonName})`}
+                        >
+                          <Card
+                            hoverable
+                            className="region-card"
+                            cover={
+                              <img alt={neighbor.name} src={neighbor.picture} />
+                            }
+                          ></Card>
+                        </Tooltip>
+                      </Link>
+                    </Col>
+                  ))}
+                </Row>
+              </div>
+            )}
           </Col>
           <Col span={12}>
             <Form.Item
