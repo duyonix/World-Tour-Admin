@@ -197,7 +197,11 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
     {
       title: "Youtube Review",
       dataIndex: "review",
-      render: (data: string) => <Text className="text-link">{data}</Text>,
+      render: (data: string) => (
+        <a href={data} target="_blank" rel="noreferrer">
+          <Text className="text-link">{data}</Text>
+        </a>
+      ),
       width: 300
     },
     {

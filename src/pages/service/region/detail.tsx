@@ -29,10 +29,11 @@ import { serviceActions } from "../service.slice";
 import RegionBackgroundTab from "./RegionBackgroundTab";
 import RegionSelect from "@/components/RegionSelect";
 import RegionSceneSpotTab from "./RegionSceneSpotTab";
+import { DoubleRightOutlined } from "@ant-design/icons";
 import "./style.scss";
 
 const { TextArea } = Input;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const ServiceRegionDetail = () => {
   const serviceService = new ServiceService();
@@ -347,6 +348,17 @@ const ServiceRegionDetail = () => {
                     </Col>
                   ))}
                 </Row>
+              </div>
+            )}
+
+            {data.hasChildren && (
+              <div className="mt-4">
+                <Link
+                  to={`/service/regions?parentId=${id}`}
+                  className="animation-link"
+                >
+                  <DoubleRightOutlined /> View Children Regions
+                </Link>
               </div>
             )}
           </Col>
