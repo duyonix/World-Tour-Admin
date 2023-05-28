@@ -29,6 +29,7 @@ const messages = {
   NOT_FOUND: (text: string) => `${text} is not found`,
   DUPLICATE_ENTITY: (text: string) => `${text} already exists`,
   ALREADY_USED_ELSEWHERE: (text: string) => `${text} is already used elsewhere`,
+  NOT_SUITABLE: (text: string) => `${text} is not suitable`,
   ARGUMENT_NOT_VALID: "There is something wrong with your input.",
   EXCEPTION: `Something went wrong. Please try again later`
 };

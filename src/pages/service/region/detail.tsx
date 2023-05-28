@@ -10,10 +10,11 @@ import {
   Tabs,
   Select,
   InputNumber,
-  Typography
+  Typography,
+  Tooltip
 } from "antd";
 import React, { useContext, useEffect, useState, useCallback } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Link } from "react-router-dom";
 import { BreadcrumbContext } from "@/layouts/BaseLayout";
 import { cleanObject, goBackInDetailPage, mappingOptions } from "@/utils";
 import { toast } from "react-toastify";
@@ -28,6 +29,7 @@ import { serviceActions } from "../service.slice";
 import RegionBackgroundTab from "./RegionBackgroundTab";
 import RegionSelect from "@/components/RegionSelect";
 import RegionSceneSpotTab from "./RegionSceneSpotTab";
+import "./style.scss";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -45,6 +47,9 @@ const ServiceRegionDetail = () => {
   const [sceneSpots, setSceneSpots] = useState<any[]>([]);
   const [pictures, setPictures] = useState<any[]>([]);
   const [categoryLevel, setCategoryLevel] = useState<number | null>(null);
+  const [activeKey, setActiveKey] = useState("1");
+  const [firstRender, setFirstRender] = useState<boolean>(true);
+  const [data, setData] = useState<any>({});
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
 
@@ -57,7 +62,10 @@ const ServiceRegionDetail = () => {
     } else {
       fetchDetail();
     }
-    dispatch(serviceActions.getCategoryOptions());
+    if (firstRender) {
+      dispatch(serviceActions.getCategoryOptions());
+      setFirstRender(false);
+    }
   }, [dispatch, id]);
 
   const fetchDetail = async () => {
@@ -71,6 +79,7 @@ const ServiceRegionDetail = () => {
         categoryId: res.payload.categoryId.toString(),
         parentId: res.payload.parentId?.toString()
       });
+      setData(res.payload);
 
       if (res.payload.picture) {
         setPictures([
@@ -111,6 +120,8 @@ const ServiceRegionDetail = () => {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
           return toast.error(messages.EXISTED("Region name"));
+        case variables.NOT_SUITABLE:
+          return toast.error(messages.NOT_SUITABLE("Parent region"));
         default:
           return toast.error(messages.CREATE_FAILED("region"));
       }
@@ -129,6 +140,8 @@ const ServiceRegionDetail = () => {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
           return toast.error(messages.EXISTED("Region name"));
+        case variables.NOT_SUITABLE:
+          return toast.error(messages.NOT_SUITABLE("Parent region"));
         default:
           return toast.error(messages.EDIT_FAILED("region"));
       }
@@ -246,7 +259,6 @@ const ServiceRegionDetail = () => {
                 optionFilterProp="label"
                 className="w-100"
                 options={mappingOptions(categoryOptions.data, "id", "name")}
-                showSearch
                 onChange={value => {
                   const option = categoryOptions.data.find(
                     (category: any) => category.id === parseInt(value)
@@ -268,8 +280,10 @@ const ServiceRegionDetail = () => {
             </Form.Item>
 
             {categoryLevel === 4 && (
-              <div className="mt-4">
-                <Title level={3}>Country Information</Title>
+              <div style={{ marginTop: "25px" }}>
+                <Title level={4} className="text-primary">
+                  Country Information
+                </Title>
                 <Form.Item
                   name={["country", "code"]}
                   label="Country Code (iso2)"
@@ -282,37 +296,57 @@ const ServiceRegionDetail = () => {
                 >
                   <Input />
                 </Form.Item>
-
-                <Form.Item
-                  className="mt-2"
-                  name={["country", "capital"]}
-                  label="Capital"
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  className="mt-2"
-                  name={["country", "language"]}
-                  label="Language"
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  className="mt-2"
-                  name={["country", "currency"]}
-                  label="Currency"
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  className="mt-2"
-                  name={["country", "timezone"]}
-                  label="Timezone"
-                >
-                  <Input />
-                </Form.Item>
+                <Row gutter={[16, 16]} className="mt-2">
+                  <Col span={12}>
+                    <Form.Item name={["country", "capital"]} label="Capital">
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item name={["country", "language"]} label="Language">
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} className="mt-2">
+                  <Col span={12}>
+                    <Form.Item name={["country", "currency"]} label="Currency">
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item name={["country", "timezone"]} label="Timezone">
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
               </div>
             )}
+
+            <div className="mt-4">
+              <Title level={4} className="text-primary">
+                Neighboring Regions
+              </Title>
+              <Row gutter={[16, 16]}>
+                {data.neighbors?.map((neighbor: any) => (
+                  <Col span={8} key={neighbor.id}>
+                    <Link to={`/service/regions/${neighbor.id}`}>
+                      <Tooltip
+                        title={`${neighbor.name} (${neighbor.commonName})`}
+                      >
+                        <Card
+                          hoverable
+                          className="region-card"
+                          cover={
+                            <img alt={neighbor.name} src={neighbor.picture} />
+                          }
+                        ></Card>
+                      </Tooltip>
+                    </Link>
+                  </Col>
+                ))}
+              </Row>
+            </div>
           </Col>
           <Col span={12}>
             <Form.Item
@@ -405,7 +439,8 @@ const ServiceRegionDetail = () => {
           setBackgrounds={handleBackgrounds}
           auth={auth}
         />
-      )
+      ),
+      forceRender: true
     },
     {
       label: "Scene Spots",
@@ -416,7 +451,8 @@ const ServiceRegionDetail = () => {
           setSceneSpots={handleSceneSpots}
           auth={auth}
         />
-      )
+      ),
+      forceRender: true
     }
   ];
 
@@ -434,7 +470,14 @@ const ServiceRegionDetail = () => {
           onFinish={onSave}
           disabled={auth.role !== "ADMIN"}
         >
-          <Tabs defaultActiveKey="1" className="tab-detail" items={itemsTab} />
+          <Tabs
+            activeKey={activeKey}
+            className="tab-detail"
+            items={itemsTab}
+            onChange={(key: string) => {
+              setActiveKey(key);
+            }}
+          />
         </Form>
         <Space className="text-right mt-auto btn-action">
           <Button className="button" onClick={onCancel} htmlType="button">
