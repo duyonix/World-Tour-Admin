@@ -285,18 +285,30 @@ const ServiceRegionDetail = () => {
                 <Title level={4} className="text-primary">
                   Country Information
                 </Title>
-                <Form.Item
-                  name={["country", "code"]}
-                  label="Country Code (iso2)"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Country Code is required"
-                    }
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
+                <Row gutter={[16, 16]} className="mt-2">
+                  <Col span={12}>
+                    <Form.Item
+                      name={["country", "code"]}
+                      label="Country Code (iso2)"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Country Code is required"
+                        }
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                  <Col span={12}>
+                    <Form.Item
+                      name={["country", "tld"]}
+                      label="Top Level Domain"
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                </Row>
                 <Row gutter={[16, 16]} className="mt-2">
                   <Col span={12}>
                     <Form.Item name={["country", "capital"]} label="Capital">
