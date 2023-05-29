@@ -186,7 +186,7 @@ const ServiceRegions = () => {
           }
         ]}
         isReset
-        placeholder="Search by Name"
+        placeholder="Search by Name or Common Name"
         isSearch
         nameSearch="search"
       />

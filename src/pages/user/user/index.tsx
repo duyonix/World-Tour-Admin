@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Card, Col, Row, Spin, Table, Tag } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import UserService from "@/services/user";
 import useFetch from "@/hooks/useFetch";
@@ -59,7 +59,7 @@ const UsersManagement = () => {
         <Button
           onClick={() => onEdit(id)}
           type="primary"
-          icon={<EyeOutlined />}
+          icon={<EditOutlined />}
         ></Button>
       )
     }

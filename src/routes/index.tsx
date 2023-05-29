@@ -23,12 +23,14 @@ const MyRoutes = () => {
   }, [auth.isLogin, dispatch]);
 
   useEffect(() => {
-    const role = localStorage.getItem("user_role");
-    if (auth.isLogin && role !== "ADMIN") {
-      const newRoutes = filterUserRoutes(_.cloneDeep(privateRoutes));
+    if (auth.isLogin) {
+      const newRoutes =
+        auth.role !== "ADMIN"
+          ? filterUserRoutes(_.cloneDeep(privateRoutes))
+          : _.cloneDeep(privateRoutes);
       setPriRoutes(newRoutes);
     }
-  }, [auth.isLogin]);
+  }, [auth.isLogin, auth.role]);
 
   const filterUserRoutes = (routes: any) => {
     for (let i = 0; i < routes.length; i++) {
