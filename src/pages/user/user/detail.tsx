@@ -1,4 +1,15 @@
-import { Col, Form, Row, Space, Button, Input, Card, Spin, Tabs } from "antd";
+import {
+  Col,
+  Form,
+  Row,
+  Space,
+  Button,
+  Input,
+  Card,
+  Spin,
+  Tabs,
+  Select
+} from "antd";
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { BreadcrumbContext } from "@/layouts/BaseLayout";
@@ -16,11 +27,23 @@ const UserDetailManagement = () => {
   const [loading, setLoading] = useState(false);
   const [avatars, setAvatars] = useState<any[]>([]);
   const [models, setModels] = useState<any[]>([]);
+  const [role, setRole] = useState<string>("ADMIN");
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
+
+  const ROLE_OPTIONS = [
+    {
+      label: "ADMIN",
+      value: "ADMIN"
+    },
+    {
+      label: "USER",
+      value: "USER"
+    }
+  ];
 
   useEffect(() => {
     if (id === "add") {
@@ -57,7 +80,8 @@ const UserDetailManagement = () => {
           }
         ]);
       }
-      breadcrumb.addBreadcrumb(res.payload.name);
+      setRole(res.payload.role);
+      breadcrumb.addBreadcrumb(res.payload.fullName);
     } else {
       switch (res?.status) {
         case variables.NOT_FOUND:
@@ -80,13 +104,22 @@ const UserDetailManagement = () => {
     });
   };
 
-  const handleAvatars = useCallback(newAvatars => {
-    setAvatars(newAvatars);
-    setIsChange(true);
-  }, []);
+  const onSaveRole = async () => {
+    setLoading(true);
+    const res = await userService.updateRole(id, {
+      role
+    });
+    setLoading(false);
+    if (res.status === variables.OK) {
+      toast.success(messages.EDIT_SUCCESS("role"));
+      setIsChange(false);
+    } else {
+      toast.error(messages.EDIT_FAILED("role"));
+    }
+  };
 
-  const handleModels = useCallback(newModels => {
-    setModels(newModels);
+  const handleChangeRole = useCallback(value => {
+    setRole(value);
     setIsChange(true);
   }, []);
 
@@ -98,37 +131,64 @@ const UserDetailManagement = () => {
         <Row gutter={[64, 16]} className="px-4">
           <Col span={12}>
             <Form.Item name="email" label="Email">
-              <Input />
+              <Input disabled />
             </Form.Item>
             <Form.Item name="fullName" label="Full name" className="mt-2">
-              <Input />
+              <Input disabled />
             </Form.Item>
             <Form.Item
               name="mobileNumber"
               label="Mobile number"
               className="mt-2"
             >
-              <Input />
+              <Input disabled />
             </Form.Item>
-            <Form.Item name="role" label="Role" className="mt-2">
-              <Input />
-            </Form.Item>
+
+            <Row
+              gutter={[16, 16]}
+              className="mt-2"
+              style={{ alignItems: "end" }}
+            >
+              <Col flex={1}>
+                <Form.Item name="role" label="Role">
+                  <Select
+                    options={ROLE_OPTIONS}
+                    className="w-100"
+                    onChange={handleChangeRole}
+                  />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Button
+                  type="primary"
+                  onClick={onSaveRole}
+                  disabled={!isChange}
+                >
+                  Change
+                </Button>
+              </Col>
+            </Row>
           </Col>
           <Col span={12}>
             <Form.Item name="avatar" label="Avatar" className="mt-2">
-              <CustomUpload fileList={avatars} setFileList={handleAvatars} />
+              <CustomUpload
+                fileList={avatars}
+                setFileList={setAvatars}
+                disabled
+              />
             </Form.Item>
 
             <Form.Item name="model" label="Model" className="mt-2">
               <CustomUpload
                 fileList={models}
-                setFileList={handleModels}
+                setFileList={setModels}
                 folder="model"
                 accept=".glb"
                 textInfo="(Model must be in .glb format)"
                 type="model"
                 modelScale={4}
                 modelPosition={[0, -4, 0]}
+                disabled
               />
             </Form.Item>
           </Col>
@@ -143,12 +203,8 @@ const UserDetailManagement = () => {
         <Form
           layout="vertical"
           form={form}
-          onValuesChange={() => {
-            setIsChange(true);
-          }}
           className="d-flex fl-wrap fl-column fl-between"
           name="app"
-          disabled
         >
           <Tabs defaultActiveKey="1" className="tab-detail" items={itemsTab} />
         </Form>

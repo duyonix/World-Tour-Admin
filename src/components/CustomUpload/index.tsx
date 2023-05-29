@@ -13,6 +13,7 @@ type Props = {
   folder?: string;
   accept?: string;
   textInfo?: string;
+  disabled?: boolean;
   type?: "image" | "model";
   modelWidth?: number;
   modelHeight?: number;
@@ -25,6 +26,7 @@ const CustomUpload = ({
   setFileList,
   folder = "picture",
   type = "image",
+  disabled = false,
   modelWidth = 600,
   modelHeight = 400,
   modelScale = 8,
@@ -64,7 +66,7 @@ const CustomUpload = ({
       setFileList([
         {
           uid: _.uniqueId(),
-          name: newFile.fileName,
+          name: newFile.fileName.split("/").pop(),
           status: "done",
           url: newFile.url
         }
@@ -111,6 +113,7 @@ const CustomUpload = ({
         maxCount={1}
         onRemove={handleRemove}
         onPreview={handlePreview}
+        disabled={disabled}
         {...restProps}
       >
         {fileList.length < 2 && uploadButton}

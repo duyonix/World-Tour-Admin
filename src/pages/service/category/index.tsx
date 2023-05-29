@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Button, Card, Col, Row, Spin, Table, Space, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Row,
+  Spin,
+  Table,
+  Space,
+  Typography,
+  Tag
+} from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
@@ -89,6 +99,7 @@ const ServiceCategories = () => {
       title: "Level",
       dataIndex: "level",
       align: "center",
+      render: (level: number) => <Tag color="cyan">{level}</Tag>,
       width: 150
     },
     {
