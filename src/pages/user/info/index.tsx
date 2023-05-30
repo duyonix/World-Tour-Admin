@@ -19,11 +19,14 @@ import CustomUpload from "@/components/CustomUpload";
 import ChangePassword from "./ChangePassword";
 import ModelViewer from "@/components/ModelViewer";
 import ReadyPlayerMe from "@/components/ReadyPlayerMe";
+import { useAppDispatch } from "@/hooks";
+import { authActions } from "@/pages/auth/auth.slice";
 
 const { Text } = Typography;
 
 const UserProfile = () => {
   const userService = new UserService();
+  const dispatch = useAppDispatch();
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(false);
   const [avatars, setAvatars] = useState<any[]>([]);
@@ -83,6 +86,7 @@ const UserProfile = () => {
     if (res.status === variables.OK) {
       toast.success("Update profile successfully!");
       setIsChange(false);
+      dispatch(authActions.getInfo(id));
     } else {
       toast.error("Update profile failed!");
     }
@@ -262,7 +266,7 @@ const UserProfile = () => {
   return (
     <Spin size="large" style={{ position: "unset" }} spinning={loading}>
       <Card className="m-2 radius-lg mh-card-detail p-relative detail">
-        <Tabs defaultActiveKey="1" className="tab-detail" items={itemsTab} />
+        <Tabs defaultActiveKey="1" items={itemsTab} />
       </Card>
     </Spin>
   );
