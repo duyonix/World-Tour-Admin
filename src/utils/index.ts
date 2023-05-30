@@ -154,3 +154,13 @@ export const parse = (data: any) => {
     return null;
   }
 };
+
+export const convertTimestampToDate = (timestamp: number) => {
+  // convert to UTC+7 with only just time format "hh:mm a"
+  return new Date(timestamp * 1000).toLocaleTimeString("en-US", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    hour12: true,
+    hour: "numeric",
+    minute: "numeric"
+  });
+};

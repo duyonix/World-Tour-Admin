@@ -28,7 +28,6 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
   const auth = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const [srcAvt, setSrcAvt] = useState(avatarDefault);
   const maxLength = breadcrumb.length - 1;
   const { id } = useParams<{ id: string }>();
   const onLogout = () => {
@@ -45,10 +44,6 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
   const addBreadcrumb = (name: string) => {
     setTitle(name);
   };
-
-  useEffect(() => {
-    if (auth?.user?.avatar) setSrcAvt(auth?.user?.avatar);
-  }, [auth?.user?.avatar]);
 
   const menu = (
     <Menu
@@ -132,11 +127,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
                   >
                     <Avatar
                       size={40}
-                      onError={() => {
-                        setSrcAvt(avatarDefault);
-                        return true;
-                      }}
-                      src={srcAvt}
+                      src={auth?.user?.avatar || avatarDefault}
                     />{" "}
                     <span className="pr-1 pl-1">
                       {auth?.user?.fullName || "Not update"}

@@ -9,7 +9,6 @@ import {
   Space,
   Table,
   Image,
-  Tooltip,
   Typography
 } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
@@ -187,11 +186,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
     {
       title: "Description",
       dataIndex: "description",
-      render: (data: string) => (
-        <Tooltip title={data} placement="topLeft">
-          <Text className="text-limit">{data}</Text>
-        </Tooltip>
-      ),
+      render: (data: string) => <Text className="text-limit">{data}</Text>,
       width: 500
     },
     {

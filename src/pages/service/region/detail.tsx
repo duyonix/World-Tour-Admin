@@ -31,6 +31,7 @@ import RegionSelect from "@/components/RegionSelect";
 import RegionSceneSpotTab from "./RegionSceneSpotTab";
 import { DoubleRightOutlined } from "@ant-design/icons";
 import "./style.scss";
+import RegionWeatherTab from "./RegionWeatherTab";
 
 const { TextArea } = Input;
 const { Title, Text } = Typography;
@@ -481,6 +482,14 @@ const ServiceRegionDetail = () => {
       forceRender: true
     }
   ];
+
+  if (id !== "add" && data.weather) {
+    itemsTab.push({
+      label: "Weather",
+      key: "4",
+      children: <RegionWeatherTab weather={data.weather} />
+    });
+  }
 
   return (
     <Spin size="large" style={{ position: "unset" }} spinning={loading}>

@@ -68,7 +68,7 @@ const UsersManagement = () => {
     <>
       <Filter
         isReset
-        placeholder="Search by Name"
+        placeholder="Search by Email"
         isSearch
         nameSearch="search"
       />
