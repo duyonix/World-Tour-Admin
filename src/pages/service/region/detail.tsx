@@ -166,7 +166,7 @@ const ServiceRegionDetail = () => {
       }
       return sceneSpot;
     });
-
+    
     return cleanObject(newData);
   };
 

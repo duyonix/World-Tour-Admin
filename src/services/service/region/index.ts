@@ -26,9 +26,15 @@ export default class ServiceRegionService extends BaseService {
     }
   }
 
-  async getRegion(id: string) {
+  async getRegion(id: string, params: any = null) {
     try {
-      const res = await super.send("GET", `${PREFIX}/${id}`, super.header());
+      const res = await super.send(
+        "GET",
+        `${PREFIX}/${id}`,
+        super.header(),
+        null,
+        params
+      );
       return res.data;
     } catch (err: any) {
       return super.errorResponse(err);

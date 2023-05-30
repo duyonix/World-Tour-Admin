@@ -59,7 +59,7 @@ const RegionSelect = ({
   };
 
   const fetchDetail = async (val: string) => {
-    const res = await serviceService.region.getRegion(val);
+    const res = await serviceService.region.getRegion(val, { full: false });
     setOptions(formatOptions([res.payload] || []));
   };
 
