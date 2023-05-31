@@ -195,7 +195,11 @@ const ServiceCategoryDetail = () => {
               ]}
               className="mt-2"
             >
-              <CustomUpload fileList={pictures} setFileList={handlePictures} />
+              <CustomUpload
+                fileList={pictures}
+                setFileList={handlePictures}
+                disabled={auth.role !== "ADMIN"}
+              />
             </Form.Item>
           </Col>
         </Row>
