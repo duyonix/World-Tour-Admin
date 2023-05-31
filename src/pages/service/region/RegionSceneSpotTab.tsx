@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import _ from "lodash";
 import "./style.scss";
 import ReviewInput from "@/components/ReviewInput";
+import AddButton from "@/components/AddButton";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -225,13 +226,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
     <div>
       <Row className="mb-2" justify="space-between">
         <Col className="d-flex al-center">Tổng cộng: {sceneSpots.length}</Col>
-        {auth.role === "ADMIN" && (
-          <Col>
-            <Button type="primary" onClick={onAdd}>
-              Thêm mới
-            </Button>
-          </Col>
-        )}
+        {auth.role === "ADMIN" && <AddButton onClick={onAdd} />}
       </Row>
       {sceneSpots.length > 0 ? (
         <Table

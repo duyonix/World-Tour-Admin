@@ -90,7 +90,7 @@ const RegionWeatherTab = ({ weather }: Props) => {
     <div
       className="weather"
       style={{
-        background: `url(${current.background}) no-repeat center center fixed`,
+        background: `url(${current.background}) no-repeat center center`,
         backgroundSize: "cover"
       }}
     >

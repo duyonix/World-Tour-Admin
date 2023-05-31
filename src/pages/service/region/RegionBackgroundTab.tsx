@@ -6,6 +6,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import CustomUpload from "@/components/CustomUpload";
 import { toast } from "react-toastify";
 import "./style.scss";
+import AddButton from "@/components/AddButton";
 
 type Props = {
   backgrounds: string[];
@@ -54,7 +55,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
 
   const onSave = values => {
     if (images.length === 0) {
-      toast.error("Vui lòng chọn hình nền");
+      toast.error("Vui lòng chọn hình ảnh");
       return;
     }
     const dataImages = images.map(image => image.url);
@@ -114,13 +115,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
     <div>
       <Row className="mb-2" justify="space-between">
         <Col className="d-flex al-center">Tổng cộng: {backgrounds.length}</Col>
-        <Col>
-          {auth.role === "ADMIN" && (
-            <Button type="primary" onClick={onAdd}>
-              Thêm mới
-            </Button>
-          )}
-        </Col>
+        <Col>{auth.role === "ADMIN" && <AddButton onClick={onAdd} />}</Col>
       </Row>
       {backgrounds.length > 0 ? (
         <Table
@@ -140,7 +135,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
           }}
         ></Table>
       ) : (
-        <div className="text-center m-4">Không tìm thấy hình nền nào</div>
+        <div className="text-center m-4">Không tìm thấy hình ảnh nào</div>
       )}
 
       <Modal
@@ -170,7 +165,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
                 name="image"
                 label={
                   <label className="label-required title-header">
-                    Hình nền
+                    Hình ảnh
                   </label>
                 }
               >

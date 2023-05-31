@@ -23,6 +23,7 @@ import messages from "@/constants/messages";
 import variables from "@/constants/variables";
 import { useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
+import AddButton from "@/components/AddButton";
 
 const { Text } = Typography;
 
@@ -140,11 +141,7 @@ const ServiceCategories = () => {
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
           <Col className="d-flex al-center">Tổng cộng: {total}</Col>
-          {auth.role === "ADMIN" && (
-            <Button type="primary" onClick={onAdd}>
-              Thêm mới
-            </Button>
-          )}
+          {auth.role === "ADMIN" && <AddButton onClick={onAdd} />}
         </Row>
         <Spin size="large" spinning={loading || isDeleteLoading}>
           {list.length > 0 ? (
