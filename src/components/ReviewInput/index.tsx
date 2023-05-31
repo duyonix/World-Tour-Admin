@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import { Button, Input } from "antd";
 import {
@@ -6,6 +6,7 @@ import {
   EyeFilled,
   EyeInvisibleFilled
 } from "@ant-design/icons";
+import ReviewModal from "../ReviewModal";
 
 type Props = {
   value?: string;
@@ -19,11 +20,7 @@ const ReviewInput = ({
   disabled = false,
   ...restProps
 }: Props) => {
-  const handleReview = () => {
-    if (value) {
-      window.open(value, "_blank");
-    }
-  };
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   return (
     <div className="d-flex review-input">
@@ -37,7 +34,7 @@ const ReviewInput = ({
         {...restProps}
       />
       <Button
-        onClick={handleReview}
+        onClick={() => setOpenModal(true)}
         className="form-item-icon"
         icon={
           value ? (
@@ -47,6 +44,11 @@ const ReviewInput = ({
           )
         }
         disabled={!value}
+      />
+      <ReviewModal
+        url={value || ""}
+        open={openModal}
+        onClose={() => setOpenModal(false)}
       />
     </div>
   );

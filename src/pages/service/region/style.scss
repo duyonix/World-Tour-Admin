@@ -1,5 +1,10 @@
+.preview-icon-only {
+  border-radius: 5px;
+}
+
 .preview-icon-only + .ant-image-mask {
   font-size: 0;
+  border-radius: 5px;
 }
 
 .preview-icon-only + .ant-image-mask .anticon {

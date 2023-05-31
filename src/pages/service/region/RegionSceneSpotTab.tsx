@@ -20,6 +20,7 @@ import _ from "lodash";
 import "./style.scss";
 import ReviewInput from "@/components/ReviewInput";
 import AddButton from "@/components/AddButton";
+import ReviewModal from "@/components/ReviewModal";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -31,8 +32,11 @@ type Props = {
 };
 
 const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [isModalChange, setIsModalChange] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isReviewModalVisible, setIsReviewModalVisible] =
+    useState<boolean>(false);
+  const [reviewUrl, setReviewUrl] = useState<string>("");
+  const [isModalChange, setIsModalChange] = useState<boolean>(false);
   const [method, setMethod] = useState("add"); // add or update
   const [id, setId] = useState<any>(null);
   const [sceneSpotImages, setSceneSpotImages] = useState({});
@@ -195,9 +199,16 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       title: "Youtube Review",
       dataIndex: "review",
       render: (data: string) => (
-        <a href={data} target="_blank" rel="noreferrer">
-          <Text className="text-link">{data}</Text>
-        </a>
+        <Text
+          className="text-link"
+          onClick={() => {
+            setReviewUrl(data);
+            setIsReviewModalVisible(true);
+          }}
+          style={{ cursor: "pointer" }}
+        >
+          {data}
+        </Text>
       ),
       width: 300
     },
@@ -347,6 +358,11 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
           )}
         </Space>
       </Modal>
+      <ReviewModal
+        url={reviewUrl}
+        open={isReviewModalVisible}
+        onClose={() => setIsReviewModalVisible(false)}
+      />
     </div>
   );
 };
