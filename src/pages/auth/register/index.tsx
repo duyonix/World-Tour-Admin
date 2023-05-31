@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import messages from "@/constants/messages";
 import variables from "@/constants/variables";
@@ -11,7 +11,8 @@ import {
   Button,
   Typography,
   Divider,
-  Checkbox
+  Checkbox,
+  Spin
 } from "antd";
 import Earth from "@/assets/images/earth.png";
 import { UserOutlined, KeyOutlined } from "@ant-design/icons";
@@ -22,6 +23,7 @@ const { Title } = Typography;
 const Register = () => {
   const authService = new AuthService();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const formatData = (data: any) => {
     return {
@@ -38,6 +40,7 @@ const Register = () => {
       toast.error("Password and confirm password are not the same");
       return;
     }
+    setLoading(true);
     const res = await authService.register(formatData(values));
     if (res.status === variables.OK) {
       toast.success("Register successfully");
@@ -53,136 +56,145 @@ const Register = () => {
         toast.error(messages.EXCEPTION);
       }
     }
+    setLoading(false);
   };
 
   return (
-    <div
-      className="login-page"
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-    >
-      <Row
-        justify="center"
-        align="middle"
-        style={{ flexDirection: "column", flex: 1 }}
+    <Spin spinning={loading} style={{ maxHeight: "none" }} size="large">
+      <div
+        className="login-page"
+        style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
       >
-        <>
-          <img
-            style={{ width: "400px", height: "400px" }}
-            src={Earth}
-            alt="earth"
-          />
-          <Title level={3} style={{ margin: "0 0px 3vh 0" }}>
-            Đăng ký vào World Tour Dashboard
-          </Title>
-          <Form
-            style={{ maxWidth: "400px", width: "100%" }}
-            name="admin-login"
-            onFinish={onFinish}
-            initialValues={{ remember: true }}
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập email!"
-                },
-                {
-                  type: "email",
-                  message: "Email không hợp lệ!"
-                }
-              ]}
+        <Row
+          justify="center"
+          align="middle"
+          style={{ flexDirection: "column", flex: 1 }}
+        >
+          <>
+            <img
+              style={{ width: "400px", height: "400px" }}
+              src={Earth}
+              alt="earth"
+            />
+            <Title level={3} style={{ margin: "0 0px 3vh 0" }}>
+              Đăng ký vào World Tour Dashboard
+            </Title>
+            <Form
+              style={{ maxWidth: "400px", width: "100%" }}
+              name="admin-login"
+              onFinish={onFinish}
             >
-              <Input placeholder="Email" prefix={<UserOutlined />} />
-            </Form.Item>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập email!"
+                  },
+                  {
+                    type: "email",
+                    message: "Email không hợp lệ!"
+                  }
+                ]}
+              >
+                <Input placeholder="Email" prefix={<UserOutlined />} />
+              </Form.Item>
 
-            <Form.Item
-              className="mt-2"
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập mật khẩu!"
-                }
-              ]}
-            >
-              <Input.Password placeholder="Mật khẩu" prefix={<KeyOutlined />} />
-            </Form.Item>
+              <Form.Item
+                className="mt-2"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập mật khẩu!"
+                  }
+                ]}
+              >
+                <Input.Password
+                  placeholder="Mật khẩu"
+                  prefix={<KeyOutlined />}
+                />
+              </Form.Item>
 
-            <Form.Item
-              className="mt-2"
-              name="confirmPassword"
-              rules={[
-                {
-                  required: true,
-                  message: "Vui lòng nhập lại mật khẩu!"
-                }
-              ]}
-            >
-              <Input.Password
-                placeholder="Nhập lại mật khẩu"
-                prefix={<KeyOutlined />}
-              />
-            </Form.Item>
+              <Form.Item
+                className="mt-2"
+                name="confirmPassword"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập lại mật khẩu!"
+                  }
+                ]}
+              >
+                <Input.Password
+                  placeholder="Nhập lại mật khẩu"
+                  prefix={<KeyOutlined />}
+                />
+              </Form.Item>
 
-            <Row gutter={16} className="mt-2">
-              <Col md={12}>
-                <Form.Item
-                  name="lastName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng nhập họ!"
-                    }
-                  ]}
-                >
-                  <Input placeholder="Họ" />
-                </Form.Item>
-              </Col>
-              <Col md={12}>
-                <Form.Item
-                  name="firstName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Vui lòng nhập tên!"
-                    }
-                  ]}
-                >
-                  <Input placeholder="Tên" />
-                </Form.Item>
-              </Col>
-            </Row>
+              <Row gutter={16} className="mt-2">
+                <Col md={12}>
+                  <Form.Item
+                    name="lastName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập họ!"
+                      }
+                    ]}
+                  >
+                    <Input placeholder="Họ" />
+                  </Form.Item>
+                </Col>
+                <Col md={12}>
+                  <Form.Item
+                    name="firstName"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Vui lòng nhập tên!"
+                      }
+                    ]}
+                  >
+                    <Input placeholder="Tên" />
+                  </Form.Item>
+                </Col>
+              </Row>
 
-            <Form.Item className="mt-2" name="mobileNumber">
-              <Input placeholder="Số điện thoại" />
-            </Form.Item>
+              <Form.Item className="mt-2" name="mobileNumber">
+                <Input placeholder="Số điện thoại" />
+              </Form.Item>
 
-            <Form.Item name="remember" valuePropName="checked" className="mt-2">
-              <Checkbox>
-                Tôi đồng ý với{" "}
-                <a href="#register" className="font-bold text-dark">
-                  Điều khoản sử dụng
-                </a>
-              </Checkbox>
-            </Form.Item>
+              <Form.Item
+                name="remember"
+                valuePropName="checked"
+                className="mt-2"
+              >
+                <Checkbox>
+                  Tôi đồng ý với{" "}
+                  <a href="#register" className="font-bold text-dark">
+                    Điều khoản sử dụng
+                  </a>
+                </Checkbox>
+              </Form.Item>
 
-            <Divider />
-            <Form.Item>
-              <Button block type="primary" htmlType="submit">
-                Đăng ký
-              </Button>
-            </Form.Item>
-            <p className="font-semibold text-muted text-center mt-1">
-              Đã có tài khoản?{" "}
-              <Link to="/login" className="text-dark font-bold">
-                Đăng nhập tại đây
-              </Link>
-            </p>
-          </Form>
-        </>
-      </Row>
-    </div>
+              <Divider />
+              <Form.Item>
+                <Button block type="primary" htmlType="submit">
+                  Đăng ký
+                </Button>
+              </Form.Item>
+              <p className="font-semibold text-muted text-center mt-1">
+                Đã có tài khoản?{" "}
+                <Link to="/login" className="text-dark font-bold">
+                  Đăng nhập tại đây
+                </Link>
+              </p>
+            </Form>
+          </>
+        </Row>
+      </div>
+    </Spin>
   );
 };
 

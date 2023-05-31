@@ -3,6 +3,7 @@ import { createAction, createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: AuthState = {
   loading: false,
   isLogin: Boolean(localStorage.getItem("access_token")),
+  firstLogin: false,
   token: "",
   user: {},
   message: "",
@@ -20,6 +21,7 @@ export const authSlice = createSlice({
       state.loading = false;
       state.isLogin = true;
       state.token = action.payload.token;
+      state.firstLogin = action.payload.firstLogin;
       state.user = action.payload.user;
       state.role = action.payload.user.role;
     },
