@@ -116,7 +116,7 @@ const CustomUpload = ({
         disabled={disabled}
         {...restProps}
       >
-        {fileList.length < 2 && uploadButton}
+        {fileList.length < 2 && !disabled && uploadButton}
       </Upload>
       <Text>
         {restProps.textInfo ||

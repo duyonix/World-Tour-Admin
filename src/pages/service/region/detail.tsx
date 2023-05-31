@@ -232,7 +232,7 @@ const ServiceRegionDetail = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={auth.role !== "ADMIN"} />
             </Form.Item>
             <Form.Item
               className="mt-2"
@@ -245,7 +245,7 @@ const ServiceRegionDetail = () => {
                 }
               ]}
             >
-              <Input />
+              <Input disabled={auth.role !== "ADMIN"} />
             </Form.Item>
             <Form.Item
               className="mt-2"
@@ -269,6 +269,7 @@ const ServiceRegionDetail = () => {
                   );
                   setCategoryLevel(option?.level || null);
                 }}
+                disabled={auth.role !== "ADMIN"}
               />
             </Form.Item>
             <Form.Item className="mt-2" name="parentId" label="Parent Region">
@@ -280,6 +281,7 @@ const ServiceRegionDetail = () => {
                       }
                     : {}
                 }
+                disabled={auth.role !== "ADMIN"}
               />
             </Form.Item>
 
@@ -300,7 +302,7 @@ const ServiceRegionDetail = () => {
                         }
                       ]}
                     >
-                      <Input />
+                      <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
@@ -308,31 +310,31 @@ const ServiceRegionDetail = () => {
                       name={["country", "tld"]}
                       label="Top Level Domain"
                     >
-                      <Input />
+                      <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]} className="mt-2">
                   <Col span={12}>
                     <Form.Item name={["country", "capital"]} label="Capital">
-                      <Input />
+                      <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item name={["country", "language"]} label="Language">
-                      <Input />
+                      <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]} className="mt-2">
                   <Col span={12}>
                     <Form.Item name={["country", "currency"]} label="Currency">
-                      <Input />
+                      <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
                     <Form.Item name={["country", "timezone"]} label="Timezone">
-                      <Input />
+                      <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                 </Row>
@@ -388,7 +390,11 @@ const ServiceRegionDetail = () => {
                 }
               ]}
             >
-              <CustomUpload fileList={pictures} setFileList={handlePictures} />
+              <CustomUpload
+                fileList={pictures}
+                setFileList={handlePictures}
+                disabled={auth.role !== "ADMIN"}
+              />
             </Form.Item>
 
             <div className="mt-2">
@@ -407,7 +413,10 @@ const ServiceRegionDetail = () => {
                       }
                     ]}
                   >
-                    <InputNumber className="w-100 input-number-custom" />
+                    <InputNumber
+                      className="w-100 input-number-custom"
+                      disabled={auth.role !== "ADMIN"}
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -421,7 +430,10 @@ const ServiceRegionDetail = () => {
                       }
                     ]}
                   >
-                    <InputNumber className="w-100 input-number-custom" />
+                    <InputNumber
+                      className="w-100 input-number-custom"
+                      disabled={auth.role !== "ADMIN"}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -430,12 +442,12 @@ const ServiceRegionDetail = () => {
             <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
                 <Form.Item name="area" label="Area (km²)">
-                  <Input />
+                  <Input disabled={auth.role !== "ADMIN"} />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name="population" label="Population (people)">
-                  <Input />
+                  <Input disabled={auth.role !== "ADMIN"} />
                 </Form.Item>
               </Col>
             </Row>
@@ -451,11 +463,11 @@ const ServiceRegionDetail = () => {
               ]}
               className="mt-2"
             >
-              <ReviewInput />
+              <ReviewInput disabled={auth.role !== "ADMIN"} />
             </Form.Item>
 
             <Form.Item name="description" label="Description" className="mt-2">
-              <TextArea rows={5} />
+              <TextArea rows={5} disabled={auth.role !== "ADMIN"} />
             </Form.Item>
           </Col>
         </Row>
@@ -508,7 +520,6 @@ const ServiceRegionDetail = () => {
           className="d-flex fl-wrap fl-column fl-between"
           name="app"
           onFinish={onSave}
-          disabled={auth.role !== "ADMIN"}
         >
           <Tabs
             activeKey={activeKey}

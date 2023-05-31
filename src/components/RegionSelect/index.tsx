@@ -10,6 +10,7 @@ type Props = {
   hasOptionAll?: boolean;
   filter?: object;
   className?: string;
+  disabled?: boolean;
 };
 
 const RegionSelect = ({

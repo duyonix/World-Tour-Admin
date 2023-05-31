@@ -273,15 +273,13 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
             setIsModalChange(true);
           }}
           className="detail-drole d-flex fl-wrap fl-column fl-between"
-          // style={{ minHeight: 450 }}
           name="app"
           onFinish={onSave}
-          disabled={auth.role !== "ADMIN"}
         >
           <Row gutter={[40, 16]}>
             <Col span={24}>
               <Form.Item name="id" style={{ display: "none" }}>
-                <Input />
+                <Input disabled={auth.role !== "ADMIN"} />
               </Form.Item>
               <Form.Item
                 name="name"
@@ -293,7 +291,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                   }
                 ]}
               >
-                <Input />
+                <Input disabled={auth.role !== "ADMIN"} />
               </Form.Item>
               <Form.Item
                 name="picture"
@@ -305,6 +303,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                 <CustomUpload
                   fileList={sceneSpotImages[id]}
                   setFileList={images => handleSceneSpotImages(id, images)}
+                  disabled={auth.role !== "ADMIN"}
                 />
               </Form.Item>
               <Form.Item
@@ -312,7 +311,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                 label="Description"
                 className="mt-2"
               >
-                <TextArea rows={4} />
+                <TextArea rows={4} disabled={auth.role !== "ADMIN"} />
               </Form.Item>
               <Form.Item
                 name="review"
@@ -325,7 +324,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                   }
                 ]}
               >
-                <ReviewInput />
+                <ReviewInput disabled={auth.role !== "ADMIN"} />
               </Form.Item>
             </Col>
           </Row>

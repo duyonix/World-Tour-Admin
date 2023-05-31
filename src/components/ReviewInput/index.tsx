@@ -10,9 +10,15 @@ import {
 type Props = {
   value?: string;
   onChange?: any;
+  disabled?: boolean;
 };
 
-const ReviewInput = ({ value, onChange }: Props) => {
+const ReviewInput = ({
+  value,
+  onChange,
+  disabled = false,
+  ...restProps
+}: Props) => {
   const handleReview = () => {
     if (value) {
       window.open(value, "_blank");
@@ -27,6 +33,8 @@ const ReviewInput = ({ value, onChange }: Props) => {
         onChange={onChange}
         value={value}
         style={{ flexGrow: 1 }}
+        disabled={disabled}
+        {...restProps}
       />
       <Button
         onClick={handleReview}
