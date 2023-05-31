@@ -8,7 +8,8 @@ import {
   Card,
   Spin,
   Tabs,
-  Select
+  Select,
+  InputNumber
 } from "antd";
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useParams, useHistory } from "react-router-dom";
@@ -174,7 +175,16 @@ const ServiceCategoryDetail = () => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="level" label="Cấp độ">
+            <Form.Item
+              name="level"
+              label="Cấp độ"
+              rules={[
+                {
+                  required: true,
+                  message: "Cấp độ là bắt buộc"
+                }
+              ]}
+            >
               <Select
                 placeholder="Chọn cấp độ"
                 className="w-100"
@@ -183,6 +193,19 @@ const ServiceCategoryDetail = () => {
                   value: level
                 }))}
               />
+            </Form.Item>
+            <Form.Item
+              name="zoomFactor"
+              label="Độ Zoom"
+              rules={[
+                {
+                  required: true,
+                  message: "Độ Zoom là bắt buộc"
+                }
+              ]}
+              className="mt-2"
+            >
+              <InputNumber className="w-100 input-number-custom" />
             </Form.Item>
             <Form.Item
               name="picture"
