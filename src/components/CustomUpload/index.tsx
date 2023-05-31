@@ -105,50 +105,57 @@ const CustomUpload = ({
 
   return (
     <>
-      <Upload
-        listType="picture-card"
-        fileList={fileList}
-        accept={restProps.accept || ".jpg,.jpeg,.png"}
-        customRequest={onCustomRequest}
-        maxCount={1}
-        onRemove={handleRemove}
-        onPreview={handlePreview}
-        disabled={disabled}
-        {...restProps}
-      >
-        {fileList.length < 2 && !disabled && uploadButton}
-      </Upload>
-      <Text>
-        {restProps.textInfo || "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}
-      </Text>
-      <Modal
-        open={previewOpen}
-        title={previewTitle}
-        footer={null}
-        onCancel={handleCancel}
-        width={700}
-        centered
-      >
-        {type === "image" && (
-          <img alt="example" className="w-100" src={previewImage} />
-        )}
+      {disabled && (fileList == null || fileList.length === 0) ? (
+        <Text>Không có</Text>
+      ) : (
+        <>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            accept={restProps.accept || ".jpg,.jpeg,.png"}
+            customRequest={onCustomRequest}
+            maxCount={1}
+            onRemove={handleRemove}
+            onPreview={handlePreview}
+            disabled={disabled}
+            {...restProps}
+          >
+            {fileList.length < 2 && !disabled && uploadButton}
+          </Upload>
+          <Text>
+            {restProps.textInfo ||
+              "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}
+          </Text>
+          <Modal
+            open={previewOpen}
+            title={previewTitle}
+            footer={null}
+            onCancel={handleCancel}
+            width={700}
+            centered
+          >
+            {type === "image" && (
+              <img alt="example" className="w-100" src={previewImage} />
+            )}
 
-        {type === "model" && (
-          <ModelViewer
-            scale={modelScale}
-            modelPath={previewImage}
-            position={modelPosition}
-            style={{
-              height: modelHeight,
-              width: modelWidth,
-              margin: "0 auto"
-            }}
-            width={modelWidth}
-            height={modelHeight}
-            key={countModel.toString()}
-          />
-        )}
-      </Modal>
+            {type === "model" && (
+              <ModelViewer
+                scale={modelScale}
+                modelPath={previewImage}
+                position={modelPosition}
+                style={{
+                  height: modelHeight,
+                  width: modelWidth,
+                  margin: "0 auto"
+                }}
+                width={modelWidth}
+                height={modelHeight}
+                key={countModel.toString()}
+              />
+            )}
+          </Modal>
+        </>
+      )}
     </>
   );
 };
