@@ -58,6 +58,8 @@ const MyRoutes = () => {
       const redirectUrl = localStorage.getItem("redirect_url");
       localStorage.removeItem("redirect_url");
       return redirectUrl;
+    } else if (auth.firstLogin) {
+      return "/user/profile?firstLogin=true";
     }
     return getDefaultRouteInPrivate(sidebar);
   };
@@ -116,6 +118,9 @@ const MyRoutes = () => {
               />
             </Route>
             <Route exact path="/login">
+              <Redirect to="/" />
+            </Route>
+            <Route exact path="/register">
               <Redirect to="/" />
             </Route>
             {priRoutes.length > 0 && (

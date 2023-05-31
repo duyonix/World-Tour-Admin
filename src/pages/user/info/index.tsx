@@ -8,7 +8,8 @@ import {
   Card,
   Spin,
   Tabs,
-  Typography
+  Typography,
+  Modal
 } from "antd";
 import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
@@ -19,13 +20,17 @@ import CustomUpload from "@/components/CustomUpload";
 import ChangePassword from "./ChangePassword";
 import ModelViewer from "@/components/ModelViewer";
 import ReadyPlayerMe from "@/components/ReadyPlayerMe";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { authActions } from "@/pages/auth/auth.slice";
+import { useLocation } from "react-router-dom";
+import qs from "query-string";
+import { RootState } from "@/app/store";
 
 const { Text } = Typography;
 
 const UserProfile = () => {
   const userService = new UserService();
+  const auth = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const [isChange, setIsChange] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -36,10 +41,33 @@ const UserProfile = () => {
   const [form] = Form.useForm();
 
   const id = localStorage.getItem("user_id") || "";
+  const location = useLocation();
+  const { firstLogin } = qs.parse(location.search);
+
+  useEffect(() => {
+    if (firstLogin === "true" && auth.firstLogin) {
+      infoFirstLogin();
+    }
+  }, [firstLogin, auth.firstLogin]);
 
   useEffect(() => {
     fetchDetail();
   }, [id]);
+
+  const infoFirstLogin = () => {
+    Modal.info({
+      title: "Chào mừng bạn đến với World Tour",
+      content: (
+        <Text>
+          Để tối ưu hóa trải nghiệm cá nhân của bạn, vui lòng tạo mô hình Avatar
+          3D của riêng bạn
+        </Text>
+      ),
+      onOk() {
+        setShowIFrame(true);
+      }
+    });
+  };
 
   const fetchDetail = async () => {
     setLoading(true);
