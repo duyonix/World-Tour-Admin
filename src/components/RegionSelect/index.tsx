@@ -11,6 +11,7 @@ type Props = {
   filter?: object;
   className?: string;
   disabled?: boolean;
+  style?: any;
 };
 
 const RegionSelect = ({

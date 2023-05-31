@@ -27,15 +27,15 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { RootState } from "@/app/store";
 import { serviceActions } from "../service.slice";
 import RegionBackgroundTab from "./RegionBackgroundTab";
-import RegionSelect from "@/components/RegionSelect";
 import RegionSceneSpotTab from "./RegionSceneSpotTab";
 import { DoubleRightOutlined } from "@ant-design/icons";
 import "./style.scss";
 import RegionWeatherTab from "./RegionWeatherTab";
 import ReviewInput from "@/components/ReviewInput";
+import RegionSelectGroup from "@/components/RegionSelect/RegionSelectGroup";
 
 const { TextArea } = Input;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const ServiceRegionDetail = () => {
   const serviceService = new ServiceService();
@@ -276,7 +276,7 @@ const ServiceRegionDetail = () => {
               name="parentId"
               label="Địa danh trực thuộc"
             >
-              <RegionSelect
+              <RegionSelectGroup
                 filter={
                   categoryLevel
                     ? {
