@@ -42,7 +42,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   const addSceneSpot = (data: any) => {
     const exist = sceneSpots.find(sceneSpot => sceneSpot.name === data.name);
     if (exist) {
-      return toast.error(messages.EXISTED("Scene spot name"));
+      return toast.error(messages.EXISTED("Tên danh lam thắng ảnh"));
     }
 
     const newSceneSpots = sceneSpots.concat(data);
@@ -55,7 +55,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       sceneSpot => sceneSpot.name === data.name && sceneSpot.id !== data.id
     );
     if (exist) {
-      return toast.error(messages.EXISTED("Scene spot name"));
+      return toast.error(messages.EXISTED("Tên danh lam thắng cảnh"));
     }
 
     const newSceneSpots = [...sceneSpots];
@@ -114,7 +114,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
 
   const onConfirmRemove = index => {
     ConfirmModal({
-      title: messages.CONFIRM_DELETE("scene spot"),
+      title: messages.CONFIRM_DELETE("danh lam thắng cảnh"),
       onOk() {
         onDelete(index);
       }
@@ -131,7 +131,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
 
   const onSave = values => {
     if (sceneSpotImages[id] && sceneSpotImages[id].length === 0) {
-      toast.error("Please upload picture");
+      toast.error("Bắt buộc phải có hình ảnh");
       return;
     }
 
@@ -167,17 +167,17 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
 
   const columns = [
     {
-      title: "No.",
+      title: "STT",
       render: (_, __, index) => page * size + index + 1,
       width: 100
     },
     {
-      title: "Name",
+      title: "Tên",
       dataIndex: "name",
       width: 200
     },
     {
-      title: "Picture",
+      title: "Hình ảnh",
       dataIndex: "picture",
       render: (data: string) => (
         <Image className="preview-icon-only" height={50} src={data} />
@@ -185,7 +185,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       width: 300
     },
     {
-      title: "Description",
+      title: "Mô tả",
       dataIndex: "description",
       render: (data: string) => <Text className="text-limit">{data}</Text>,
       width: 500
@@ -224,11 +224,11 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   return (
     <div>
       <Row className="mb-2" justify="space-between">
-        <Col className="d-flex al-center">Total: {sceneSpots.length}</Col>
+        <Col className="d-flex al-center">Tổng cộng: {sceneSpots.length}</Col>
         {auth.role === "ADMIN" && (
           <Col>
             <Button type="primary" onClick={onAdd}>
-              Add
+              Thêm mới
             </Button>
           </Col>
         )}
@@ -248,16 +248,18 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
           }}
         ></Table>
       ) : (
-        <div className="text-center m-4">No scene spots found</div>
+        <div className="text-center m-4">
+          Không tìm thấy danh lam thắng cảnh nào
+        </div>
       )}
 
       <Modal
         title={
           method === "add"
-            ? "Add Scene Spot"
+            ? "Thêm danh lam thắng cảnh"
             : auth.role === "ADMIN"
-            ? "Edit Scene Spot"
-            : "View Scene Spot"
+            ? "Cập nhật danh lam thắng cảnh"
+            : "Xem thông tin danh lam thắng cảnh"
         }
         open={isModalVisible}
         onCancel={onCancel}
@@ -283,11 +285,11 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
               </Form.Item>
               <Form.Item
                 name="name"
-                label="Name"
+                label="Tên danh lam thắng cảnh"
                 rules={[
                   {
                     required: true,
-                    message: "Name is required"
+                    message: "Tên danh lam thắng cảnh là bắt buộc"
                   }
                 ]}
               >
@@ -296,7 +298,9 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
               <Form.Item
                 name="picture"
                 label={
-                  <label className="label-required title-header">Image</label>
+                  <label className="label-required title-header">
+                    Hình ảnh
+                  </label>
                 }
                 className="mt-2"
               >
@@ -306,11 +310,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                   disabled={auth.role !== "ADMIN"}
                 />
               </Form.Item>
-              <Form.Item
-                name="description"
-                label="Description"
-                className="mt-2"
-              >
+              <Form.Item name="description" label="Mô tả" className="mt-2">
                 <TextArea rows={4} disabled={auth.role !== "ADMIN"} />
               </Form.Item>
               <Form.Item
@@ -320,7 +320,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                 rules={[
                   {
                     type: "url",
-                    message: "Youtube Review link must be a valid url."
+                    message: "Đường dẫn không hợp lệ"
                   }
                 ]}
               >
@@ -337,7 +337,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
           }}
         >
           <Button onClick={onCancel} htmlType="button">
-            Back
+            Quay về
           </Button>
           {auth.role === "ADMIN" && (
             <Button
@@ -347,7 +347,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                 form.submit();
               }}
             >
-              Save
+              Lưu
             </Button>
           )}
         </Space>

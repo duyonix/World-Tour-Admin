@@ -11,8 +11,8 @@ const variables = {
 };
 
 export const COSTUME_TYPE = {
-  COMMON: "COMMON",
-  SPECIFIC: "SPECIFIC"
+  COMMON: "THÔNG THƯỜNG",
+  SPECIFIC: "ĐẶC TRƯNG"
 };
 
 export default variables;

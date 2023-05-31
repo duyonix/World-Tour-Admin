@@ -17,7 +17,7 @@ const RegionLabel = ({ region }: Props) => (
       <Col>
         {region.isAll ? (
           <Title level={5} className="mb-0 mt-2">
-            All
+            Tất cả
           </Title>
         ) : (
           <>

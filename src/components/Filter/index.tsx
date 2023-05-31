@@ -107,7 +107,7 @@ const Filter = ({
     return [
       {
         value: "",
-        label: "All"
+        label: "Tất cả"
       }
     ].concat(list);
   };
@@ -211,26 +211,8 @@ const Filter = ({
                     <StyledSpace className="button-search">
                       {isReset && (
                         <StyledButton htmlType="button" onClick={onReset}>
-                          Reset Filter
+                          Hủy bộ lọc
                         </StyledButton>
-                      )}
-                    </StyledSpace>
-                  </Form.Item>
-                </Col>
-              )}
-              {isExport && (
-                <Col xs={3} xxl={2} className="text-right">
-                  <Form.Item>
-                    <StyledSpace className="button-search">
-                      {isExport && (
-                        <Button
-                          className="button-center button-with-icon"
-                          onClick={onExport}
-                          loading={isExportLoading}
-                        >
-                          <IconFont type="export-file" size="1.571em" />
-                          Export
-                        </Button>
                       )}
                     </StyledSpace>
                   </Form.Item>

@@ -46,11 +46,7 @@ const UserDetailManagement = () => {
   ];
 
   useEffect(() => {
-    if (id === "add") {
-      breadcrumb.addBreadcrumb("Add");
-    } else {
-      fetchDetail();
-    }
+    fetchDetail();
   }, [id]);
 
   const fetchDetail = async () => {
@@ -85,9 +81,9 @@ const UserDetailManagement = () => {
     } else {
       switch (res?.status) {
         case variables.NOT_FOUND:
-          return toast.error(messages.NOT_FOUND("user"));
+          return toast.error(messages.NOT_FOUND("Người dùng"));
         default:
-          return toast.error(messages.GET_DETAIL_FAILED("user"));
+          return toast.error(messages.GET_DETAIL_FAILED("người dùng"));
       }
     }
   };
@@ -111,10 +107,10 @@ const UserDetailManagement = () => {
     });
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.EDIT_SUCCESS("role"));
+      toast.success(messages.EDIT_SUCCESS("phân quyền"));
       setIsChange(false);
     } else {
-      toast.error(messages.EDIT_FAILED("role"));
+      toast.error(messages.EDIT_FAILED("phân quyền"));
     }
   };
 
@@ -125,7 +121,7 @@ const UserDetailManagement = () => {
 
   const itemsTab = [
     {
-      label: "General Information",
+      label: "Thông tin chung",
       key: "1",
       children: (
         <Row gutter={[64, 16]} className="px-4">
@@ -133,12 +129,12 @@ const UserDetailManagement = () => {
             <Form.Item name="email" label="Email">
               <Input disabled />
             </Form.Item>
-            <Form.Item name="fullName" label="Full name" className="mt-2">
+            <Form.Item name="fullName" label="Họ tên" className="mt-2">
               <Input disabled />
             </Form.Item>
             <Form.Item
               name="mobileNumber"
-              label="Mobile number"
+              label="Số điện thoại"
               className="mt-2"
             >
               <Input disabled />
@@ -150,7 +146,7 @@ const UserDetailManagement = () => {
               style={{ alignItems: "end" }}
             >
               <Col flex={1}>
-                <Form.Item name="role" label="Role">
+                <Form.Item name="role" label="Phân quyền">
                   <Select
                     options={ROLE_OPTIONS}
                     className="w-100"
@@ -164,7 +160,7 @@ const UserDetailManagement = () => {
                   onClick={onSaveRole}
                   disabled={!isChange}
                 >
-                  Change
+                  Cập nhật
                 </Button>
               </Col>
             </Row>
@@ -178,13 +174,13 @@ const UserDetailManagement = () => {
               />
             </Form.Item>
 
-            <Form.Item name="model" label="Model" className="mt-2">
+            <Form.Item name="model" label="Mô hình" className="mt-2">
               <CustomUpload
                 fileList={models}
                 setFileList={setModels}
                 folder="model"
                 accept=".glb"
-                textInfo="(Model must be in .glb format)"
+                textInfo="(Mô hình phải ở định dạng .glb)"
                 type="model"
                 modelScale={4}
                 modelPosition={[0, -4, 0]}
@@ -210,7 +206,7 @@ const UserDetailManagement = () => {
         </Form>
         <Space className="text-right mt-auto btn-action">
           <Button className="button" onClick={onCancel} htmlType="button">
-            Back
+            Quay về
           </Button>
         </Space>
       </Card>

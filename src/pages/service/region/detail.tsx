@@ -50,7 +50,6 @@ const ServiceRegionDetail = () => {
   const [sceneSpots, setSceneSpots] = useState<any[]>([]);
   const [pictures, setPictures] = useState<any[]>([]);
   const [categoryLevel, setCategoryLevel] = useState<number | null>(null);
-  const [activeKey, setActiveKey] = useState("1");
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [data, setData] = useState<any>({});
   const breadcrumb = useContext(BreadcrumbContext);
@@ -61,7 +60,7 @@ const ServiceRegionDetail = () => {
 
   useEffect(() => {
     if (id === "add") {
-      breadcrumb.addBreadcrumb("Add");
+      breadcrumb.addBreadcrumb("Thêm mới");
     } else {
       fetchDetail();
     }
@@ -106,9 +105,9 @@ const ServiceRegionDetail = () => {
     } else {
       switch (res?.status) {
         case variables.NOT_FOUND:
-          return toast.error(messages.NOT_FOUND("region"));
+          return toast.error(messages.NOT_FOUND("Địa danh"));
         default:
-          return toast.error(messages.GET_DETAIL_FAILED("region"));
+          return toast.error(messages.GET_DETAIL_FAILED("địa danh"));
       }
     }
   };
@@ -118,16 +117,16 @@ const ServiceRegionDetail = () => {
     const res = await serviceService.region.addRegion(data);
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.CREATE_SUCCESS("region"));
+      toast.success(messages.CREATE_SUCCESS("địa danh"));
       history.push("/service/regions");
     } else {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
-          return toast.error(messages.EXISTED("Region name"));
+          return toast.error(messages.EXISTED("Tên địa danh"));
         case variables.NOT_SUITABLE:
-          return toast.error(messages.NOT_SUITABLE("Parent region"));
+          return toast.error(messages.NOT_SUITABLE("Địa danh trực thuộc"));
         default:
-          return toast.error(messages.CREATE_FAILED("region"));
+          return toast.error(messages.CREATE_FAILED("địa danh"));
       }
     }
   };
@@ -137,17 +136,17 @@ const ServiceRegionDetail = () => {
     const res = await serviceService.region.updateRegion(id, data);
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.EDIT_SUCCESS("region"));
+      toast.success(messages.EDIT_SUCCESS("địa danh"));
       breadcrumb.addBreadcrumb(data.name);
       setIsChange(false);
     } else {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
-          return toast.error(messages.EXISTED("Region name"));
+          return toast.error(messages.EXISTED("Tên địa danh"));
         case variables.NOT_SUITABLE:
-          return toast.error(messages.NOT_SUITABLE("Parent region"));
+          return toast.error(messages.NOT_SUITABLE("Địa danh trực thuộc"));
         default:
-          return toast.error(messages.EDIT_FAILED("region"));
+          return toast.error(messages.EDIT_FAILED("địa danh"));
       }
     }
   };
@@ -174,10 +173,10 @@ const ServiceRegionDetail = () => {
 
   const onSave = data => {
     if (pictures.length === 0) {
-      return toast.error("Please upload picture");
+      return toast.error("Bắt buộc phải có hình ảnh");
     }
     if (backgrounds.length === 0) {
-      return toast.error("Please upload at least 1 background image");
+      return toast.error("Bắt buộc có ít nhất 1 hình nền");
     }
 
     const newData = convertData(data);
@@ -217,18 +216,18 @@ const ServiceRegionDetail = () => {
 
   const itemsTab = [
     {
-      label: "General Information",
+      label: "Thông tin chung",
       key: "1",
       children: (
         <Row gutter={[64, 16]} className="px-4">
           <Col span={12}>
             <Form.Item
               name="name"
-              label="Region Name"
+              label="Tên địa danh"
               rules={[
                 {
                   required: true,
-                  message: "Region Name is required"
+                  message: "Tên địa danh là bắt buộc"
                 }
               ]}
             >
@@ -237,11 +236,11 @@ const ServiceRegionDetail = () => {
             <Form.Item
               className="mt-2"
               name="commonName"
-              label="Common Name"
+              label="Tên gọi chung"
               rules={[
                 {
                   required: true,
-                  message: "Common Name is required"
+                  message: "Tên gọi chung là bắt buộc"
                 }
               ]}
             >
@@ -250,16 +249,16 @@ const ServiceRegionDetail = () => {
             <Form.Item
               className="mt-2"
               name="categoryId"
-              label="Category"
+              label="Phân loại"
               rules={[
                 {
                   required: true,
-                  message: "Category is required"
+                  message: "Phân loại là bắt buộc"
                 }
               ]}
             >
               <Select
-                placeholder="Select Category"
+                placeholder="Chọn phân loại"
                 optionFilterProp="label"
                 className="w-100"
                 options={mappingOptions(categoryOptions.data, "id", "name")}
@@ -272,7 +271,11 @@ const ServiceRegionDetail = () => {
                 disabled={auth.role !== "ADMIN"}
               />
             </Form.Item>
-            <Form.Item className="mt-2" name="parentId" label="Parent Region">
+            <Form.Item
+              className="mt-2"
+              name="parentId"
+              label="Địa danh trực thuộc"
+            >
               <RegionSelect
                 filter={
                   categoryLevel
@@ -288,17 +291,17 @@ const ServiceRegionDetail = () => {
             {categoryLevel === 4 && (
               <div style={{ marginTop: "25px" }}>
                 <Title level={4} className="text-primary">
-                  Country Information
+                  Thông tin Quốc gia
                 </Title>
                 <Row gutter={[16, 16]} className="mt-2">
                   <Col span={12}>
                     <Form.Item
                       name={["country", "code"]}
-                      label="Country Code (iso2)"
+                      label="Mã đất nước (iso2)"
                       rules={[
                         {
                           required: true,
-                          message: "Country Code is required"
+                          message: "Mã đất nước là bắt buộc"
                         }
                       ]}
                     >
@@ -306,34 +309,31 @@ const ServiceRegionDetail = () => {
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item
-                      name={["country", "tld"]}
-                      label="Top Level Domain"
-                    >
+                    <Form.Item name={["country", "tld"]} label="Tên miền">
                       <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]} className="mt-2">
                   <Col span={12}>
-                    <Form.Item name={["country", "capital"]} label="Capital">
+                    <Form.Item name={["country", "capital"]} label="Thủ đô">
                       <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item name={["country", "language"]} label="Language">
+                    <Form.Item name={["country", "language"]} label="Ngôn ngữ">
                       <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Row gutter={[16, 16]} className="mt-2">
                   <Col span={12}>
-                    <Form.Item name={["country", "currency"]} label="Currency">
+                    <Form.Item name={["country", "currency"]} label="Tiền tệ">
                       <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
                   <Col span={12}>
-                    <Form.Item name={["country", "timezone"]} label="Timezone">
+                    <Form.Item name={["country", "timezone"]} label="Múi giờ">
                       <Input disabled={auth.role !== "ADMIN"} />
                     </Form.Item>
                   </Col>
@@ -344,7 +344,7 @@ const ServiceRegionDetail = () => {
             {id !== "add" && data.neighbors && data.neighbors.length > 0 && (
               <div className="mt-4">
                 <Title level={4} className="text-primary">
-                  Neighboring Regions
+                  Địa danh lân cận
                 </Title>
                 <Row gutter={[16, 16]}>
                   {data.neighbors?.map((neighbor: any) => (
@@ -374,7 +374,7 @@ const ServiceRegionDetail = () => {
                   to={`/service/regions?parentId=${id}`}
                   className="animation-link"
                 >
-                  <DoubleRightOutlined /> View Children Regions
+                  <DoubleRightOutlined /> Xem tất cả địa danh con trực thuộc
                 </Link>
               </div>
             )}
@@ -382,11 +382,11 @@ const ServiceRegionDetail = () => {
           <Col span={12}>
             <Form.Item
               name="picture"
-              label="Picture"
+              label="Hình ảnh"
               rules={[
                 {
                   required: true,
-                  message: "Picture is required"
+                  message: "Hình ảnh là bắt buộc"
                 }
               ]}
             >
@@ -399,17 +399,17 @@ const ServiceRegionDetail = () => {
 
             <div className="mt-2">
               <Title level={5} className="mb-0">
-                Coordinate
+                Tọa độ
               </Title>
               <Row gutter={[16, 16]}>
                 <Col span={12}>
                   <Form.Item
                     name={["coordinate", "lattitude"]}
-                    label="Latitude"
+                    label="Vĩ độ"
                     rules={[
                       {
                         required: true,
-                        message: "Latitude is required"
+                        message: "Vĩ độ là bắt buộc"
                       }
                     ]}
                   >
@@ -422,11 +422,11 @@ const ServiceRegionDetail = () => {
                 <Col span={12}>
                   <Form.Item
                     name={["coordinate", "longitude"]}
-                    label="Longitude"
+                    label="Kinh độ"
                     rules={[
                       {
                         required: true,
-                        message: "Longitude is required"
+                        message: "Kinh độ là bắt buộc"
                       }
                     ]}
                   >
@@ -441,12 +441,12 @@ const ServiceRegionDetail = () => {
 
             <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
-                <Form.Item name="area" label="Area (km²)">
+                <Form.Item name="area" label="Diện tích (km²)">
                   <Input disabled={auth.role !== "ADMIN"} />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name="population" label="Population (people)">
+                <Form.Item name="population" label="Dân số">
                   <Input disabled={auth.role !== "ADMIN"} />
                 </Form.Item>
               </Col>
@@ -458,7 +458,7 @@ const ServiceRegionDetail = () => {
               rules={[
                 {
                   type: "url",
-                  message: "Youtube Review link must be a valid url."
+                  message: "Đường dẫn không hợp lệ"
                 }
               ]}
               className="mt-2"
@@ -466,7 +466,7 @@ const ServiceRegionDetail = () => {
               <ReviewInput disabled={auth.role !== "ADMIN"} />
             </Form.Item>
 
-            <Form.Item name="description" label="Description" className="mt-2">
+            <Form.Item name="description" label="Mô tả" className="mt-2">
               <TextArea rows={5} disabled={auth.role !== "ADMIN"} />
             </Form.Item>
           </Col>
@@ -474,7 +474,7 @@ const ServiceRegionDetail = () => {
       )
     },
     {
-      label: "Backgrounds",
+      label: "Hình nền",
       key: "2",
       children: (
         <RegionBackgroundTab
@@ -486,7 +486,7 @@ const ServiceRegionDetail = () => {
       forceRender: true
     },
     {
-      label: "Scene Spots",
+      label: "Danh lam thắng cảnh",
       key: "3",
       children: (
         <RegionSceneSpotTab
@@ -501,7 +501,7 @@ const ServiceRegionDetail = () => {
 
   if (id !== "add" && data.weather) {
     itemsTab.push({
-      label: "Weather",
+      label: "Thời tiết",
       key: "4",
       children: <RegionWeatherTab weather={data.weather} />,
       forceRender: true
@@ -521,18 +521,11 @@ const ServiceRegionDetail = () => {
           name="app"
           onFinish={onSave}
         >
-          <Tabs
-            activeKey={activeKey}
-            className="tab-detail"
-            items={itemsTab}
-            onChange={(key: string) => {
-              setActiveKey(key);
-            }}
-          />
+          <Tabs defaultActiveKey="1" className="tab-detail" items={itemsTab} />
         </Form>
         <Space className="text-right mt-auto btn-action">
           <Button className="button" onClick={onCancel} htmlType="button">
-            Back
+            Quay về
           </Button>
           {auth.role === "ADMIN" && (
             <Button
@@ -542,7 +535,7 @@ const ServiceRegionDetail = () => {
               htmlType="submit"
               onClick={() => form.submit()}
             >
-              Save
+              Lưu
             </Button>
           )}
         </Space>

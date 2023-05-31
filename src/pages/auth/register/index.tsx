@@ -72,7 +72,7 @@ const Register = () => {
             alt="earth"
           />
           <Title level={3} style={{ margin: "0 0px 3vh 0" }}>
-            Register for World Tour Dashboard
+            Đăng ký vào World Tour Dashboard
           </Title>
           <Form
             style={{ maxWidth: "400px", width: "100%" }}
@@ -85,11 +85,11 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your email!"
+                  message: "Vui lòng nhập email!"
                 },
                 {
                   type: "email",
-                  message: "Please input a valid email!"
+                  message: "Email không hợp lệ!"
                 }
               ]}
             >
@@ -102,11 +102,11 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Please input your password!"
+                  message: "Vui lòng nhập mật khẩu!"
                 }
               ]}
             >
-              <Input.Password placeholder="Password" prefix={<KeyOutlined />} />
+              <Input.Password placeholder="Mật khẩu" prefix={<KeyOutlined />} />
             </Form.Item>
 
             <Form.Item
@@ -115,56 +115,54 @@ const Register = () => {
               rules={[
                 {
                   required: true,
-                  message: "Re-enter your password!"
+                  message: "Vui lòng nhập lại mật khẩu!"
                 }
               ]}
             >
               <Input.Password
-                placeholder="Re-enter password"
+                placeholder="Nhập lại mật khẩu"
                 prefix={<KeyOutlined />}
               />
             </Form.Item>
 
-            <Row gutter={16}>
+            <Row gutter={16} className="mt-2">
               <Col md={12}>
                 <Form.Item
-                  className="mt-2"
-                  name="firstName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Input your first name!"
-                    }
-                  ]}
-                >
-                  <Input placeholder="First name" />
-                </Form.Item>
-              </Col>
-              <Col md={12}>
-                <Form.Item
-                  className="mt-2"
                   name="lastName"
                   rules={[
                     {
                       required: true,
-                      message: "Input your last name!"
+                      message: "Vui lòng nhập họ!"
                     }
                   ]}
                 >
-                  <Input placeholder="Last name" />
+                  <Input placeholder="Họ" />
+                </Form.Item>
+              </Col>
+              <Col md={12}>
+                <Form.Item
+                  name="firstName"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập tên!"
+                    }
+                  ]}
+                >
+                  <Input placeholder="Tên" />
                 </Form.Item>
               </Col>
             </Row>
 
             <Form.Item className="mt-2" name="mobileNumber">
-              <Input placeholder="Mobile number" />
+              <Input placeholder="Số điện thoại" />
             </Form.Item>
 
             <Form.Item name="remember" valuePropName="checked" className="mt-2">
               <Checkbox>
-                I agree the{" "}
+                Tôi đồng ý với{" "}
                 <a href="#register" className="font-bold text-dark">
-                  Terms and Conditions
+                  Điều khoản sử dụng
                 </a>
               </Checkbox>
             </Form.Item>
@@ -172,13 +170,13 @@ const Register = () => {
             <Divider />
             <Form.Item>
               <Button block type="primary" htmlType="submit">
-                Register
+                Đăng ký
               </Button>
             </Form.Item>
             <p className="font-semibold text-muted text-center mt-1">
-              Already have an account?{" "}
+              Đã có tài khoản?{" "}
               <Link to="/login" className="text-dark font-bold">
-                Login here
+                Đăng nhập tại đây
               </Link>
             </p>
           </Form>

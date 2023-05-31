@@ -63,9 +63,9 @@ const UserProfile = () => {
     } else {
       switch (res?.status) {
         case variables.NOT_FOUND:
-          return toast.error(messages.NOT_FOUND("user"));
+          return toast.error(messages.NOT_FOUND("Người dùng"));
         default:
-          return toast.error(messages.GET_DETAIL_FAILED("user"));
+          return toast.error(messages.GET_DETAIL_FAILED("người dùng"));
       }
     }
   };
@@ -84,11 +84,11 @@ const UserProfile = () => {
     const res = await userService.updateProfile(convertData(data));
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success("Update profile successfully!");
+      toast.success("Cập nhật thông tin cá nhân thành công!");
       setIsChange(false);
       dispatch(authActions.getInfo(id));
     } else {
-      toast.error("Update profile failed!");
+      toast.error("Cập nhật thông tin cá nhân thất bại!");
     }
   };
 
@@ -104,7 +104,7 @@ const UserProfile = () => {
 
   const itemsTab = [
     {
-      label: "General Information",
+      label: "Thông tin chung",
       key: "1",
       children: (
         <>
@@ -126,47 +126,45 @@ const UserProfile = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your email!"
+                      message: "Email là bắt buộc!"
                     }
                   ]}
                 >
                   <Input disabled />
                 </Form.Item>
-                <Row gutter={16}>
+                <Row gutter={16} className="mt-2">
                   <Col md={12}>
                     <Form.Item
-                      className="mt-2"
-                      name="firstName"
-                      label="First name"
+                      name="lastName"
+                      label="Họ"
                       rules={[
                         {
                           required: true,
-                          message: "Input your first name!"
+                          message: "Họ là bắt buộc!"
                         }
                       ]}
                     >
-                      <Input placeholder="First name" />
+                      <Input placeholder="Họ" />
                     </Form.Item>
                   </Col>
                   <Col md={12}>
                     <Form.Item
-                      className="mt-2"
-                      name="lastName"
-                      label="Last name"
+                      name="firstName"
+                      label="Tên"
                       rules={[
                         {
                           required: true,
-                          message: "Input your last name!"
+                          message: "Tên là bắt buộc!"
                         }
                       ]}
                     >
-                      <Input placeholder="Last name" />
+                      <Input placeholder="Tên" />
                     </Form.Item>
                   </Col>
                 </Row>
                 <Form.Item
                   name="mobileNumber"
-                  label="Mobile number"
+                  label="Số điện thoại"
                   className="mt-2"
                 >
                   <Input />
@@ -179,13 +177,7 @@ const UserProfile = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Text
-                  style={{
-                    fontWeight: "600"
-                  }}
-                >
-                  Model
-                </Text>
+                <Text className="font-semibold">Mô hình</Text>
                 {model && (
                   <div
                     style={{
@@ -219,7 +211,7 @@ const UserProfile = () => {
                     type="primary"
                     onClick={() => setShowIFrame(true)}
                   >
-                    {model ? "Update Avatar Model" : "Create Avatar Model"}
+                    {model ? "Cập nhật mô hình Avatar" : "Tạo mô hình Avatar"}
                   </Button>
                 </div>
                 <ReadyPlayerMe
@@ -244,14 +236,14 @@ const UserProfile = () => {
               htmlType="submit"
               onClick={() => form.submit()}
             >
-              Save
+              Lưu
             </Button>
           </Space>
         </>
       )
     },
     {
-      label: "Change Password",
+      label: "Đổi mật khẩu",
       key: "2",
       children: (
         <ChangePassword

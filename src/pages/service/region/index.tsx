@@ -80,7 +80,7 @@ const ServiceRegions = () => {
     setIsDeleteLoading(false);
 
     if (res.status === variables.OK) {
-      toast.success(messages.DELETE_SUCCESS("region"));
+      toast.success(messages.DELETE_SUCCESS("địa danh"));
       if (index === total && index !== 1 && index % size === 1) {
         history.push(
           "?" +
@@ -95,16 +95,16 @@ const ServiceRegions = () => {
     } else {
       switch (res?.status) {
         case variables.ALREADY_USED_ELSEWHERE:
-          return toast.error(messages.ALREADY_USED_ELSEWHERE("region"));
+          return toast.error(messages.ALREADY_USED_ELSEWHERE("Địa danh"));
         default:
-          return toast.error(messages.DELETE_FAILED("region"));
+          return toast.error(messages.DELETE_FAILED("địa danh"));
       }
     }
   };
 
   const onConfirmRemove = (id: number, index: number) => {
     ConfirmModal({
-      title: messages.CONFIRM_DELETE("region"),
+      title: messages.CONFIRM_DELETE("địa danh"),
       onOk() {
         onDelete(id, index);
       }
@@ -113,32 +113,32 @@ const ServiceRegions = () => {
 
   const columns = [
     {
-      title: "No.",
+      title: "STT",
       render: (_: any, __: any, index: number) => page * size + index + 1,
       width: 100
     },
     {
-      title: "Region Name",
+      title: "Tên địa danh",
       dataIndex: "name",
       width: 250
     },
     {
-      title: "Common Name",
+      title: "Tên gọi chung",
       dataIndex: "commonName",
       width: 200
     },
     {
-      title: "Category",
+      title: "Phân loại",
       dataIndex: ["category", "name"],
       width: 200
     },
     {
-      title: "Parent Region",
+      title: "Địa danh trực thuộc",
       dataIndex: ["parent", "name"],
       width: 200
     },
     {
-      title: "Path",
+      title: "Đường dẫn",
       dataIndex: "path",
       width: 400,
       render: (path: string) => (
@@ -173,12 +173,12 @@ const ServiceRegions = () => {
       <Filter
         filterSelects={[
           {
-            label: "Category",
+            label: "Phân loại",
             name: "categoryId",
             options: mappingOptions(categoryOptions.data, "id", "name")
           },
           {
-            label: "Parent Region",
+            label: "Địa danh trực thuộc",
             name: "parentId",
             isRegionSelect: true,
             filter: categoryLevel ? { level: categoryLevel - 1 } : {},
@@ -186,16 +186,16 @@ const ServiceRegions = () => {
           }
         ]}
         isReset
-        placeholder="Search by Name or Common Name"
+        placeholder="Tìm kiếm theo tên địa danh hoặc tên gọi chung"
         isSearch
         nameSearch="search"
       />
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
-          <Col className="d-flex al-center">Total: {total}</Col>
+          <Col className="d-flex al-center">Tổng cộng: {total}</Col>
           {auth.role === "ADMIN" && (
             <Button type="primary" onClick={onAdd}>
-              Add
+              Thêm mới
             </Button>
           )}
         </Row>
@@ -217,7 +217,9 @@ const ServiceRegions = () => {
               }}
             ></Table>
           ) : (
-            !loading && <div className="text-center m-4">No regions found</div>
+            !loading && (
+              <div className="text-center m-4">Không tìm thấy địa danh nào</div>
+            )
           )}
         </Spin>
       </Card>
