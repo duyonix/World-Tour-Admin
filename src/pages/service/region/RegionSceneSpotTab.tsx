@@ -18,6 +18,7 @@ import CustomUpload from "@/components/CustomUpload";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import "./style.scss";
+import ReviewInput from "@/components/ReviewInput";
 
 const { Text } = Typography;
 const { TextArea } = Input;
@@ -324,7 +325,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                   }
                 ]}
               >
-                <Input className="text-link" />
+                <ReviewInput />
               </Form.Item>
             </Col>
           </Row>

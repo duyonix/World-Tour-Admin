@@ -32,6 +32,7 @@ import RegionSceneSpotTab from "./RegionSceneSpotTab";
 import { DoubleRightOutlined } from "@ant-design/icons";
 import "./style.scss";
 import RegionWeatherTab from "./RegionWeatherTab";
+import ReviewInput from "@/components/ReviewInput";
 
 const { TextArea } = Input;
 const { Title, Text } = Typography;
@@ -79,7 +80,8 @@ const ServiceRegionDetail = () => {
       form.setFieldsValue({
         ...res.payload,
         categoryId: res.payload.categoryId.toString(),
-        parentId: res.payload.parentId?.toString()
+        parentId: res.payload.parentId?.toString(),
+        review: res.payload.review || null
       });
       setData(res.payload);
 
@@ -166,7 +168,7 @@ const ServiceRegionDetail = () => {
       }
       return sceneSpot;
     });
-    
+
     return cleanObject(newData);
   };
 
@@ -437,19 +439,21 @@ const ServiceRegionDetail = () => {
                 </Form.Item>
               </Col>
             </Row>
+
             <Form.Item
               name="review"
               label="Youtube Review"
-              className="mt-2"
               rules={[
                 {
                   type: "url",
                   message: "Youtube Review link must be a valid url."
                 }
               ]}
+              className="mt-2"
             >
-              <Input className="text-link" />
+              <ReviewInput />
             </Form.Item>
+
             <Form.Item name="description" label="Description" className="mt-2">
               <TextArea rows={5} />
             </Form.Item>
@@ -487,7 +491,8 @@ const ServiceRegionDetail = () => {
     itemsTab.push({
       label: "Weather",
       key: "4",
-      children: <RegionWeatherTab weather={data.weather} />
+      children: <RegionWeatherTab weather={data.weather} />,
+      forceRender: true
     });
   }
 
