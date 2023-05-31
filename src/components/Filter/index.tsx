@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Form, Input, Row, Select, Space, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import qs from "query-string";
 import styled from "styled-components";
 import "./style.scss";
-import IconFont from "@/components/IconFont";
 import RegionSelect from "@/components/RegionSelect";
 import _ from "lodash";
 import { useHistory, useLocation } from "react-router-dom";
@@ -54,7 +53,6 @@ const Filter = ({
 }: Props) => {
   const [form] = Form.useForm();
   const location = useLocation();
-  const [isExportLoading, setIsExportLoading] = useState(false);
   const history = useHistory();
   const queryString = qs.parse(location.search);
   const defaultSize = 4;
@@ -93,14 +91,6 @@ const Filter = ({
   const onReset = () => {
     actionReset ? actionReset() : history.push(location.pathname);
     form.resetFields();
-  };
-
-  const onExport = async () => {
-    setIsExportLoading(true);
-    if (actionExport) {
-      await actionExport();
-    }
-    setIsExportLoading(false);
   };
 
   const addOptionAll = list => {

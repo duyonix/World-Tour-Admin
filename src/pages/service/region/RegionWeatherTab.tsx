@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Row, Col, Typography, Card, Space } from "antd";
 import { convertTimestampToDate } from "@/utils";
 
@@ -151,4 +151,4 @@ const RegionWeatherTab = ({ weather }: Props) => {
   );
 };
 
-export default RegionWeatherTab;
+export default memo(RegionWeatherTab);
