@@ -23,11 +23,11 @@ const RegionSelect = ({
   const serviceService = new ServiceService();
   const optionAll = {
     value: "",
-    labelSelect: "All",
+    labelSelect: "Tất cả",
     label: (
       <RegionLabel
         region={{
-          name: "All",
+          name: "Tất cả",
           isAll: true
         }}
       />
@@ -111,7 +111,7 @@ const RegionSelect = ({
       optionLabelProp="labelSelect"
       popupClassName="region-select"
       notFoundContent={fetching ? <Spin size="small" /> : <Empty />}
-      placeholder="Type to search region"
+      placeholder="Nhập để tìm kiếm địa danh"
       {...restProps}
     />
   );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -54,7 +54,7 @@ const ServiceCostumes = () => {
     setIsDeleteLoading(false);
 
     if (res.status === variables.OK) {
-      toast.success(messages.DELETE_SUCCESS("costume"));
+      toast.success(messages.DELETE_SUCCESS("trang phục"));
       if (index === total && index !== 1 && index % size === 1) {
         history.push(
           "?" +
@@ -69,16 +69,16 @@ const ServiceCostumes = () => {
     } else {
       switch (res?.status) {
         case variables.ALREADY_USED_ELSEWHERE:
-          return toast.error(messages.ALREADY_USED_ELSEWHERE("costume"));
+          return toast.error(messages.ALREADY_USED_ELSEWHERE("Trang phục"));
         default:
-          return toast.error(messages.DELETE_FAILED("costume"));
+          return toast.error(messages.DELETE_FAILED("trang phục"));
       }
     }
   };
 
   const onConfirmRemove = (id: number, index: number) => {
     ConfirmModal({
-      title: messages.CONFIRM_DELETE("costume"),
+      title: messages.CONFIRM_DELETE("trang phục"),
       onOk() {
         onDelete(id, index);
       }
@@ -87,33 +87,33 @@ const ServiceCostumes = () => {
 
   const columns = [
     {
-      title: "No.",
+      title: "STT",
       render: (_: any, __: any, index: number) => page * size + index + 1,
       width: 100
     },
     {
-      title: "Costume Name",
+      title: "Tên trang phục",
       dataIndex: "name",
       width: 250
     },
     {
-      title: "Type",
+      title: "Loại",
       dataIndex: "type",
       width: 200,
       align: "center",
       render: (text: string) => (
-        <Tag color={text === COSTUME_TYPE.COMMON ? "cyan" : "gold"}>
+        <Tag color={text === "COMMON" ? "cyan" : "gold"}>
           {COSTUME_TYPE[text]}
         </Tag>
       )
     },
     {
-      title: "Region",
+      title: "Địa danh",
       dataIndex: ["region", "name"],
       width: 200
     },
     {
-      title: "Description",
+      title: "Mô tả",
       dataIndex: "description",
       width: 400,
       render: (text: string) => <Text className="text-limit">{text}</Text>
@@ -144,7 +144,7 @@ const ServiceCostumes = () => {
       <Filter
         filterSelects={[
           {
-            label: "Type",
+            label: "Loại",
             name: "type",
             options: Object.keys(COSTUME_TYPE).map(key => ({
               value: key,
@@ -152,23 +152,23 @@ const ServiceCostumes = () => {
             }))
           },
           {
-            label: "Region",
+            label: "Địa danh",
             name: "regionId",
             isRegionSelect: true,
             size: 8
           }
         ]}
         isReset
-        placeholder="Search by Name"
+        placeholder="Tìm kiếm theo tên trang phục"
         isSearch
         nameSearch="search"
       />
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
-          <Col className="d-flex al-center">Total: {total}</Col>
+          <Col className="d-flex al-center">Tổng cộng: {total}</Col>
           {auth.role === "ADMIN" && (
             <Button type="primary" onClick={onAdd}>
-              Add
+              Thêm mới
             </Button>
           )}
         </Row>
@@ -190,7 +190,11 @@ const ServiceCostumes = () => {
               }}
             ></Table>
           ) : (
-            !loading && <div className="text-center m-4">No costumes found</div>
+            !loading && (
+              <div className="text-center m-4">
+                Không tìm thấy trang phục nào
+              </div>
+            )
           )}
         </Spin>
       </Card>

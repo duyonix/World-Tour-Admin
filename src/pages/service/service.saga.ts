@@ -1,4 +1,4 @@
-import { put, call, takeLatest, all } from "redux-saga/effects";
+import { put, call, takeLatest } from "redux-saga/effects";
 import ServiceService from "@/services/service";
 import { serviceActions } from "./service.slice";
 import variables from "@/constants/variables";
@@ -10,7 +10,7 @@ function* getCategoryOptions() {
     yield put(serviceActions.getCategoryOptionsSuccess(res.payload));
   } else {
     yield put(
-      serviceActions.getCategoryOptionsError("Get category options error")
+      serviceActions.getCategoryOptionsError("Lấy danh sách phân loại thất bại")
     );
   }
 }
@@ -21,7 +21,9 @@ function* getRegionOptions(params: any) {
   if (res?.status === variables.OK) {
     yield put(serviceActions.getRegionOptionsSuccess(res.payload));
   } else {
-    yield put(serviceActions.getRegionOptionsError("Get region options error"));
+    yield put(
+      serviceActions.getRegionOptionsError("Lấy danh sách địa danh thất bại")
+    );
   }
 }
 

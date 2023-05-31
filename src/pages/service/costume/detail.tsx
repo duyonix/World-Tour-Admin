@@ -34,7 +34,7 @@ const ServiceCostumeDetail = () => {
   const [loading, setLoading] = useState(false);
   const [pictures, setPictures] = useState<any[]>([]);
   const [models, setModels] = useState<any[]>([]);
-  const [type, setType] = useState(COSTUME_TYPE.COMMON);
+  const [type, setType] = useState("COMMON");
   const breadcrumb = useContext(BreadcrumbContext);
   const [form] = Form.useForm();
 
@@ -43,10 +43,8 @@ const ServiceCostumeDetail = () => {
 
   useEffect(() => {
     if (id === "add") {
-      breadcrumb.addBreadcrumb("Add");
-      form.setFieldsValue({
-        type: COSTUME_TYPE.COMMON
-      });
+      breadcrumb.addBreadcrumb("Thêm mới");
+      form.setFieldsValue({ type: "COMMON" });
     } else {
       fetchDetail();
     }
@@ -88,9 +86,9 @@ const ServiceCostumeDetail = () => {
     } else {
       switch (res?.status) {
         case variables.NOT_FOUND:
-          return toast.error(messages.NOT_FOUND("costume"));
+          return toast.error(messages.NOT_FOUND("Trang phục"));
         default:
-          return toast.error(messages.GET_DETAIL_FAILED("costume"));
+          return toast.error(messages.GET_DETAIL_FAILED("trang phục"));
       }
     }
   };
@@ -100,14 +98,14 @@ const ServiceCostumeDetail = () => {
     const res = await serviceService.costume.addCostume(data);
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.CREATE_SUCCESS("costume"));
+      toast.success(messages.CREATE_SUCCESS("trang phục"));
       history.push("/service/costumes");
     } else {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
-          return toast.error(messages.EXISTED("Costume name"));
+          return toast.error(messages.EXISTED("Tên trang phục"));
         default:
-          return toast.error(messages.CREATE_FAILED("costume"));
+          return toast.error(messages.CREATE_FAILED("trang phục"));
       }
     }
   };
@@ -117,15 +115,15 @@ const ServiceCostumeDetail = () => {
     const res = await serviceService.costume.updateCostume(id, data);
     setLoading(false);
     if (res.status === variables.OK) {
-      toast.success(messages.EDIT_SUCCESS("costume"));
+      toast.success(messages.EDIT_SUCCESS("trang phục"));
       breadcrumb.addBreadcrumb(data.name);
       setIsChange(false);
     } else {
       switch (res?.status) {
         case variables.DUPLICATE_ENTITY:
-          return toast.error(messages.EXISTED("Costume name"));
+          return toast.error(messages.EXISTED("Tên trang phục"));
         default:
-          return toast.error(messages.EDIT_FAILED("costume"));
+          return toast.error(messages.EDIT_FAILED("trang phục"));
       }
     }
   };
@@ -148,10 +146,10 @@ const ServiceCostumeDetail = () => {
 
   const onSave = data => {
     if (pictures.length === 0) {
-      return toast.error("Please upload picture");
+      return toast.error("Bắt buộc phải có hình ảnh");
     }
     if (models.length === 0) {
-      return toast.error("Please upload model");
+      return toast.error("Bắt buộc phải có mô hình");
     }
 
     const newData = convertData(data);
@@ -186,18 +184,18 @@ const ServiceCostumeDetail = () => {
 
   const itemsTab = [
     {
-      label: "General Information",
+      label: "Thông tin chung",
       key: "1",
       children: (
         <Row gutter={[64, 16]} className="px-4">
           <Col span={12}>
             <Form.Item
               name="name"
-              label="Costume Name"
+              label="Tên trang phục"
               rules={[
                 {
                   required: true,
-                  message: "Costume Name is required"
+                  message: "Tên trang phục là bắt buộc"
                 }
               ]}
             >
@@ -206,39 +204,39 @@ const ServiceCostumeDetail = () => {
             <Form.Item
               className="mt-2"
               name="type"
-              label="Type"
+              label="Loại"
               rules={[
                 {
                   required: true,
-                  message: "Type is required"
+                  message: "Loại là bắt buộc"
                 }
               ]}
             >
               <Select
                 onChange={value => setType(value)}
-                placeholder="Select type"
+                placeholder="Chọn loại trang phục"
                 options={Object.keys(COSTUME_TYPE).map(key => ({
                   value: key,
                   label: COSTUME_TYPE[key]
                 }))}
               />
             </Form.Item>
-            {type === COSTUME_TYPE.SPECIFIC && (
+            {type === "SPECIFIC" && (
               <Form.Item
                 className="mt-2"
                 name="regionId"
-                label="Region"
+                label="Địa danh"
                 rules={[
                   {
-                    required: type === COSTUME_TYPE.SPECIFIC,
-                    message: "Region is required"
+                    required: type === "SPECIFIC",
+                    message: "Địa danh là bắt buộc"
                   }
                 ]}
               >
                 <RegionSelect />
               </Form.Item>
             )}
-            <Form.Item name="description" label="Description" className="mt-2">
+            <Form.Item name="description" label="Mô tả" className="mt-2">
               <TextArea rows={5} />
             </Form.Item>
           </Col>
@@ -246,11 +244,11 @@ const ServiceCostumeDetail = () => {
           <Col span={12}>
             <Form.Item
               name="picture"
-              label="Picture"
+              label="Hình ảnh"
               rules={[
                 {
                   required: true,
-                  message: "Picture is required"
+                  message: "Hình ảnh là bắt buộc"
                 }
               ]}
             >
@@ -262,12 +260,12 @@ const ServiceCostumeDetail = () => {
             </Form.Item>
             <Form.Item
               name="model"
-              label="Model"
+              label="Mô hình"
               className="mt-2"
               rules={[
                 {
                   required: true,
-                  message: "Model is required"
+                  message: "Mô hình là bắt buộc"
                 }
               ]}
             >
@@ -276,7 +274,7 @@ const ServiceCostumeDetail = () => {
                 setFileList={handleModels}
                 folder="model"
                 accept=".glb"
-                textInfo="(Model must be in .glb format)"
+                textInfo="(Mô hình phải ở định dạng .glb)"
                 type="model"
                 modelPosition={[0, -10, 0]}
                 disabled={auth.role !== "ADMIN"}
@@ -306,7 +304,7 @@ const ServiceCostumeDetail = () => {
         </Form>
         <Space className="text-right mt-auto btn-action">
           <Button className="button" onClick={onCancel} htmlType="button">
-            Back
+            Quay về
           </Button>
           {auth.role === "ADMIN" && (
             <Button
@@ -316,7 +314,7 @@ const ServiceCostumeDetail = () => {
               htmlType="submit"
               onClick={() => form.submit()}
             >
-              Save
+              Lưu
             </Button>
           )}
         </Space>

@@ -65,7 +65,7 @@ const ReadyPlayerMe = ({ showIFrame, setShowIFrame, setModel }: Props) => {
 
   return (
     <Modal
-      title="Change Avatar Model"
+      title="Đổi Mô hình 3D Avatar"
       open={showIFrame}
       footer={null}
       onCancel={() => setShowIFrame(false)}

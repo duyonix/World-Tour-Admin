@@ -33,7 +33,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
   const onLogout = () => {
     const authService = new AuthService();
     authService.logout().then(() => {
-      toast.success("Logout Success");
+      toast.success("Đăng xuất thành công");
       dispatch(authActions.logoutSuccess());
     });
   };
@@ -55,7 +55,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
               to="/user/profile"
               className="text-with-icon flex-between color-primary"
             >
-              <span>Profile</span>
+              <span>Thông tin cá nhân</span>
               <IconFont className="mr-0" type="staff-card" size="1.571em" />
             </Link>
           )
@@ -67,7 +67,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
               onClick={showConfirm}
               className="text-with-icon flex-between color-primary"
             >
-              <span>Logout</span>
+              <span>Đăng xuất</span>
               <IconFont className="mr-0" type="log-out" size="1.571em" />
             </div>
           )
@@ -78,7 +78,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
 
   function showConfirm() {
     ConfirmModal({
-      title: "Do you want to logout the page ?",
+      title: "Bạn có chắc chắn muốn đăng xuất?",
       onOk() {
         onLogout();
       }
@@ -130,7 +130,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
                       src={auth?.user?.avatar || avatarDefault}
                     />{" "}
                     <span className="pr-1 pl-1">
-                      {auth?.user?.fullName || "Not update"}
+                      {auth?.user?.fullName || "Chưa cập nhật"}
                     </span>
                     <CaretDownOutlined />
                   </div>

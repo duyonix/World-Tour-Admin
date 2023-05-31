@@ -50,7 +50,7 @@ const CustomUpload = ({
 
   const onCustomRequest = async ({ file }) => {
     if (file.size > MAX_FILE_SIZE) {
-      return toast.error("File size must be less than 10MB");
+      return toast.error("Kích thước file không được vượt quá 10MB");
     }
 
     setFileList([
@@ -119,8 +119,7 @@ const CustomUpload = ({
         {fileList.length < 2 && !disabled && uploadButton}
       </Upload>
       <Text>
-        {restProps.textInfo ||
-          "(Photo should be less than 10MB and saved as JPG,PNG)"}
+        {restProps.textInfo || "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}
       </Text>
       <Modal
         open={previewOpen}

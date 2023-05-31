@@ -45,7 +45,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
 
   const onConfirmRemove = index => {
     ConfirmModal({
-      title: messages.CONFIRM_DELETE("background"),
+      title: messages.CONFIRM_DELETE("hình nền"),
       onOk() {
         onDelete(index);
       }
@@ -54,7 +54,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
 
   const onSave = values => {
     if (images.length === 0) {
-      toast.error("Please upload image");
+      toast.error("Vui lòng chọn hình nền");
       return;
     }
     const dataImages = images.map(image => image.url);
@@ -82,12 +82,12 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
 
   const columns = [
     {
-      title: "No. ",
+      title: "STT",
       render: (_, __, index) => page * size + index + 1,
       width: 100
     },
     {
-      title: "Image",
+      title: "Hình nền",
       dataIndex: "background",
       render: data => (
         <Image className="preview-icon-only" height={50} src={data} />
@@ -113,11 +113,11 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
   return (
     <div>
       <Row className="mb-2" justify="space-between">
-        <Col className="d-flex al-center">Total: {backgrounds.length}</Col>
+        <Col className="d-flex al-center">Tổng cộng: {backgrounds.length}</Col>
         <Col>
           {auth.role === "ADMIN" && (
             <Button type="primary" onClick={onAdd}>
-              Add
+              Thêm mới
             </Button>
           )}
         </Col>
@@ -140,11 +140,11 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
           }}
         ></Table>
       ) : (
-        <div className="text-center m-4">No backgrounds found</div>
+        <div className="text-center m-4">Không tìm thấy hình nền nào</div>
       )}
 
       <Modal
-        title="Add Background"
+        title="Thêm hình nền"
         open={isModalVisible}
         onCancel={onCancel}
         width={700}
@@ -169,7 +169,9 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
               <Form.Item
                 name="image"
                 label={
-                  <label className="label-required title-header">Image</label>
+                  <label className="label-required title-header">
+                    Hình nền
+                  </label>
                 }
               >
                 <CustomUpload
@@ -183,7 +185,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
         </Form>
         <Space className="text-right mt-auto btn-action">
           <Button onClick={onCancel} htmlType="button">
-            Back
+            Quay về
           </Button>
           {auth.role === "ADMIN" && (
             <Button
@@ -193,7 +195,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
                 form.submit();
               }}
             >
-              Save
+              Lưu
             </Button>
           )}
         </Space>
