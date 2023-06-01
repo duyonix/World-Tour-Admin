@@ -486,7 +486,7 @@ const ServiceRegionDetail = () => {
       forceRender: true
     },
     {
-      label: "Danh lam thắng cảnh",
+      label: "Du lịch",
       key: "3",
       children: (
         <RegionSceneSpotTab

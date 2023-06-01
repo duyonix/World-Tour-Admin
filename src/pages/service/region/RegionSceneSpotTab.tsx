@@ -60,7 +60,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       sceneSpot => sceneSpot.name === data.name && sceneSpot.id !== data.id
     );
     if (exist) {
-      return toast.error(messages.EXISTED("Tên danh lam thắng cảnh"));
+      return toast.error(messages.EXISTED("Tên địa điểm du lịch"));
     }
 
     const newSceneSpots = [...sceneSpots];
@@ -119,7 +119,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
 
   const onConfirmRemove = index => {
     ConfirmModal({
-      title: messages.CONFIRM_DELETE("danh lam thắng cảnh"),
+      title: messages.CONFIRM_DELETE("địa điểm du lịch"),
       onOk() {
         onDelete(index);
       }
@@ -255,17 +255,17 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
         ></Table>
       ) : (
         <div className="text-center m-4">
-          Không tìm thấy danh lam thắng cảnh nào
+          Không tìm thấy địa điểm du lịch nào
         </div>
       )}
 
       <Modal
         title={
           method === "add"
-            ? "Thêm danh lam thắng cảnh"
+            ? "Thêm địa điểm du lịch"
             : auth.role === "ADMIN"
-            ? "Cập nhật danh lam thắng cảnh"
-            : "Xem thông tin danh lam thắng cảnh"
+            ? "Cập nhật địa điểm du lịch"
+            : "Xem thông tin địa điểm du lịch"
         }
         open={isModalVisible}
         onCancel={onCancel}
@@ -291,11 +291,11 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
               </Form.Item>
               <Form.Item
                 name="name"
-                label="Tên danh lam thắng cảnh"
+                label="Tên địa điểm du lịch"
                 rules={[
                   {
                     required: true,
-                    message: "Tên danh lam thắng cảnh là bắt buộc"
+                    message: "Tên địa điểm du lịch là bắt buộc"
                   }
                 ]}
               >
