@@ -12,6 +12,8 @@ type Props = {
   setFileList: (fileList: any) => void;
   folder?: string;
   accept?: string;
+  multiple?: boolean;
+  maxCount?: number;
   textInfo?: string;
   disabled?: boolean;
   type?: "image" | "model";
@@ -26,6 +28,8 @@ const CustomUpload = ({
   setFileList,
   folder = "picture",
   type = "image",
+  multiple = false,
+  maxCount = 1,
   disabled = false,
   modelWidth = 600,
   modelHeight = 400,
@@ -53,31 +57,48 @@ const CustomUpload = ({
       return toast.error("Kích thước file không được vượt quá 10MB");
     }
 
-    setFileList([
-      {
-        uid: "-1",
-        name: "file",
-        status: "uploading"
-      }
-    ]);
+    const uid = _.uniqueId();
+
+    const fileStateUpload = {
+      uid,
+      name: "file",
+      status: "uploading"
+    };
+
+    if (!multiple) {
+      setFileList([fileStateUpload]);
+    } else {
+      setFileList(prevFileList => [...prevFileList, fileStateUpload]);
+    }
+
     const res = await commonService.uploadAttachments(file, folder);
     if (res.payload && res.payload.length > 0) {
       let newFile = res.payload[0];
-      setFileList([
-        {
-          uid: _.uniqueId(),
-          name: newFile.fileName.split("/").pop(),
-          status: "done",
-          url: newFile.url
-        }
-      ]);
+      const data = {
+        uid,
+        name: newFile.fileName.split("/").pop(),
+        status: "done",
+        url: newFile.url
+      };
+
+      if (!multiple) {
+        setFileList([data]);
+      } else {
+        setFileList(prevFileList =>
+          prevFileList.map(item => (item.uid === uid ? data : item))
+        );
+      }
     } else {
-      setFileList([]);
+      setFileList(prevFileList => (multiple ? prevFileList : []));
     }
   };
 
-  const handleRemove = () => {
-    setFileList([]);
+  const handleRemove = file => {
+    if (!multiple) {
+      setFileList([]);
+    } else {
+      setFileList(fileList.filter(item => item.uid !== file.uid));
+    }
   };
 
   const handleCancel = () => {
@@ -114,14 +135,23 @@ const CustomUpload = ({
             fileList={fileList}
             accept={restProps.accept || ".jpg,.jpeg,.png"}
             customRequest={onCustomRequest}
-            maxCount={1}
+            maxCount={multiple ? maxCount : 1}
             onRemove={handleRemove}
             onPreview={handlePreview}
             disabled={disabled}
+            multiple={multiple}
             {...restProps}
           >
-            {fileList.length < 2 && !disabled && uploadButton}
+            {((!multiple && fileList.length < 2) ||
+              (multiple && fileList.length < maxCount)) &&
+              !disabled &&
+              uploadButton}
           </Upload>
+          {multiple && (
+            <Text style={{ display: "block" }}>
+              Có thể đăng tải nhiều hình ảnh cùng lúc (Dùng phím Ctrl để chọn)
+            </Text>
+          )}
           <Text>
             {restProps.textInfo ||
               "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}

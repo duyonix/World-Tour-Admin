@@ -81,3 +81,8 @@
 .ant-tabs-tab {
   font-weight: 600;
 }
+
+.ant-upload-list-picture-card .ant-upload-list-item,
+.ant-upload.ant-upload-select-picture-card {
+  border-radius: 10px !important;
+}

@@ -163,7 +163,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   };
 
   const handleSceneSpotImages = useCallback(
-    (id, images) => {
+    images => {
       setSceneSpotImages({ ...sceneSpotImages, [id]: images });
       setIsModalChange(true);
     },
@@ -312,7 +312,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
               >
                 <CustomUpload
                   fileList={sceneSpotImages[id]}
-                  setFileList={images => handleSceneSpotImages(id, images)}
+                  setFileList={handleSceneSpotImages}
                   disabled={auth.role !== "ADMIN"}
                 />
               </Form.Item>
