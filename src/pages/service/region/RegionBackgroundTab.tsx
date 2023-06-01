@@ -1,5 +1,15 @@
 import React, { memo, useCallback, useState } from "react";
-import { Button, Col, Form, Modal, Row, Space, Table, Image } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Modal,
+  Row,
+  Space,
+  Table,
+  Image,
+  Typography
+} from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import messages from "@/constants/messages";
 import ConfirmModal from "@/components/ConfirmModal";
@@ -7,6 +17,8 @@ import CustomUpload from "@/components/CustomUpload";
 import { toast } from "react-toastify";
 import "./style.scss";
 import AddButton from "@/components/AddButton";
+
+const { Text } = Typography;
 
 type Props = {
   backgrounds: string[];
@@ -165,7 +177,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
                 name="image"
                 label={
                   <label className="label-required title-header">
-                    Hình ảnh
+                    Hình ảnh (tối đa 10 hình)
                   </label>
                 }
               >
@@ -173,6 +185,8 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
                   fileList={images}
                   setFileList={handleImages}
                   folder="background"
+                  multiple={true}
+                  maxCount={10}
                 />
               </Form.Item>
             </Col>
