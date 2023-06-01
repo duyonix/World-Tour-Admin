@@ -65,9 +65,12 @@ const CustomUpload = ({
       status: "uploading"
     };
 
-    setFileList(prevFileList =>
-      multiple ? [...prevFileList, fileStateUpload] : [fileStateUpload]
-    );
+    if (!multiple) {
+      setFileList([fileStateUpload]);
+    } else {
+      setFileList(prevFileList => [...prevFileList, fileStateUpload]);
+    }
+
     const res = await commonService.uploadAttachments(file, folder);
     if (res.payload && res.payload.length > 0) {
       let newFile = res.payload[0];
@@ -78,13 +81,13 @@ const CustomUpload = ({
         url: newFile.url
       };
 
-      setFileList(prevFileList => {
-        if (!multiple) {
-          return [data];
-        } else {
-          return prevFileList.map(item => (item.uid === uid ? data : item));
-        }
-      });
+      if (!multiple) {
+        setFileList([data]);
+      } else {
+        setFileList(prevFileList =>
+          prevFileList.map(item => (item.uid === uid ? data : item))
+        );
+      }
     } else {
       setFileList(prevFileList => (multiple ? prevFileList : []));
     }
