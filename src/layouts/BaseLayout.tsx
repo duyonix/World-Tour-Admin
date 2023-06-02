@@ -101,7 +101,9 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
                     index === maxLength ? (
                       <span key={index} className="text-grey">
                         <span
-                          className={title ? "text-grey" : "text-primary"}
+                          className={
+                            title ? "text-grey breadcrumb-item" : "text-primary"
+                          }
                           onClick={() => {
                             history.push(routeConfig.path);
                           }}
@@ -111,7 +113,7 @@ const BaseLayout = ({ children, routeConfig }: Props) => {
                         {title ? " / " : ""}
                       </span>
                     ) : (
-                      <span className={"text-grey"} key={index}>
+                      <span className="text-grey" key={index}>
                         {item} {breadcrumb[index + 1] ? "/ " : ""}
                       </span>
                     )

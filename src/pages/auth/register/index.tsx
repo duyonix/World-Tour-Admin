@@ -37,13 +37,13 @@ const Register = () => {
 
   const onFinish = async (values: any) => {
     if (values.password !== values.confirmPassword) {
-      toast.error("Password and confirm password are not the same");
+      toast.error("Mật khẩu và xác nhận mật khẩu không khớp!");
       return;
     }
     setLoading(true);
     const res = await authService.register(formatData(values));
     if (res.status === variables.OK) {
-      toast.success("Register successfully");
+      toast.success("Đăng ký tài khoản thành công!");
       setTimeout(() => {
         history.push("/login");
       }, 1000);

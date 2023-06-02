@@ -68,6 +68,7 @@ const ServiceRegionDetail = () => {
       dispatch(serviceActions.getCategoryOptions());
       setFirstRender(false);
     }
+    setIsChange(false);
   }, [dispatch, id]);
 
   const fetchDetail = async () => {
@@ -80,7 +81,10 @@ const ServiceRegionDetail = () => {
         ...res.payload,
         categoryId: res.payload.categoryId.toString(),
         parentId: res.payload.parentId?.toString(),
-        review: res.payload.review || null
+        area: res.payload.area || null,
+        population: res.payload.population || null,
+        review: res.payload.review || null,
+        description: res.payload.description || null
       });
       setData(res.payload);
 
@@ -93,13 +97,10 @@ const ServiceRegionDetail = () => {
             url: res.payload.picture
           }
         ]);
-      }
-      setCategoryLevel(res.payload.category?.level);
-      setBackgrounds(res.payload.backgrounds);
-
-      if (res.payload.sceneSpots && res.payload.sceneSpots.length > 0) {
-        setSceneSpots(res.payload.sceneSpots);
-      }
+      } else setPictures([]);
+      setCategoryLevel(res.payload.category?.level || null);
+      setBackgrounds(res.payload.backgrounds || []);
+      setSceneSpots(res.payload.sceneSpots || []);
 
       breadcrumb.addBreadcrumb(res.payload.name);
     } else {
@@ -275,6 +276,12 @@ const ServiceRegionDetail = () => {
               className="mt-2"
               name="parentId"
               label="Địa danh trực thuộc"
+              rules={[
+                {
+                  required: categoryLevel !== null && categoryLevel !== 1,
+                  message: "Địa danh trực thuộc là bắt buộc"
+                }
+              ]}
             >
               <RegionSelectGroup
                 filter={
