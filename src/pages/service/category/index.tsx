@@ -100,7 +100,7 @@ const ServiceCategories = () => {
       title: "Cấp độ",
       dataIndex: "level",
       align: "center",
-      render: (level: number) => <Tag color="cyan">{level}</Tag>,
+      render: (level: number) => <Tag color="green">{level}</Tag>,
       width: 150
     },
     {

@@ -103,7 +103,7 @@ const ServiceCostumes = () => {
       width: 200,
       align: "center",
       render: (text: string) => (
-        <Tag color={text === "COMMON" ? "cyan" : "gold"}>
+        <Tag color={text === "COMMON" ? "green" : "gold"}>
           {COSTUME_TYPE[text]}
         </Tag>
       )

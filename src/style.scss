@@ -336,3 +336,10 @@
   text-decoration: underline;
   font-style: italic;
 }
+
+.breadcrumb-item {
+  cursor: pointer;
+  &:hover {
+    color: #1890ff !important;
+  }
+}

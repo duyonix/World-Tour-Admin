@@ -192,7 +192,13 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
             </Col>
           </Row>
         </Form>
-        <Space className="text-right mt-auto btn-action">
+        <Space
+          className="mt-3"
+          style={{
+            display: "flex",
+            justifyContent: "flex-end"
+          }}
+        >
           <Button onClick={onCancel} htmlType="button">
             Quay về
           </Button>
