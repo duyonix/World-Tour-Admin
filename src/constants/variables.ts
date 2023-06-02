@@ -15,4 +15,20 @@ export const COSTUME_TYPE = {
   SPECIFIC: "ĐẶC TRƯNG"
 };
 
+export const ROLE = {
+  ADMIN: "ADMIN",
+  USER: "USER"
+};
+
+export const ROLE_OPTIONS = [
+  {
+    value: "ADMIN",
+    label: "ADMIN"
+  },
+  {
+    value: "USER",
+    label: "USER"
+  }
+];
+
 export default variables;

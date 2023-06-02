@@ -68,7 +68,6 @@ const ServiceRegionDetail = () => {
       dispatch(serviceActions.getCategoryOptions());
       setFirstRender(false);
     }
-    setIsChange(false);
   }, [dispatch, id]);
 
   const fetchDetail = async () => {
@@ -102,6 +101,7 @@ const ServiceRegionDetail = () => {
       setBackgrounds(res.payload.backgrounds || []);
       setSceneSpots(res.payload.sceneSpots || []);
 
+      setIsChange(false);
       breadcrumb.addBreadcrumb(res.payload.name);
     } else {
       switch (res?.status) {
@@ -453,7 +453,7 @@ const ServiceRegionDetail = () => {
                 </Form.Item>
               </Col>
               <Col span={12}>
-                <Form.Item name="population" label="Dân số">
+                <Form.Item name="population" label="Dân số (người)">
                   <Input disabled={auth.role !== "ADMIN"} />
                 </Form.Item>
               </Col>
