@@ -7,6 +7,7 @@ import useFetch from "@/hooks/useFetch";
 import { useHistory, useLocation } from "react-router-dom";
 import { changePage, cleanObject } from "@/utils";
 import Filter from "@/components/Filter";
+import { ROLE_OPTIONS } from "@/constants/variables";
 
 const UsersManagement = () => {
   const userService = new UserService();
@@ -67,6 +68,13 @@ const UsersManagement = () => {
   return (
     <>
       <Filter
+        filterSelects={[
+          {
+            label: "Phân quyền",
+            name: "role",
+            options: ROLE_OPTIONS
+          }
+        ]}
         isReset
         placeholder="Tìm kiếm theo email"
         isSearch

@@ -16,7 +16,7 @@ import { BreadcrumbContext } from "@/layouts/BaseLayout";
 import { goBackInDetailPage } from "@/utils";
 import { toast } from "react-toastify";
 import UserService from "@/services/user";
-import variables from "@/constants/variables";
+import variables, { ROLE_OPTIONS } from "@/constants/variables";
 import messages from "@/constants/messages";
 import ConfirmModal from "@/components/ConfirmModal";
 import CustomUpload from "@/components/CustomUpload";
@@ -33,17 +33,6 @@ const UserDetailManagement = () => {
 
   const { id } = useParams<{ id: string }>();
   const history = useHistory();
-
-  const ROLE_OPTIONS = [
-    {
-      label: "ADMIN",
-      value: "ADMIN"
-    },
-    {
-      label: "USER",
-      value: "USER"
-    }
-  ];
 
   useEffect(() => {
     fetchDetail();

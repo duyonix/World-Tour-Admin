@@ -133,7 +133,7 @@ const ServiceCostumeDetail = () => {
     const pictureUrl = pictures.length > 0 ? pictures[0].url : "";
     const modelUrl = models.length > 0 ? models[0].url : "";
 
-    if (data.type === COSTUME_TYPE.COMMON) {
+    if (data.type === "COMMON") {
       delete newData.regionId;
     } else {
       newData.regionId = parseInt(data.regionId);
