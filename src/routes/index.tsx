@@ -56,7 +56,6 @@ const MyRoutes = () => {
   const getDefaultRoute = (sidebar: any) => {
     if (localStorage.getItem("redirect_url")) {
       const redirectUrl = localStorage.getItem("redirect_url");
-      localStorage.removeItem("redirect_url");
       return redirectUrl;
     } else if (auth.firstLogin) {
       return "/user/profile?firstLogin=true";

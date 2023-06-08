@@ -86,3 +86,17 @@
 .ant-upload.ant-upload-select-picture-card {
   border-radius: 10px !important;
 }
+
+.preview-icon-only {
+  border-radius: 5px;
+}
+
+.preview-icon-only + .ant-image-mask {
+  font-size: 0;
+  border-radius: 5px;
+}
+
+.preview-icon-only + .ant-image-mask .anticon {
+  font-size: 14px;
+  margin: 0;
+}

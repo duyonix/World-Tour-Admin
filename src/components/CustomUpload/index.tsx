@@ -76,7 +76,7 @@ const CustomUpload = ({
       let newFile = res.payload[0];
       const data = {
         uid,
-        name: newFile.fileName.split("/").pop(),
+        name: type === "model" ? "Xem mô hình" : "Xem hình ảnh",
         status: "done",
         url: newFile.url
       };

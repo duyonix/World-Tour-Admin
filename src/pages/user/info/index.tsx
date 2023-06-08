@@ -82,7 +82,7 @@ const UserProfile = () => {
         setAvatars([
           {
             uid: -1,
-            name: "image.jpg",
+            name: "Xem hình ảnh",
             status: "done",
             url: res.payload.avatar
           }

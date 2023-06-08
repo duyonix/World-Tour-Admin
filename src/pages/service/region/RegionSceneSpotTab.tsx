@@ -94,7 +94,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       [data.id]: [
         {
           uid: -1,
-          name: "image.jpg",
+          name: "Xem hình ảnh",
           status: "done",
           url: data.picture
         }
@@ -185,7 +185,12 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       title: "Hình ảnh",
       dataIndex: "picture",
       render: (data: string) => (
-        <Image className="preview-icon-only" height={50} src={data} />
+        <Image
+          className="preview-icon-only"
+          height={60}
+          width={90}
+          src={data}
+        />
       ),
       width: 300
     },
@@ -236,7 +241,9 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   return (
     <div>
       <Row className="mb-2" justify="space-between">
-        <Col className="d-flex al-center">Tổng cộng: {sceneSpots.length}</Col>
+        <Col className="d-flex al-center">
+          Tổng cộng: {sceneSpots.length} địa điểm du lịch
+        </Col>
         {auth.role === "ADMIN" && <AddButton onClick={onAdd} />}
       </Row>
       {sceneSpots.length > 0 ? (

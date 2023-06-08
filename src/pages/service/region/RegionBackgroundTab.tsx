@@ -103,7 +103,12 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
       title: "Hình nền",
       dataIndex: "background",
       render: data => (
-        <Image className="preview-icon-only" height={50} src={data} />
+        <Image
+          className="preview-icon-only"
+          height={60}
+          width={90}
+          src={data}
+        />
       ),
       width: 300
     },
@@ -126,7 +131,9 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
   return (
     <div>
       <Row className="mb-2" justify="space-between">
-        <Col className="d-flex al-center">Tổng cộng: {backgrounds.length}</Col>
+        <Col className="d-flex al-center">
+          Tổng cộng: {backgrounds.length} hình nền
+        </Col>
         <Col>{auth.role === "ADMIN" && <AddButton onClick={onAdd} />}</Col>
       </Row>
       {backgrounds.length > 0 ? (

@@ -8,7 +8,8 @@ import {
   Table,
   Space,
   Typography,
-  Tag
+  Tag,
+  Image
 } from "antd";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import qs from "query-string";
@@ -97,6 +98,19 @@ const ServiceCategories = () => {
       width: 250
     },
     {
+      title: "Hình ảnh",
+      dataIndex: "picture",
+      render: (data: string) => (
+        <Image
+          className="preview-icon-only"
+          height={60}
+          width={90}
+          src={data}
+        />
+      ),
+      width: 200
+    },
+    {
       title: "Cấp độ",
       dataIndex: "level",
       align: "center",
@@ -140,7 +154,7 @@ const ServiceCategories = () => {
       />
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
-          <Col className="d-flex al-center">Tổng cộng: {total}</Col>
+          <Col className="d-flex al-center">Tổng cộng: {total} phân loại</Col>
           {auth.role === "ADMIN" && <AddButton onClick={onAdd} />}
         </Row>
         <Spin size="large" spinning={loading || isDeleteLoading}>

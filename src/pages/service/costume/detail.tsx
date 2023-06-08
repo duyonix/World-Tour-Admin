@@ -64,7 +64,7 @@ const ServiceCostumeDetail = () => {
         setPictures([
           {
             uid: -1,
-            name: "image.jpg",
+            name: "Xem hình ảnh",
             status: "done",
             url: res.payload.picture
           }
@@ -74,7 +74,7 @@ const ServiceCostumeDetail = () => {
         setModels([
           {
             uid: -1,
-            name: "model.glb",
+            name: "Xem mô hình",
             status: "done",
             url: res.payload.model
           }
