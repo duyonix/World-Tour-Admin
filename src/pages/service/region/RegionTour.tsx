@@ -14,7 +14,11 @@ const RegionTour = ({ coordinate }: Props) => {
   const [key, setKey] = useState(0);
 
   useEffect(() => {
-    setKey(prevKey => prevKey + 1);
+    const timer = setTimeout(() => {
+      setKey(prevKey => prevKey + 1);
+    }, 1000); // Set a delay of 1 second before updating the key
+
+    return () => clearTimeout(timer); // Clear the timeout when the component unmounts
   }, [lattitude, longitude]);
 
   const streetViewPanoramaOptions = {
