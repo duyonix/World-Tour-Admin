@@ -33,6 +33,7 @@ import "./style.scss";
 import RegionWeatherTab from "./RegionWeatherTab";
 import ReviewInput from "@/components/ReviewInput";
 import RegionSelectGroup from "@/components/RegionSelect/RegionSelectGroup";
+import RegionTour from "./RegionTour";
 
 const { TextArea } = Input;
 const { Title } = Typography;
@@ -512,6 +513,14 @@ const ServiceRegionDetail = () => {
       key: "4",
       children: <RegionWeatherTab weather={data.weather} />,
       forceRender: true
+    });
+  }
+
+  if (id !== "add" && categoryLevel && categoryLevel >= 4) {
+    itemsTab.push({
+      label: "360 Tour",
+      key: "5",
+      children: <RegionTour coordinate={data.coordinate} />
     });
   }
 
