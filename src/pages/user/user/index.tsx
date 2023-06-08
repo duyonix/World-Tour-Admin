@@ -82,7 +82,7 @@ const UsersManagement = () => {
       />
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
-          <Col className="d-flex al-center">Tổng cộng: {total}</Col>
+          <Col className="d-flex al-center">Tổng cộng: {total} người dùng</Col>
         </Row>
         <Spin size="large" spinning={loading}>
           {list.length > 0 ? (
