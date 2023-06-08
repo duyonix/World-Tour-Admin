@@ -187,7 +187,7 @@ const Register = () => {
                 </Checkbox>
               </Form.Item>
 
-              <Divider />
+              <Divider className="my-2" />
               <Form.Item>
                 <Button
                   block
