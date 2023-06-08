@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useState, useEffect } from "react";
 import ReactStreetview from "react-streetview";
 
 type Props = {
@@ -11,6 +11,11 @@ type Props = {
 const RegionTour = ({ coordinate }: Props) => {
   const { lattitude, longitude } = coordinate;
   const googleMapsApiKey = "AIzaSyB0pAAfd-SgsJm0w0hvzZfg90qfXoPN9bw";
+  const [key, setKey] = useState(0);
+
+  useEffect(() => {
+    setKey(prevKey => prevKey + 1);
+  }, [lattitude, longitude]);
 
   const streetViewPanoramaOptions = {
     position: { lat: lattitude, lng: longitude },
@@ -31,11 +36,17 @@ const RegionTour = ({ coordinate }: Props) => {
       }}
     >
       <ReactStreetview
+        key={key}
         apiKey={googleMapsApiKey}
         streetViewPanoramaOptions={streetViewPanoramaOptions}
+        fallback={
+          <div>
+            <h1>Sorry, this place cannot be shown</h1>
+          </div>
+        }
       />
     </div>
   );
 };
 
-export default RegionTour;
+export default memo(RegionTour);
