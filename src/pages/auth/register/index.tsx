@@ -61,26 +61,33 @@ const Register = () => {
 
   return (
     <Spin spinning={loading} style={{ maxHeight: "none" }} size="large">
-      <div
-        className="login-page"
-        style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
-      >
+      <div className="auth-page">
         <Row
           justify="center"
           align="middle"
           style={{ flexDirection: "column", flex: 1 }}
         >
           <>
-            <img
-              style={{ width: "400px", height: "400px" }}
-              src={Earth}
-              alt="earth"
+            <iframe
+              title="earth"
+              src="https://solarsystem.nasa.gov/gltf_embed/2393"
+              width="400px"
+              height="400px"
+              frameBorder="0"
+              style={{ borderRadius: "50%" }}
             />
-            <Title level={3} style={{ margin: "0 0px 3vh 0" }}>
+            <Title
+              level={3}
+              style={{ margin: "0 0px 3vh 0", color: "#ffffff" }}
+            >
               Đăng ký vào World Tour Dashboard
             </Title>
             <Form
-              style={{ maxWidth: "400px", width: "100%" }}
+              style={{
+                maxWidth: "400px",
+                width: "100%",
+                background: "rgba(0,0,0,0.3)"
+              }}
               name="admin-login"
               onFinish={onFinish}
             >
@@ -171,22 +178,29 @@ const Register = () => {
                 className="mt-2"
               >
                 <Checkbox>
-                  Tôi đồng ý với{" "}
-                  <a href="#register" className="font-bold text-dark">
-                    Điều khoản sử dụng
-                  </a>
+                  <span style={{ color: "#ffffff" }}>
+                    Tôi đồng ý với{" "}
+                    <a href="#register" className="font-bold">
+                      Điều khoản sử dụng
+                    </a>
+                  </span>
                 </Checkbox>
               </Form.Item>
 
               <Divider />
               <Form.Item>
-                <Button block type="primary" htmlType="submit">
-                  Đăng ký
+                <Button
+                  block
+                  type="primary"
+                  htmlType="submit"
+                  className="font-bold"
+                >
+                  ĐĂNG KÝ
                 </Button>
               </Form.Item>
-              <p className="font-semibold text-muted text-center mt-1">
+              <p className="font-semibold mt-1" style={{ color: "#ffffff" }}>
                 Đã có tài khoản?{" "}
-                <Link to="/login" className="text-dark font-bold">
+                <Link to="/login" className="font-bold">
                   Đăng nhập tại đây
                 </Link>
               </p>

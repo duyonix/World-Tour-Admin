@@ -343,3 +343,13 @@
     color: #1890ff !important;
   }
 }
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image: url("../public/background.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
