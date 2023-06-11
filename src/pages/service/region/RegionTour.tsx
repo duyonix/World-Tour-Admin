@@ -10,7 +10,7 @@ type Props = {
 
 const RegionTour = ({ coordinate }: Props) => {
   const { lattitude, longitude } = coordinate;
-  const googleMapsApiKey = "AIzaSyB0pAAfd-SgsJm0w0hvzZfg90qfXoPN9bw";
+  const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
   const [key, setKey] = useState(0);
 
   useEffect(() => {
@@ -31,23 +31,11 @@ const RegionTour = ({ coordinate }: Props) => {
   };
 
   return (
-    <div
-      style={{
-        margin: "auto",
-        width: "90%",
-        height: "500px",
-        backgroundColor: "#eeeeee"
-      }}
-    >
+    <div className="street-view">
       <ReactStreetview
         key={key}
         apiKey={googleMapsApiKey}
         streetViewPanoramaOptions={streetViewPanoramaOptions}
-        fallback={
-          <div>
-            <h1>Sorry, this place cannot be shown</h1>
-          </div>
-        }
       />
     </div>
   );
