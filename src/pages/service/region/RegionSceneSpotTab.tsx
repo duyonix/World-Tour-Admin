@@ -40,6 +40,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   const [method, setMethod] = useState("add"); // add or update
   const [id, setId] = useState<any>(null);
   const [sceneSpotImages, setSceneSpotImages] = useState({});
+  const [sceneSpotPanoramas, setSceneSpotPanoramas] = useState({});
   const [form] = Form.useForm();
   const [page, setPage] = useState(0);
   const size = 10;
@@ -47,7 +48,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   const addSceneSpot = (data: any) => {
     const exist = sceneSpots.find(sceneSpot => sceneSpot.name === data.name);
     if (exist) {
-      return toast.error(messages.EXISTED("Tên danh lam thắng ảnh"));
+      return toast.error(messages.EXISTED("Tên địa điểm du lịch"));
     }
 
     const newSceneSpots = sceneSpots.concat(data);
@@ -78,6 +79,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
     const tempId = _.uniqueId("temp_");
     setId(tempId);
     setSceneSpotImages({ ...sceneSpotImages, [tempId]: [] });
+    setSceneSpotPanoramas({ ...sceneSpotPanoramas, [tempId]: [] });
 
     setIsModalVisible(true);
     setIsModalChange(false);
@@ -91,14 +93,30 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
     setId(data.id);
     setSceneSpotImages({
       ...sceneSpotImages,
-      [data.id]: [
-        {
-          uid: -1,
-          name: "Xem hình ảnh",
-          status: "done",
-          url: data.picture
-        }
-      ]
+      [data.id]: data.picture
+        ? [
+            {
+              uid: -1,
+              name: "Xem hình ảnh",
+              status: "done",
+              url: data.picture
+            }
+          ]
+        : []
+    });
+
+    setSceneSpotPanoramas({
+      ...sceneSpotPanoramas,
+      [data.id]: data.panorama
+        ? [
+            {
+              uid: -1,
+              name: "Xem ảnh toàn cảnh 360 độ",
+              status: "done",
+              url: data.panorama
+            }
+          ]
+        : []
     });
 
     setIsModalVisible(true);
@@ -130,6 +148,9 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
     const newData = { ...data };
     const picture = _.get(sceneSpotImages[data.id], "[0].url", "");
     newData.picture = picture;
+
+    const panorama = _.get(sceneSpotPanoramas[data.id], "[0].url", "");
+    newData.panorama = panorama;
 
     return newData;
   };
@@ -168,6 +189,14 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
       setIsModalChange(true);
     },
     [id, sceneSpotImages]
+  );
+
+  const handleSceneSpotPanoramas = useCallback(
+    panoramas => {
+      setSceneSpotPanoramas({ ...sceneSpotPanoramas, [id]: panoramas });
+      setIsModalChange(true);
+    },
+    [id, sceneSpotPanoramas]
   );
 
   const columns = [
@@ -287,7 +316,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
           onValuesChange={() => {
             setIsModalChange(true);
           }}
-          className="detail-drole d-flex fl-wrap fl-column fl-between"
+          className="scene-spot-form detail-drole d-flex fl-wrap fl-column fl-between"
           name="app"
           onFinish={onSave}
         >
@@ -308,21 +337,37 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
               >
                 <Input disabled={auth.role !== "ADMIN"} />
               </Form.Item>
-              <Form.Item
-                name="picture"
-                label={
-                  <label className="label-required title-header">
-                    Hình ảnh
-                  </label>
-                }
-                className="mt-2"
-              >
-                <CustomUpload
-                  fileList={sceneSpotImages[id]}
-                  setFileList={handleSceneSpotImages}
-                  disabled={auth.role !== "ADMIN"}
-                />
-              </Form.Item>
+
+              <Row className="mt-2">
+                <Col span={12}>
+                  <Form.Item
+                    name="picture"
+                    label={
+                      <label className="label-required title-header">
+                        Hình ảnh
+                      </label>
+                    }
+                  >
+                    <CustomUpload
+                      fileList={sceneSpotImages[id]}
+                      setFileList={handleSceneSpotImages}
+                      disabled={auth.role !== "ADMIN"}
+                    />
+                  </Form.Item>
+                </Col>
+
+                <Col span={12}>
+                  <Form.Item name="panorama" label="Ảnh toàn cảnh 360 độ">
+                    <CustomUpload
+                      type="panorama"
+                      fileList={sceneSpotPanoramas[id]}
+                      setFileList={handleSceneSpotPanoramas}
+                      disabled={auth.role !== "ADMIN"}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
               <Form.Item name="description" label="Mô tả" className="mt-2">
                 <TextArea rows={4} disabled={auth.role !== "ADMIN"} />
               </Form.Item>

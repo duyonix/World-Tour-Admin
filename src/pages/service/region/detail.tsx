@@ -179,6 +179,7 @@ const ServiceRegionDetail = () => {
       if (typeof sceneSpot.id === "string" && sceneSpot.id.includes("temp")) {
         delete sceneSpot.id;
       }
+      delete sceneSpot.reviewInfo;
       return sceneSpot;
     });
 
