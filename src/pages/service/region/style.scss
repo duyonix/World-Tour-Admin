@@ -132,5 +132,24 @@
   margin: auto;
   width: 90%;
   height: 500px;
-  background-color: #eeeeee
+  background-color: #eeeeee;
+}
+
+.region-tour {
+  margin-top: -16px !important;
+  .ant-tabs-nav {
+    margin: auto !important;
+    margin-bottom: 16px !important;
+  }
+
+  .custom-panorama {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .ant-upload-picture-card-wrapper {
+      display: block !important;
+    }
+  }
 }

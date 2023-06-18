@@ -50,6 +50,7 @@ const ServiceRegionDetail = () => {
   const [backgrounds, setBackgrounds] = useState<any[]>([]);
   const [sceneSpots, setSceneSpots] = useState<any[]>([]);
   const [pictures, setPictures] = useState<any[]>([]);
+  const [panoramas, setPanoramas] = useState<any[]>([]);
   const [categoryLevel, setCategoryLevel] = useState<number | null>(null);
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [data, setData] = useState<any>({});
@@ -98,6 +99,17 @@ const ServiceRegionDetail = () => {
           }
         ]);
       } else setPictures([]);
+      if (res.payload.panorama) {
+        setPanoramas([
+          {
+            uid: -1,
+            name: "Xem ảnh toàn cảnh 360 độ",
+            status: "done",
+            url: res.payload.panorama
+          }
+        ]);
+      } else setPanoramas([]);
+
       setCategoryLevel(res.payload.category?.level || null);
       setBackgrounds(res.payload.backgrounds || []);
       setSceneSpots(res.payload.sceneSpots || []);
@@ -155,7 +167,7 @@ const ServiceRegionDetail = () => {
 
   const convertData = data => {
     const newData = { ...data };
-    const iconUrl = pictures.length > 0 ? pictures[0].url : "";
+    const iconUrl = pictures.length > 0 ? pictures[0].url : null;
     newData.picture = iconUrl;
 
     newData.categoryId = parseInt(data.categoryId);
@@ -169,6 +181,9 @@ const ServiceRegionDetail = () => {
       }
       return sceneSpot;
     });
+
+    const panoramaUrl = panoramas.length > 0 ? panoramas[0].url : null;
+    newData.panorama = panoramaUrl;
 
     return cleanObject(newData);
   };
@@ -213,6 +228,11 @@ const ServiceRegionDetail = () => {
 
   const handleSceneSpots = useCallback(newSceneSpots => {
     setSceneSpots(newSceneSpots);
+    setIsChange(true);
+  }, []);
+
+  const handlePanoramas = useCallback(newPanoramas => {
+    setPanoramas(newPanoramas);
     setIsChange(true);
   }, []);
 
@@ -490,8 +510,8 @@ const ServiceRegionDetail = () => {
           setBackgrounds={handleBackgrounds}
           auth={auth}
         />
-      ),
-      forceRender: true
+      )
+      // forceRender: true
     },
     {
       label: "Du lịch",
@@ -502,8 +522,8 @@ const ServiceRegionDetail = () => {
           setSceneSpots={handleSceneSpots}
           auth={auth}
         />
-      ),
-      forceRender: true
+      )
+      // forceRender: true
     }
   ];
 
@@ -511,8 +531,8 @@ const ServiceRegionDetail = () => {
     itemsTab.push({
       label: "Thời tiết",
       key: "4",
-      children: <RegionWeatherTab weather={data.weather} />,
-      forceRender: true
+      children: <RegionWeatherTab weather={data.weather} />
+      // forceRender: true
     });
   }
 
@@ -520,7 +540,15 @@ const ServiceRegionDetail = () => {
     itemsTab.push({
       label: "360 Tour",
       key: "5",
-      children: <RegionTour coordinate={data.coordinate} />
+      children: (
+        <RegionTour
+          coordinate={data.coordinate}
+          panoramas={panoramas}
+          setPanoramas={handlePanoramas}
+          auth={auth}
+        />
+      )
+      // forceRender: true
     });
   }
 

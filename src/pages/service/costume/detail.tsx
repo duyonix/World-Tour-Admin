@@ -274,7 +274,7 @@ const ServiceCostumeDetail = () => {
                 setFileList={handleModels}
                 folder="model"
                 accept=".glb"
-                textInfo="(Mô hình phải ở định dạng .glb)"
+                textInfo="(Mô hình phải ở định dạng GLB)"
                 type="model"
                 modelPosition={[0, -10, 0]}
                 disabled={auth.role !== "ADMIN"}

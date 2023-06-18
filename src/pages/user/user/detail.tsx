@@ -169,7 +169,7 @@ const UserDetailManagement = () => {
                 setFileList={setModels}
                 folder="model"
                 accept=".glb"
-                textInfo="(Mô hình phải ở định dạng .glb)"
+                textInfo="(Mô hình phải ở định dạng GLB)"
                 type="model"
                 modelScale={4}
                 modelPosition={[0, -4, 0]}

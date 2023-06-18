@@ -5,6 +5,7 @@ import CommonService from "@/services/common";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import ModelViewer from "../ModelViewer";
+import { Pannellum } from "pannellum-react";
 const { Text } = Typography;
 
 type Props = {
@@ -16,7 +17,7 @@ type Props = {
   maxCount?: number;
   textInfo?: string;
   disabled?: boolean;
-  type?: "image" | "model";
+  type?: "image" | "model" | "panorama";
   modelWidth?: number;
   modelHeight?: number;
   modelScale?: number;
@@ -41,8 +42,8 @@ const CustomUpload = ({
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [countModel, setCountModel] = useState(0);
-  const MAX_FILE_SIZE = 10 * 1024 * 1024;
+  const [count, setCount] = useState(0);
+  const MAX_FILE_SIZE = (type === "panorama" ? 50 : 10) * 1024 * 1024;
 
   const getBase64 = file =>
     new Promise((resolve, reject) => {
@@ -54,7 +55,9 @@ const CustomUpload = ({
 
   const onCustomRequest = async ({ file }) => {
     if (file.size > MAX_FILE_SIZE) {
-      return toast.error("Kích thước file không được vượt quá 10MB");
+      return toast.error(
+        `Kích thước file không được vượt quá ${MAX_FILE_SIZE / 1024 / 1024}MB`
+      );
     }
 
     const uid = _.uniqueId();
@@ -76,7 +79,12 @@ const CustomUpload = ({
       let newFile = res.payload[0];
       const data = {
         uid,
-        name: type === "model" ? "Xem mô hình" : "Xem hình ảnh",
+        name:
+          type === "model"
+            ? "Xem mô hình"
+            : type === "panorama"
+            ? "Xem ảnh toàn cảnh 360 độ"
+            : "Xem hình ảnh",
         status: "done",
         url: newFile.url
       };
@@ -103,7 +111,7 @@ const CustomUpload = ({
 
   const handleCancel = () => {
     setPreviewOpen(false);
-    setCountModel(countModel + 1);
+    setCount((count: number) => count + 1);
   };
 
   const handlePreview = async file => {
@@ -153,16 +161,18 @@ const CustomUpload = ({
             </Text>
           )}
           <Text>
-            {restProps.textInfo ||
-              "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}
+            {restProps.textInfo || type === "panorama"
+              ? "(Ảnh có định dạng JPG, PNG, JPEG)"
+              : "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}
           </Text>
           <Modal
             open={previewOpen}
             title={previewTitle}
             footer={null}
             onCancel={handleCancel}
-            width={700}
+            width={type === "panorama" ? "1000px" : "70%"}
             centered
+            forceRender={type === "panorama"}
           >
             {type === "image" && (
               <img alt="example" className="w-100" src={previewImage} />
@@ -180,8 +190,20 @@ const CustomUpload = ({
                 }}
                 width={modelWidth}
                 height={modelHeight}
-                key={countModel.toString()}
+                key={count.toString()}
               />
+            )}
+
+            {type === "panorama" && previewOpen && (
+              <Pannellum
+                width="100%"
+                height="500px"
+                image={previewImage}
+                pitch={10}
+                yaw={180}
+                hfov={110}
+                autoLoad
+              ></Pannellum>
             )}
           </Modal>
         </>

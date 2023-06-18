@@ -27,7 +27,7 @@
     "google-maps": "^4.3.3",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
-    "pannellum-react": "^1.2.4",
+    "pannellum-react": "1.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-map-street-view": "^1.1.0",
