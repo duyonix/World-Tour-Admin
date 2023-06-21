@@ -41,8 +41,6 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
     zoomControl: true
   };
 
-  console.log("panoramas", panoramas);
-
   const items = [
     {
       key: "tour-1",

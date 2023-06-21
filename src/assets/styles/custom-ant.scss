@@ -109,9 +109,5 @@
 .ant-input-affix-wrapper-disabled {
   color: #000000 !important;
   background-color: #ffffff !important;
-  cursor: default !important;
-}
-
-.ant-input-number-disabled .ant-input-number-input {
-  cursor: default !important;
+  // cursor: default !important;
 }
