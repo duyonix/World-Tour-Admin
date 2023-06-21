@@ -103,7 +103,7 @@ const ServiceRegionDetail = () => {
         setPanoramas([
           {
             uid: -1,
-            name: "Xem ảnh toàn cảnh 360 độ",
+            name: "Xem ảnh/video toàn cảnh 360 độ",
             status: "done",
             url: res.payload.panorama
           }
@@ -151,6 +151,7 @@ const ServiceRegionDetail = () => {
     setLoading(false);
     if (res.status === variables.OK) {
       toast.success(messages.EDIT_SUCCESS("địa danh"));
+      fetchDetail();
       breadcrumb.addBreadcrumb(data.name);
       setIsChange(false);
     } else {
@@ -471,12 +472,18 @@ const ServiceRegionDetail = () => {
             <Row gutter={[16, 16]} className="mt-3">
               <Col span={12}>
                 <Form.Item name="area" label="Diện tích (km²)">
-                  <Input disabled={auth.role !== "ADMIN"} />
+                  <InputNumber
+                    className="w-100 input-number-custom"
+                    disabled={auth.role !== "ADMIN"}
+                  />
                 </Form.Item>
               </Col>
               <Col span={12}>
                 <Form.Item name="population" label="Dân số (người)">
-                  <Input disabled={auth.role !== "ADMIN"} />
+                  <InputNumber
+                    className="w-100 input-number-custom"
+                    disabled={auth.role !== "ADMIN"}
+                  />
                 </Form.Item>
               </Col>
             </Row>
@@ -511,8 +518,8 @@ const ServiceRegionDetail = () => {
           setBackgrounds={handleBackgrounds}
           auth={auth}
         />
-      )
-      // forceRender: true
+      ),
+      forceRender: true
     },
     {
       label: "Du lịch",
@@ -523,24 +530,12 @@ const ServiceRegionDetail = () => {
           setSceneSpots={handleSceneSpots}
           auth={auth}
         />
-      )
-      // forceRender: true
-    }
-  ];
-
-  if (id !== "add" && data.weather) {
-    itemsTab.push({
-      label: "Thời tiết",
-      key: "4",
-      children: <RegionWeatherTab weather={data.weather} />
-      // forceRender: true
-    });
-  }
-
-  if (id !== "add" && categoryLevel && categoryLevel >= 4) {
-    itemsTab.push({
+      ),
+      forceRender: true
+    },
+    {
       label: "360 Tour",
-      key: "5",
+      key: "4",
       children: (
         <RegionTour
           coordinate={data.coordinate}
@@ -550,6 +545,15 @@ const ServiceRegionDetail = () => {
         />
       )
       // forceRender: true
+    }
+  ];
+
+  if (id !== "add" && data.weather) {
+    itemsTab.push({
+      label: "Thời tiết",
+      key: "5",
+      children: <RegionWeatherTab weather={data.weather} />,
+      forceRender: true
     });
   }
 
