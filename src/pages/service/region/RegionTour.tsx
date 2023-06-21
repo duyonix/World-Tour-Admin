@@ -3,7 +3,9 @@ import { Tabs, Typography, Form } from "antd";
 import ReactStreetview from "react-streetview";
 import { GoogleOutlined, PictureOutlined } from "@ant-design/icons";
 import CustomUpload from "@/components/CustomUpload";
-import { Pannellum } from "pannellum-react";
+import { Pannellum, PannellumVideo } from "pannellum-react";
+import { checkPanoramaType } from "@/utils";
+import defaultPanorama from "@/assets/videos/defaultPanorama.mp4";
 
 const { Text } = Typography;
 
@@ -39,6 +41,8 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
     zoomControl: true
   };
 
+  console.log("panoramas", panoramas);
+
   const items = [
     {
       key: "tour-1",
@@ -63,7 +67,7 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
       label: (
         <>
           <PictureOutlined />
-          Ảnh tự sưu tầm
+          Ảnh/Video sưu tầm
         </>
       ),
       children: (
@@ -71,7 +75,7 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
           {auth.role === "ADMIN" && (
             <Form.Item
               name="panorama"
-              label="Ảnh toàn cảnh 360 độ"
+              label="Ảnh/Video toàn cảnh 360 độ"
               className="mb-3"
             >
               <CustomUpload
@@ -83,19 +87,45 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
             </Form.Item>
           )}
 
-          {panoramas.length > 0 && panoramas[0].status !== "uploading" && (
-            <Pannellum
-              width="90%"
-              height="500px"
-              image={panoramas[0].url}
-              pitch={10}
-              yaw={180}
-              hfov={110}
-              autoLoad
-            ></Pannellum>
+          {panoramas.length > 0 && panoramas[0].status !== "uploading" ? (
+            checkPanoramaType(panoramas[0].url) === "image" ? (
+              <div className="pannellum-widget">
+                <Pannellum
+                  key="image"
+                  width="90%"
+                  height="500px"
+                  image={panoramas[0].url}
+                  pitch={10}
+                  yaw={180}
+                  hfov={110}
+                  autoLoad
+                ></Pannellum>
+              </div>
+            ) : checkPanoramaType(panoramas[0].url) === "video" ? (
+              <div className="pannellum-widget">
+                <PannellumVideo
+                  key="video"
+                  width="90%"
+                  height="500px"
+                  video={panoramas[0].url || defaultPanorama}
+                  loop
+                  autoplay
+                  pitch={10}
+                  yaw={180}
+                  hfov={110}
+                  mouseZoom={false}
+                  controls={true}
+                ></PannellumVideo>
+              </div>
+            ) : (
+              <Text>Chưa có ảnh/video toàn cảnh 360 độ</Text>
+            )
+          ) : (
+            <Text>Chưa có ảnh/video toàn cảnh 360 độ</Text>
           )}
         </div>
       )
+      // forceRender: true
     }
   ];
 

@@ -105,6 +105,17 @@ module.exports = (env, agrv) => {
               }
             }
           ]
+        },
+        {
+          test: /\.mp4$/,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                name: isDev ? "[path][name].[ext]" : "static/media/[name].[ext]"
+              }
+            }
+          ]
         }
       ]
     },

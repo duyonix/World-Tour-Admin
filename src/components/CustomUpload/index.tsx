@@ -5,7 +5,9 @@ import CommonService from "@/services/common";
 import { toast } from "react-toastify";
 import _ from "lodash";
 import ModelViewer from "../ModelViewer";
-import { Pannellum } from "pannellum-react";
+import { Pannellum, PannellumVideo } from "pannellum-react";
+import { checkPanoramaType } from "@/utils";
+import defaultPanorama from "@/assets/videos/defaultPanorama.mp4";
 const { Text } = Typography;
 
 type Props = {
@@ -43,7 +45,7 @@ const CustomUpload = ({
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [count, setCount] = useState(0);
-  const MAX_FILE_SIZE = (type === "panorama" ? 50 : 10) * 1024 * 1024;
+  const MAX_FILE_SIZE = 10 * 1024 * 1024;
 
   const getBase64 = file =>
     new Promise((resolve, reject) => {
@@ -54,10 +56,8 @@ const CustomUpload = ({
     });
 
   const onCustomRequest = async ({ file }) => {
-    if (file.size > MAX_FILE_SIZE) {
-      return toast.error(
-        `Kích thước file không được vượt quá ${MAX_FILE_SIZE / 1024 / 1024}MB`
-      );
+    if (type !== "panorama" && file.size > MAX_FILE_SIZE) {
+      return toast.error(`Kích thước file không được vượt quá 10MB`);
     }
 
     const uid = _.uniqueId();
@@ -83,7 +83,7 @@ const CustomUpload = ({
           type === "model"
             ? "Xem mô hình"
             : type === "panorama"
-            ? "Xem ảnh toàn cảnh 360 độ"
+            ? "Xem ảnh/video toàn cảnh 360 độ"
             : "Xem hình ảnh",
         status: "done",
         url: newFile.url
@@ -141,7 +141,11 @@ const CustomUpload = ({
           <Upload
             listType="picture-card"
             fileList={fileList}
-            accept={restProps.accept || ".jpg,.jpeg,.png"}
+            accept={
+              restProps.accept || type === "panorama"
+                ? ".jpg,.jpeg,.png,.gif,.mp4,.avi, .mov, .vmv"
+                : ".jpg,.jpeg,.png"
+            }
             customRequest={onCustomRequest}
             maxCount={multiple ? maxCount : 1}
             onRemove={handleRemove}
@@ -161,9 +165,9 @@ const CustomUpload = ({
             </Text>
           )}
           <Text>
-            {restProps.textInfo || type === "panorama"
-              ? "(Ảnh có định dạng JPG, PNG, JPEG)"
-              : "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)"}
+            {type !== "panorama" &&
+              (restProps.textInfo ||
+                "(Ảnh tối đa 10MB, định dạng JPG, PNG, JPEG)")}
           </Text>
           <Modal
             open={previewOpen}
@@ -194,17 +198,42 @@ const CustomUpload = ({
               />
             )}
 
-            {type === "panorama" && previewOpen && (
-              <Pannellum
-                width="100%"
-                height="500px"
-                image={previewImage}
-                pitch={10}
-                yaw={180}
-                hfov={110}
-                autoLoad
-              ></Pannellum>
-            )}
+            {type === "panorama" &&
+              previewOpen &&
+              (checkPanoramaType(previewImage) === "image" ? (
+                <div className="pannellum-widget">
+                  <Pannellum
+                    key="image"
+                    width="100%"
+                    height="500px"
+                    image={previewImage}
+                    pitch={10}
+                    yaw={180}
+                    hfov={110}
+                    autoLoad
+                  ></Pannellum>
+                </div>
+              ) : checkPanoramaType(previewImage) === "video" ? (
+                <div className="pannellum-widget">
+                  <PannellumVideo
+                    key="video"
+                    width="100%"
+                    height="500px"
+                    video={previewImage || defaultPanorama}
+                    loop
+                    autoplay
+                    pitch={10}
+                    yaw={180}
+                    hfov={110}
+                    mouseZoom={false}
+                    controls={true}
+                  ></PannellumVideo>
+                </div>
+              ) : (
+                <div className="text-center">
+                  Chưa có ảnh/video toàn cảnh 360 độ
+                </div>
+              ))}
           </Modal>
         </>
       )}

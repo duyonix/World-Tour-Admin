@@ -164,3 +164,36 @@ export const convertTimestampToDate = (timestamp: number) => {
     minute: "numeric"
   });
 };
+
+export const checkPanoramaType = (panorama: string) => {
+  if (!panorama) {
+    return null;
+  }
+
+  const lowercasePanorama = panorama.toLowerCase();
+  if (isImage(lowercasePanorama)) {
+    return "image";
+  } else if (isVideo(lowercasePanorama)) {
+    return "video";
+  } else {
+    return null;
+  }
+};
+
+const isImage = (panorama: string): boolean => {
+  return (
+    panorama.endsWith(".jpg") ||
+    panorama.endsWith(".jpeg") ||
+    panorama.endsWith(".png") ||
+    panorama.endsWith(".gif")
+  );
+};
+
+const isVideo = (panorama: string): boolean => {
+  return (
+    panorama.endsWith(".mp4") ||
+    panorama.endsWith(".avi") ||
+    panorama.endsWith(".mov") ||
+    panorama.endsWith(".wmv")
+  );
+};

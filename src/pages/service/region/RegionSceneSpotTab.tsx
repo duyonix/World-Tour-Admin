@@ -111,7 +111,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
         ? [
             {
               uid: -1,
-              name: "Xem ảnh toàn cảnh 360 độ",
+              name: "Xem ảnh/video toàn cảnh 360 độ",
               status: "done",
               url: data.panorama
             }
@@ -320,7 +320,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
           name="app"
           onFinish={onSave}
         >
-          <Row gutter={[40, 16]}>
+          <Row gutter={[40, 16]} style={{ height: "500px" }}>
             <Col span={24}>
               <Form.Item name="id" style={{ display: "none" }}>
                 <Input disabled={auth.role !== "ADMIN"} />
@@ -357,7 +357,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
                 </Col>
 
                 <Col span={12}>
-                  <Form.Item name="panorama" label="Ảnh toàn cảnh 360 độ">
+                  <Form.Item name="panorama" label="Ảnh/Video toàn cảnh 360 độ">
                     <CustomUpload
                       type="panorama"
                       fileList={sceneSpotPanoramas[id]}
