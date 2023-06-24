@@ -170,6 +170,11 @@ const ServiceCategoryDetail = () => {
             >
               <Input />
             </Form.Item>
+            <Form.Item name="description" label="Mô tả" className="mt-2">
+              <TextArea rows={5} />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
             <Form.Item
               name="level"
               label="Cấp độ"
@@ -179,7 +184,6 @@ const ServiceCategoryDetail = () => {
                   message: "Cấp độ là bắt buộc"
                 }
               ]}
-              className="mt-2"
             >
               <Select
                 placeholder="Chọn cấp độ"
@@ -189,36 +193,6 @@ const ServiceCategoryDetail = () => {
                   value: level
                 }))}
               />
-            </Form.Item>
-            <Form.Item name="description" label="Mô tả" className="mt-2">
-              <TextArea rows={5} />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="zoomFactor"
-              label="Độ thu phóng tầm nhìn"
-              rules={[
-                {
-                  required: true,
-                  message: "Độ thu phóng tầm nhìn là bắt buộc"
-                }
-              ]}
-            >
-              <InputNumber className="w-100 input-number-custom" />
-            </Form.Item>
-            <Form.Item
-              name="scaleFactor"
-              label="Độ thu phóng Trái Đất"
-              rules={[
-                {
-                  required: true,
-                  message: "Độ thu phóng Trái Đất là bắt buộc"
-                }
-              ]}
-              className="mt-2"
-            >
-              <InputNumber className="w-100 input-number-custom" />
             </Form.Item>
             <Form.Item
               name="picture"
@@ -239,9 +213,50 @@ const ServiceCategoryDetail = () => {
             </Form.Item>
           </Col>
         </Row>
-      )
+      ),
+      forceRender: true
     }
   ];
+
+  if (auth.role === "ADMIN") {
+    itemsTab.push({
+      label: "Thông số thiết lập",
+      key: "2",
+      children: (
+        <Row gutter={[64, 16]} className="px-4">
+          <Col span={12}>
+            <Form.Item
+              name="zoomFactor"
+              label="Độ thu phóng tầm nhìn"
+              rules={[
+                {
+                  required: true,
+                  message: "Độ thu phóng tầm nhìn là bắt buộc"
+                }
+              ]}
+            >
+              <InputNumber className="w-100 input-number-custom" />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              name="scaleFactor"
+              label="Độ thu phóng Trái Đất"
+              rules={[
+                {
+                  required: true,
+                  message: "Độ thu phóng Trái Đất là bắt buộc"
+                }
+              ]}
+            >
+              <InputNumber className="w-100 input-number-custom" />
+            </Form.Item>
+          </Col>
+        </Row>
+      ),
+      forceRender: true
+    });
+  }
 
   return (
     <Spin size="large" style={{ position: "unset" }} spinning={loading}>
