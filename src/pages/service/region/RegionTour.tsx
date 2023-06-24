@@ -15,6 +15,7 @@ type Props = {
     lattitude: number;
     longitude: number;
   };
+  hasStreetView: boolean;
   panoramas: UploadFile[];
   setPanoramas: (data: UploadFile[]) => void;
   models: UploadFile[];
@@ -25,6 +26,7 @@ type Props = {
 
 const RegionTour = ({
   coordinate,
+  hasStreetView,
   panoramas,
   setPanoramas,
   models,
@@ -136,13 +138,19 @@ const RegionTour = ({
           Ảnh cung cấp bởi Google
         </>
       ),
-      children: (
+      children: hasStreetView ? (
         <div className="street-view">
           <ReactStreetview
             key={key}
             apiKey={googleMapsApiKey}
             streetViewPanoramaOptions={streetViewPanoramaOptions}
           />
+        </div>
+      ) : (
+        <div className="text-center">
+          <Text>
+            Tọa độ địa lý hiện tại chưa có hình ảnh 360 độ cung cấp bởi Google
+          </Text>
         </div>
       )
     });

@@ -557,6 +557,7 @@ const ServiceRegionDetail = () => {
       children: (
         <RegionTour
           coordinate={data.coordinate || {}}
+          hasStreetView={data.hasStreetView}
           panoramas={panoramas}
           setPanoramas={handlePanoramas}
           models={models}
