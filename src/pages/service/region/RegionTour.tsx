@@ -6,6 +6,7 @@ import CustomUpload from "@/components/CustomUpload";
 import { Pannellum, PannellumVideo } from "pannellum-react";
 import { checkPanoramaType } from "@/utils";
 import defaultPanorama from "@/assets/videos/defaultPanorama.mp4";
+import RegionModel from "./RegionModel";
 
 const { Text } = Typography;
 
@@ -16,10 +17,21 @@ type Props = {
   };
   panoramas: UploadFile[];
   setPanoramas: (data: UploadFile[]) => void;
+  models: UploadFile[];
+  setModels: (data: UploadFile[]) => void;
   auth: any;
+  id: string;
 };
 
-const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
+const RegionTour = ({
+  coordinate,
+  panoramas,
+  setPanoramas,
+  models,
+  setModels,
+  auth,
+  id
+}: Props) => {
   const { lattitude, longitude } = coordinate;
   const googleMapsApiKey = process.env.GOOGLE_MAPS_API_KEY;
   const [key, setKey] = useState(0);
@@ -41,27 +53,7 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
     zoomControl: true
   };
 
-  console.log("panoramas", panoramas);
-
   const items = [
-    {
-      key: "tour-1",
-      label: (
-        <>
-          <GoogleOutlined />
-          Ảnh cung cấp bởi Google
-        </>
-      ),
-      children: (
-        <div className="street-view">
-          <ReactStreetview
-            key={key}
-            apiKey={googleMapsApiKey}
-            streetViewPanoramaOptions={streetViewPanoramaOptions}
-          />
-        </div>
-      )
-    },
     {
       key: "tour-2",
       label: (
@@ -125,9 +117,36 @@ const RegionTour = ({ coordinate, panoramas, setPanoramas, auth }: Props) => {
           )}
         </div>
       )
-      // forceRender: true
+    },
+    {
+      key: "tour-3",
+      label: "Mô hình 3D",
+      children: (
+        <RegionModel models={models} setModels={setModels} auth={auth} />
+      )
     }
   ];
+
+  if (id !== "add") {
+    items.unshift({
+      key: "tour-1",
+      label: (
+        <>
+          <GoogleOutlined />
+          Ảnh cung cấp bởi Google
+        </>
+      ),
+      children: (
+        <div className="street-view">
+          <ReactStreetview
+            key={key}
+            apiKey={googleMapsApiKey}
+            streetViewPanoramaOptions={streetViewPanoramaOptions}
+          />
+        </div>
+      )
+    });
+  }
 
   return (
     <Tabs
