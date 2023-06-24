@@ -56,8 +56,8 @@ const CustomUpload = ({
     });
 
   const onCustomRequest = async ({ file }) => {
-    if (type !== "panorama" && file.size > MAX_FILE_SIZE) {
-      return toast.error(`Kích thước file không được vượt quá 10MB`);
+    if (type === "image" && file.size > MAX_FILE_SIZE) {
+      return toast.error(`Kích thước ảnh không được vượt quá 10MB`);
     }
 
     const uid = _.uniqueId();
