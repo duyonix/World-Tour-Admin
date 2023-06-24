@@ -51,6 +51,7 @@ const ServiceRegionDetail = () => {
   const [sceneSpots, setSceneSpots] = useState<any[]>([]);
   const [pictures, setPictures] = useState<any[]>([]);
   const [panoramas, setPanoramas] = useState<any[]>([]);
+  const [models, setModels] = useState<any[]>([]);
   const [categoryLevel, setCategoryLevel] = useState<number | null>(null);
   const [firstRender, setFirstRender] = useState<boolean>(true);
   const [data, setData] = useState<any>({});
@@ -109,6 +110,16 @@ const ServiceRegionDetail = () => {
           }
         ]);
       } else setPanoramas([]);
+      if (res.payload.model) {
+        setModels([
+          {
+            uid: -1,
+            name: "Xem mô hình 3D",
+            status: "done",
+            url: res.payload.model
+          }
+        ]);
+      } else setModels([]);
 
       setCategoryLevel(res.payload.category?.level || null);
       setBackgrounds(res.payload.backgrounds || []);
@@ -170,6 +181,8 @@ const ServiceRegionDetail = () => {
     const newData = { ...data };
     const iconUrl = pictures.length > 0 ? pictures[0].url : null;
     newData.picture = iconUrl;
+    const modelUrl = models.length > 0 ? models[0].url : null;
+    newData.model = modelUrl;
 
     newData.categoryId = parseInt(data.categoryId);
     if (data.parentId) newData.parentId = parseInt(data.parentId);
@@ -235,6 +248,11 @@ const ServiceRegionDetail = () => {
 
   const handlePanoramas = useCallback(newPanoramas => {
     setPanoramas(newPanoramas);
+    setIsChange(true);
+  }, []);
+
+  const handleModels = useCallback(newModels => {
+    setModels(newModels);
     setIsChange(true);
   }, []);
 
@@ -538,10 +556,13 @@ const ServiceRegionDetail = () => {
       key: "4",
       children: (
         <RegionTour
-          coordinate={data.coordinate}
+          coordinate={data.coordinate || {}}
           panoramas={panoramas}
           setPanoramas={handlePanoramas}
+          models={models}
+          setModels={handleModels}
           auth={auth}
+          id={id}
         />
       )
       // forceRender: true

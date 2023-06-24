@@ -145,15 +145,34 @@
     margin: auto !important;
     margin-bottom: 16px !important;
   }
+}
 
-  .custom-panorama {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.custom-panorama {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    .ant-upload-picture-card-wrapper {
-      display: block !important;
-    }
+  .ant-upload-picture-card-wrapper {
+    display: block !important;
+  }
+}
+
+.region-model {
+  border: 2px solid black;
+  border-radius: 5px;
+  height: 500px;
+  width: 90%;
+
+  div {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}
+
+.scene-spot-modal {
+  .ant-modal-body {
+    padding-top: 0 !important;
   }
 }
