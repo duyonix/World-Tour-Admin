@@ -11,7 +11,12 @@ import {
   Tooltip,
   Image
 } from "antd";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  GlobalOutlined
+} from "@ant-design/icons";
 import qs from "query-string";
 import ServiceService from "@/services/service";
 import useFetch from "@/hooks/useFetch";
@@ -208,7 +213,16 @@ const ServiceRegions = () => {
       <Card className="m-2 radius-lg">
         <Row className="mb-2" justify="space-between">
           <Col className="d-flex al-center">Tổng cộng: {total} địa danh</Col>
-          {auth.role === "ADMIN" && <AddButton onClick={onAdd} />}
+          <Space size="middle">
+            <Button
+              icon={<GlobalOutlined />}
+              type="primary"
+              onClick={() => history.push(`${location.pathname}/3D-mode`)}
+            >
+              Xem chế độ 3D
+            </Button>
+            {auth.role === "ADMIN" && <AddButton onClick={onAdd} />}
+          </Space>
         </Row>
         <Spin size="large" spinning={loading || isDeleteLoading}>
           {list.length > 0 ? (
