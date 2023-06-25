@@ -38,7 +38,7 @@
     "react-scripts": "4.0.3",
     "react-streetview": "^1.1.1",
     "react-toastify": "^8.1.0",
-    "react-unity-webgl": "^9.4.2",
+    "react-unity-webgl": "9.2.1",
     "redux": "^4.0.5",
     "redux-saga": "^1.2.1",
     "styled-components": "^5.3.5",

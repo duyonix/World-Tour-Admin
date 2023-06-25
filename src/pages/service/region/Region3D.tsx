@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useUnityContext } from "react-unity-webgl";
 import { Unity } from "react-unity-webgl/distribution/components/unity-component";
-import { ReactUnityEventParameter } from "react-unity-webgl/distribution/types/react-unity-event-parameters";
-import { useLocation } from "react-router-dom";
 import "./style.scss";
 
 const Region3D = () => {
   const [regionId, setRegionId] = useState("");
-  const location = useLocation();
-  const accessToken = localStorage.getItem("access_token") || "";
+  const [isNewTabOpened, setIsNewTabOpened] = useState(false);
 
   const {
     unityProvider,
     isLoaded,
     sendMessage,
-    unload,
+    UNSAFE__detachAndUnloadImmediate: detachAndUnloadImmediate,
     addEventListener,
     removeEventListener
   } = useUnityContext({
@@ -26,30 +23,22 @@ const Region3D = () => {
 
   useEffect(() => {
     if (isLoaded) {
+      const accessToken = localStorage.getItem("access_token") || "";
       sendMessage("MainAppController", "ReceiveAccessToken", accessToken);
     }
-  }, [isLoaded]);
-
-  useEffect(() => {
     return () => {
-      (async () => {
-        if (location.pathname !== "/service/regions/3D-mode") {
-          await unload(); // Unload the Unity component if the pathname is not /service/regions/3D-mode
-        }
-      })();
+      detachAndUnloadImmediate();
     };
-  }, [location.pathname, unload]);
+  }, [isLoaded, detachAndUnloadImmediate]);
 
-  const handleSetRegionId = useCallback(
-    (...parameters: ReactUnityEventParameter[]): ReactUnityEventParameter => {
-      const event = parameters[0];
-      if (typeof event === "string" || typeof event === "number") {
-        setRegionId(event.toString());
-      }
-      return event;
-    },
-    []
-  );
+  const handleSetRegionId = useCallback((...parameters) => {
+    const event = parameters[0];
+    if (typeof event === "string" || typeof event === "number") {
+      setRegionId(event.toString());
+      setIsNewTabOpened(false);
+    }
+    return event;
+  }, []);
 
   useEffect(() => {
     if (isLoaded) {
@@ -61,14 +50,15 @@ const Region3D = () => {
   }, [isLoaded, addEventListener, removeEventListener, handleSetRegionId]);
 
   useEffect(() => {
-    if (regionId) {
+    if (regionId && !isNewTabOpened) {
       const newPageUrl = `/service/regions/${regionId}`;
       const newWindow = window.open(newPageUrl, "_blank");
       if (newWindow) {
-        newWindow.opener = null; // Prevent the new window from having access to the current window
+        newWindow.opener = null;
+        setIsNewTabOpened(true);
       }
     }
-  }, [regionId]);
+  }, [regionId, isNewTabOpened]);
 
   const elementStyles = {
     height: "calc(100vh - 64px)",
