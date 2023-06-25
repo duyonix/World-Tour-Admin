@@ -11,6 +11,7 @@ import ServiceCostumeDetail from "@/pages/service/costume/detail";
 import UsersManagement from "@/pages/user/user";
 import UserDetailManagement from "@/pages/user/user/detail";
 import UserProfile from "@/pages/user/info";
+import Region3D from "@/pages/service/region/Region3D";
 
 type Route = {
   path: string;
@@ -71,6 +72,10 @@ export const privateRoutes: MultiRoute[] = [
         title: "Địa danh",
         path: "/service/regions",
         route: [
+          {
+            path: "/service/regions/3D-mode",
+            component: () => <Region3D />
+          },
           {
             path: "/service/regions/:id",
             component: () => <ServiceRegionDetail />
