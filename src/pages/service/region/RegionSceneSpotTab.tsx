@@ -46,7 +46,7 @@ const RegionSceneSpot = ({ sceneSpots, setSceneSpots, auth }: Props) => {
   const [activeKey, setActiveKey] = useState<string>("sceneSpot1");
   const [form] = Form.useForm();
   const [page, setPage] = useState(0);
-  const size = 10;
+  const size = 5;
 
   const watchVirtual3DX = Form.useWatch(["virtual3D", "x"], form);
   const watchVirtual3DY = Form.useWatch(["virtual3D", "y"], form);

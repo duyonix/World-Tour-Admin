@@ -111,3 +111,7 @@
   background-color: #ffffff !important;
   // cursor: default !important;
 }
+
+.ant-input-affix-wrapper-disabled .ant-input[disabled] {
+  color: #1890ff !important;
+}

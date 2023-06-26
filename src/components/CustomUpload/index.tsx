@@ -34,7 +34,7 @@ const CustomUpload = ({
   multiple = false,
   maxCount = 1,
   disabled = false,
-  modelWidth = 1015,
+  modelWidth = 800,
   modelHeight = 400,
   modelScale = 8,
   modelPosition = [0, 0, 0],
@@ -179,7 +179,15 @@ const CustomUpload = ({
             forceRender={type === "panorama"}
           >
             {type === "image" && (
-              <img alt="example" className="w-100" src={previewImage} />
+              <img
+                alt="example"
+                style={{
+                  display: "block",
+                  margin: "0 auto",
+                  height: "500px"
+                }}
+                src={previewImage}
+              />
             )}
 
             {type === "model" && (

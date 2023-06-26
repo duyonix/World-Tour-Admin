@@ -32,7 +32,7 @@ const RegionBackgroundTab = ({ backgrounds, setBackgrounds, auth }: Props) => {
   const [images, setImages] = useState<any[]>([]);
   const [form] = Form.useForm();
   const [page, setPage] = useState(0);
-  const size = 10;
+  const size = 5;
 
   const addBackground = (data: string[]) => {
     const newBackgrounds = backgrounds.concat(data);

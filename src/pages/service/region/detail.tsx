@@ -36,7 +36,7 @@ import RegionSelectGroup from "@/components/RegionSelect/RegionSelectGroup";
 import RegionTour from "./RegionTour";
 
 const { TextArea } = Input;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const ServiceRegionDetail = () => {
   const serviceService = new ServiceService();
@@ -410,6 +410,9 @@ const ServiceRegionDetail = () => {
                           ></Card>
                         </Tooltip>
                       </Link>
+                      <Title level={5} className="text-center text-limit">
+                        {neighbor.name}
+                      </Title>
                     </Col>
                   ))}
                 </Row>
